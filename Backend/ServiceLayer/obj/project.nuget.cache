@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "BcrhVS7UsF+L5cjnu5cJ83L1LL/mmrCCmS9JY+AmCG3pcEkp93JQ+dWxRnRamJzYoG9oIL8lxmYbXkyeOakzrg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\winn\\Documents\\GitHub\\JobApplicationTracker\\Backend\\ServiceLayer\\ServiceLayer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\winn\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
