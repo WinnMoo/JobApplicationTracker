@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,7 +28,8 @@ namespace ControllerLayer.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        [Route("api/account/update")]
+        public void Update([FromBody]UserAccount userAccount)
         {
         }
 

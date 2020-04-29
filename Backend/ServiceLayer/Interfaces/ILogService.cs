@@ -3,7 +3,7 @@ using ServiceLayer.Models;
 
 namespace ServiceLayer.Interfaces
 {
-    public interface LogInterface
+    public interface ILogService
     {
         bool NewLog();
         bool CreateLog(string filePath);
