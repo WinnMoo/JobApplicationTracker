@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ServiceLayer.Interfaces
 {
-    interface IUserAccountService
+    public interface IUserAccountService
     {
         public bool InsertUserIntoDB(UserAccount userAccount);
         public bool DeleteUserFromDB(ObjectId userId);

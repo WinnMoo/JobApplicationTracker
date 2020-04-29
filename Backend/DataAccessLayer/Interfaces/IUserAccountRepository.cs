@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccessLayer.Interfaces
 {
-    interface IUserAccountRepository
+    public interface IUserAccountRepository
     {
         public bool InsertUserAccount(UserAccount userAccount);
         public UserAccount GetUserAccount(ObjectId userId);

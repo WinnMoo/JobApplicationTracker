@@ -8,4 +8,9 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+  </ItemGroup>
 </Project>

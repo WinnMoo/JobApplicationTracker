@@ -8,7 +8,7 @@ using ServiceLayer.Models;
 
 namespace ServiceLayer
 {
-    public class LogService: LogInterface
+    public class LogService: ILogService
     {
         
         enum OperatingSystems { Windows, MacOS, Linux }
