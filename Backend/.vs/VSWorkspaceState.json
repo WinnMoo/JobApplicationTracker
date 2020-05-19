@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\DataAccessLayer",
+    "\\DataAccessLayer\\Repositories",
+    "\\JobApplicationTracker",
+    "\\JobApplicationTracker\\Controllers",
+    "\\ServiceLayer",
+    "\\ServiceLayer\\Services"
   ],
-  "SelectedNode": "\\Backend.sln",
+  "SelectedNode": "\\JobApplicationTracker\\Startup.cs",
   "PreviewInSolutionExplorer": false
 }
