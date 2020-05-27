@@ -1,0 +1,4 @@
+C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\ServiceLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.dll
+C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\ServiceLayer\obj\Debug\netcoreapp3.1\ServiceLayer.csprojAssemblyReference.cache
+C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\ServiceLayer\obj\Debug\netcoreapp3.1\ServiceLayer.AssemblyInfoInputs.cache
+C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\ServiceLayer\obj\Debug\netcoreapp3.1\ServiceLayer.AssemblyInfo.cs
