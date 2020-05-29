@@ -1,5 +1,0 @@
-C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\DataAccessLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.deps.json
-C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\DataAccessLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.dll
-C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.csprojAssemblyReference.cache
-C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.AssemblyInfoInputs.cache
-C:\Users\winn\Documents\GitHub\JobApplicationTracker\Backend\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.AssemblyInfo.cs
