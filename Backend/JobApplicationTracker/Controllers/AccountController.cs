@@ -5,44 +5,34 @@ using System.Threading.Tasks;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ControllerLayer.Controllers
 {
-    [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpPost]
+        [Route("api/account/create")]
+        public IHttpActionResult CreateAccount([FromBody] AccountRequest)
         {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        }
+        [HttpPost]
+        [Route("api/account/deletea")]
+        public IHttpActionResult DeleteAccount([FromBody] AccountRequest)
         {
-            return "value";
-        }
 
-        // POST api/values
+        }
         [HttpPost]
         [Route("api/account/update")]
-        public void Update([FromBody]UserAccount userAccount)
+        public IHttpActionResult UpdateAccount([FromBody] AccountRequest)
         {
+
+        }
+        [HttpGet]
+        [Route("api/account/get")]
+        public IHttpActionResult UpdateAccount([FromBody] string Username)
+        {
+
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
