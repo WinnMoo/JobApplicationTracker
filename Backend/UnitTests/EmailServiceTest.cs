@@ -3,7 +3,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class UnitTest1
+    public class EmailServiceTest
     {
         [Fact]
         public void Test1()
