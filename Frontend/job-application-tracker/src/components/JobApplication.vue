@@ -79,6 +79,42 @@
               Delete
             </v-btn>
           </v-card-actions>
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <template v-slot:default="{ open }">
+                  <v-row no-gutters>
+                    <v-col cols="4">Trip name</v-col>
+                    <v-col
+                      cols="8"
+                      class="text--secondary"
+                    >
+                      <v-fade-transition leave-absolute>
+                        <span
+                          v-if="open"
+                          key="0"
+                        >
+                          Enter a name for the trip
+                        </span>
+                        <span
+                          v-else
+                          key="1"
+                        >
+                          {{ location }}
+                        </span>
+                      </v-fade-transition>
+                    </v-col>
+                  </v-row>
+                </template>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-text-field
+                  v-model="location"
+                  placeholder="Caribbean Cruise"
+                ></v-text-field>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-card>
       </v-col>
     </v-row>
@@ -162,6 +198,7 @@ export default {
       companyName: null,
       jobTitle: null,
       description: null,
+      location: null,
       rules: {
         required: value => !!value || "Required."
       },
