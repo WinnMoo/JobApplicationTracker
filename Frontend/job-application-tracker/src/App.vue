@@ -2,6 +2,9 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
+        <v-btn depressed color="primary">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -12,7 +15,7 @@
         />
 
         <v-img
-          alt="Vuetify Name"
+          alt="Job Application Tracker"
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
@@ -23,30 +26,25 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn depressed color="primary">
+        <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-content>
-      <HelloWorld />
+      <JobApplication />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import JobApplication from "./components/JobApplication";
 
 export default {
   name: "App",
 
   components: {
-    HelloWorld
+    JobApplication
   },
 
   data: () => ({
