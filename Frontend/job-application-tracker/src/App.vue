@@ -25,10 +25,18 @@
       </div>
 
       <v-spacer></v-spacer>
-
-      <v-btn depressed color="primary">
-        <v-icon>mdi-chevron-down</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn depressed color="primary" v-bind="attrs" v-on="on">
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, index) in dropDownMenuLinks" :key="index">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app floating>
       <v-list-item>
@@ -44,7 +52,7 @@
       <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item v-for="item in navigationDrawerLinks" :key="item.title" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -57,27 +65,33 @@
     </v-navigation-drawer>
 
     <v-content>
-      <JobApplication />
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import JobApplication from "./components/JobApplication";
 
 export default {
   name: "App",
 
   components: {
-    JobApplication
   },
 
   data: () => ({
     drawer: false,
-    items: [
-          { title: 'Home', icon: 'mdi-view-dashboard' },
-          { title: 'About', icon: 'mdi-forum' },
+    navigationDrawerLinks: [
+          { title: 'Job Applications Tracker', icon: 'mdi-view-dashboard' },
+          { title: 'Job Postings', icon: 'mdi-smart-card' },
+          { title: 'Job Applications Stats', icon: 'mdi-chart-timeline-variant' },
+          { title: 'Upload Documents', icon: 'mdi-text-box-plus' },
+          { title: 'Leave Feedback', icon: 'mdi-message-alert' },
+          { title: 'About', icon: 'mdi-information' },
         ],
+    dropDownMenuLinks: [
+        { title: 'Settings' },
+        { title: 'Log Out' }
+      ]
   })
 };
 </script>
