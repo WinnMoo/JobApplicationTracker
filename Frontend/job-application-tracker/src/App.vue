@@ -38,7 +38,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" app floating>
+    <v-navigation-drawer v-model="drawer" app floating temporary>
       <v-list-item>
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
@@ -52,7 +52,7 @@
       <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item v-for="item in navigationDrawerLinks" :key="item.title" link>
+        <v-list-item v-for="item in navigationDrawerLinks" :key="item.title" :to="item.link" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -81,12 +81,12 @@ export default {
   data: () => ({
     drawer: false,
     navigationDrawerLinks: [
-          { title: 'Job Applications Tracker', icon: 'mdi-view-dashboard' },
+          { title: 'Job Applications Tracker', icon: 'mdi-view-dashboard', link: '/jobapplications' },
           { title: 'Job Postings', icon: 'mdi-smart-card' },
           { title: 'Job Applications Stats', icon: 'mdi-chart-timeline-variant' },
-          { title: 'Upload Documents', icon: 'mdi-text-box-plus' },
+          { title: 'Upload Documents', icon: 'mdi-text-box-plus', link: '/documentupload'},
           { title: 'Leave Feedback', icon: 'mdi-message-alert' },
-          { title: 'About', icon: 'mdi-information' },
+          { title: 'About', icon: 'mdi-information', link: '/about'},
         ],
     dropDownMenuLinks: [
         { title: 'Settings' },
