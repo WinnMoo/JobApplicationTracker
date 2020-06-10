@@ -11,9 +11,14 @@ namespace DataAccessLayer.Repositories
     public class UserAccountRepository : IUserAccountRepository
     {
         IMongoDatabase db;
+        private readonly IMongoCollection<UserAccount> _userAccounts;
         public UserAccountRepository(IMongoDatabase _db)
         {
             this.db = _db;
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
+            _userAccounts = database.GetCollection<UserAccount>(settings.UserAccountsCollectionName);
+            
         }
 
         public bool DeleteUserAccount(ObjectId userId)
@@ -53,8 +58,7 @@ namespace DataAccessLayer.Repositories
             bool inserted = false;
             try
             {
-                var collection = db.GetCollection<UserAccount>("useraccounts");
-                collection.InsertOneAsync(userAccount);
+                _userAccounts.InsertOneAsync(userAccount);
                 inserted = true;
             }
             catch

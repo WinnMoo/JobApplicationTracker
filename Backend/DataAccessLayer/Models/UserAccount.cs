@@ -8,12 +8,15 @@ namespace DataAccessLayer.Models
 {
     public class UserAccount
     {
+
         [BsonId]
         public ObjectId UserAccountId { get; set; }
         [BsonRequired]
         public string FirstName {get; set;}
         [BsonRequired]
         public string Email { get; set; }
+        [BsonRequired]
+        public string Password { get; set; }
         [BsonRequired]
         public string SecurityQuestion1 { get; set; }
         [BsonRequired]

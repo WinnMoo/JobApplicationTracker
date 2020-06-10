@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer.Models;
+using ManagerLayer.Managers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Requests;
 
@@ -10,14 +12,32 @@ namespace ControllerLayer.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly UserAccountManager _userAccountManager;
+
+        public AccountController(UserAccountManager userAccountManager)
+        {
+            _userAccountManager = userAccountManager;
+        }
+
         [HttpPost]
         [Route("api/account/create")]
         public ActionResult CreateAccount([FromBody] AccountRequest request)
         {
-            throw new NotImplementedException();
+            try {
+                if (_userAccountManager.CreateUserAccount(request))
+                {
+                    return CreatedAtRoute("CreateAccount", true);
+                } else
+                {
+                    return BadRequest("Unable to create account");
+                }
+            } catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
         [HttpPost]
-        [Route("api/account/deletea")]
+        [Route("api/account/delete")]
         public ActionResult DeleteAccount([FromBody] AccountRequest request)
         {
             throw new NotImplementedException();

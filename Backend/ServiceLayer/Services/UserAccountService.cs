@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MongoDB.Driver;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ServiceLayer.Services
 {
