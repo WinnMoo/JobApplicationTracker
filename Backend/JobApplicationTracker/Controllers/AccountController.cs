@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Requests;
 
 namespace ControllerLayer.Controllers
 {
@@ -11,27 +12,27 @@ namespace ControllerLayer.Controllers
     {
         [HttpPost]
         [Route("api/account/create")]
-        public IHttpActionResult CreateAccount([FromBody] AccountRequest)
+        public ActionResult CreateAccount([FromBody] AccountRequest request)
         {
-
+            throw new NotImplementedException();
         }
         [HttpPost]
         [Route("api/account/deletea")]
-        public IHttpActionResult DeleteAccount([FromBody] AccountRequest)
+        public ActionResult DeleteAccount([FromBody] AccountRequest request)
         {
-
+            throw new NotImplementedException();
         }
         [HttpPost]
         [Route("api/account/update")]
-        public IHttpActionResult UpdateAccount([FromBody] AccountRequest)
+        public ActionResult UpdateAccount([FromBody] AccountRequest request)
         {
-
+            throw new NotImplementedException();
         }
         [HttpGet]
         [Route("api/account/get")]
-        public IHttpActionResult UpdateAccount([FromBody] string Username)
+        public ActionResult UpdateAccount([FromBody] string Username)
         {
-
+            throw new NotImplementedException();
         }
 
     }
