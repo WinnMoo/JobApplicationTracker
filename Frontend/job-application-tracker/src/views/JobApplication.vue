@@ -74,7 +74,9 @@
               indexToUpdate = index;
               companyName = jobApplications[index].company;
               jobTitle = jobApplications[index].jobTitle;
-              description = jobApplications[index].description"> Edit </v-btn>
+              description = jobApplications[index].description"> 
+              Edit 
+            </v-btn>
             <v-btn small color="error" @click="deleteDialog = true; indexToDelete = index">
               Delete
             </v-btn>
