@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import JobApplications from "../views/JobApplication.vue"
-import DocumentUpload from "../views/DocumentUpload.vue"
+import JobApplications from "../views/JobApplication.vue";
+import DocumentUpload from "../views/DocumentUpload.vue";
+import UserSignUp from "../views/UserSignUp.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/documentupload",
     name: "DocumentUpload",
     component: DocumentUpload
+  },
+  {
+    path: "/signup",
+    name: "UserSignUp",
+    component: UserSignUp
   },
   {
     path: "/about",
