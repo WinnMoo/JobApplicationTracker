@@ -1,0 +1,66 @@
+<template>
+  <v-container>
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="6" md="8">
+        <v-card class="elevation-12">
+          <v-toolbar color="primary" dark flat>
+            <v-toolbar-title>Login</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-text-field label="Email" v-model=this.emailAddress prepend-icon="mdi-account"></v-text-field>
+            <v-text-field label="Password" v-model=this.password prepend-inner-icon="mdi-lock"></v-text-field>
+            <span class="font-weight-light" @click="GoToForgotPassword">Forgot Password?</span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click=Login>Login</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import axios from 'axios'
+import { apiURL } from '@/const.js';
+export default {
+    name: "Login",
+    data() {
+        return {
+            emailAddress: null,
+            password: null
+        }
+    },
+    methods: {
+        Login() {
+            if(this.emailAddress === null || this.password === null){
+                alert("Please fill in the form completely")
+            } else {
+                axios({
+                method: 'POST',
+                url: `${apiURL}/account/` + 'login',
+                data: {
+                    EmailAddress: this.$data.emailAddress,
+                    Password: this.$data.password},
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Credentials': true
+                }
+                })
+                    .then(response => {
+                    this.popup = response;
+                    this.popupText = "Password has been reset.";
+                })
+                    .catch(e => { this.formErrorMessage = e.response.data })
+                    .finally(() => {
+                    this.loading = false;
+                })
+            }
+        },
+        GoToForgotPassword() {
+          this.$router.push("/resetpassword");
+        }
+    }
+}
+</script>
