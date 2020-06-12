@@ -1,9 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import JobApplications from "../views/JobApplication.vue";
-import DocumentUpload from "../views/DocumentUpload.vue";
+import Feedback from "../views/Feedback.vue";
 import UserSignUp from "../views/UserSignUp.vue";
+import PageNotFound from "../views/PageNotFound.vue";
+import DocumentUpload from "../views/DocumentUpload.vue";
+import JobApplications from "../views/JobApplication.vue";
 
 Vue.use(VueRouter);
 
@@ -12,6 +14,15 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: '*',
+    component: PageNotFound
+  },
+  {
+    path: "/feedback",
+    name: "Feedback",
+    component: Feedback
   },
   {
     path: "/jobapplications",

@@ -85,7 +85,7 @@ export default {
           { title: 'Job Postings', icon: 'mdi-smart-card' },
           { title: 'Job Applications Stats', icon: 'mdi-chart-timeline-variant' },
           { title: 'Upload Documents', icon: 'mdi-text-box-plus', link: '/documentupload'},
-          { title: 'Leave Feedback', icon: 'mdi-message-alert' },
+          { title: 'Leave Feedback', icon: 'mdi-message-alert', link: '/feedback' },
           { title: 'About', icon: 'mdi-information', link: '/about'},
         ],
     dropDownMenuLinks: [
