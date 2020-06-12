@@ -89,55 +89,38 @@
             ></v-select>
           </v-col>
           <v-col cols="12" sm="6">
-            <v-text-field
-              v-model="securityAnswer3"
-              label="Security Answer 3*"
-              clearable
-            ></v-text-field>
+            <v-text-field v-model="securityAnswer3" label="Security Answer 3*" clearable></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6">
-          Fields with * are required.
+            Fields with * are required.
           </v-col>
 
           <v-col cols="12" sm="6">
-            <v-btn
-              color="red lighten-2"
-              dark
-              @click="privacyPolicyDialog = true"
-            >
+            <v-btn color="red lighten-2" dark @click="privacyPolicyDialog = true">
               Privacy Policy
             </v-btn>
           </v-col>
 
           <v-col cols="12" sm="3">
-          <v-checkbox
-            v-model="checkbox"
-            :rules="[v => !!v || 'You must agree to continue!']"
-            label="Do you agree to our privacy policy?"
-            required
-          ></v-checkbox>
+            <v-checkbox v-model="checkbox"
+              :rules="[v => !!v || 'You must agree to continue!']"
+              label="Do you agree to our privacy policy?"
+              required
+            ></v-checkbox>
           </v-col>
           
           <v-col cols="12" sm="1">
-          <v-btn
-            :disabled="!valid"
-            color="primary"
-            class="mr-4"
-            @click="signUp"
-          >
-            Sign Up
-          </v-btn>
+            <v-btn :disabled="!valid" color="primary" class="mr-4" @click="signUp" >
+              Sign Up
+            </v-btn>
           </v-col>
         </v-row>
       </v-container>
     </v-form>
     <v-dialog v-model="privacyPolicyDialog" width="500">
         <v-card>
-          <v-card-title
-            class="headline blue lighten-2"
-            primary-title
-          >
+          <v-card-title class="headline blue lighten-2" primary-title>
             Privacy Policy
           </v-card-title>
 
@@ -149,11 +132,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="privacyPolicyDialog = false"
-            >
+            <v-btn color="primary" text @click="privacyPolicyDialog = false">
               I accept
             </v-btn>
           </v-card-actions>

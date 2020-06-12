@@ -1,24 +1,24 @@
 <template>
-<div class="Feedback" style="text-align:center;">
+  <div class="Feedback" style="text-align:center;">
     <h1>Feedback</h1>
     <v-container fill-height fluid>
-        <v-row align="center"
-            justify="center">
-            <v-form>
-                <v-textarea
-                    outlined
-                    hint="Feel free to leave any suggestions or feedback about this application"
-                    placeholder="I love job app track!"
-                    v-model="this.feedback"
-                    width="800"
-                    persistent-hint
-                ></v-textarea>
-                <v-rating v-model="rating"></v-rating>
-                <v-btn color=primary @click="submit">Submit</v-btn>
-            </v-form>
-        </v-row>
+      <v-row align="center"
+          justify="center">
+        <v-form>
+          <v-textarea
+              outlined
+              hint="Feel free to leave any suggestions or feedback about this application"
+              placeholder="I love job app track!"
+              v-model="this.feedback"
+              width="800"
+              persistent-hint
+          ></v-textarea>
+          <v-rating v-model="rating"></v-rating>
+          <v-btn color=primary @click="submit">Submit</v-btn>
+        </v-form>
+      </v-row>
     </v-container>
-    </div>
+  </div>
 </template>
 
 <script>

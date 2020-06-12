@@ -4,9 +4,11 @@ import Home from "../views/Home.vue";
 import Login from "../components/Login.vue"
 import Feedback from "../views/Feedback.vue";
 import UserSignUp from "../views/UserSignUp.vue";
+import JobPostings from "../views/JobPostings.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 import DocumentUpload from "../views/DocumentUpload.vue";
 import JobApplications from "../views/JobApplication.vue";
+import JobApplicationStats from "../views/JobApplicationStats.vue";
 
 Vue.use(VueRouter);
 
@@ -29,6 +31,16 @@ const routes = [
     path: "/jobapplications",
     name: "JobApplications",
     component: JobApplications
+  },
+  {
+    path: "/jobpostings",
+    name: "JobPostings",
+    component: JobPostings
+  },
+  {
+    path: "/jobapplicationstats",
+    name: "JobApplicationStats",
+    component: JobApplicationStats
   },
   {
     path: "/documentupload",
