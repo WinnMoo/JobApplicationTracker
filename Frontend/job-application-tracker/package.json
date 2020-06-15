@@ -10,7 +10,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "funnel-graph-js": "^1.4.2",
     "vue": "^2.6.11",
+    "vue-funnel-graph-js": "^0.1.8",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11"
   },
