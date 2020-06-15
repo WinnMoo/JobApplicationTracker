@@ -11,14 +11,14 @@ namespace ControllerLayer.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
-        public ActionResult upload()
+        public ActionResult Upload()
         {
-
+            throw new NotImplementedException();
         }
 
-        public ActionResult export()
+        public ActionResult Export()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

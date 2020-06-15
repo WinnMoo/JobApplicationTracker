@@ -12,5 +12,6 @@ namespace ServiceLayer.Interfaces
         public bool DeleteUserFromDB(ObjectId userId);
         public bool UpdateUserInDB(UserAccount userAccount);
         public UserAccount ReadUserFromDB(ObjectId userId);
+        public UserAccount ReadUserFromDB(string emailAddress);
     }
 }

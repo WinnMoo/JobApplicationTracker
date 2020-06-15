@@ -16,7 +16,9 @@ namespace DataAccessLayer.Models
         [BsonRequired]
         public string Email { get; set; }
         [BsonRequired]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
+        [BsonRequired]
+        public byte[] PasswordSalt { get; set; }
         [BsonRequired]
         public string SecurityQuestion1 { get; set; }
         [BsonRequired]

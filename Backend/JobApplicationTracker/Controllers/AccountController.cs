@@ -38,9 +38,23 @@ namespace ControllerLayer.Controllers
         }
         [HttpPost]
         [Route("api/account/delete")]
-        public ActionResult DeleteAccount([FromBody] AccountRequest request)
+        public ActionResult DeleteAccount([FromBody] LoginRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_userAccountManager.DeleteUserAccount(request))
+                {
+                    return CreatedAtRoute("CreateAccount", true);
+                }
+                else
+                {
+                    return BadRequest("Unable to delete account");
+                }
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
         [HttpPost]
         [Route("api/account/update")]
@@ -48,9 +62,11 @@ namespace ControllerLayer.Controllers
         {
             throw new NotImplementedException();
         }
+
+
         [HttpGet]
         [Route("api/account/get")]
-        public ActionResult UpdateAccount([FromBody] string Username)
+        public ActionResult GetAccount([FromBody] string Username)
         {
             throw new NotImplementedException();
         }

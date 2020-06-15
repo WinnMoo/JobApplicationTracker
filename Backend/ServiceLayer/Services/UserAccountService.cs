@@ -33,6 +33,11 @@ namespace ServiceLayer.Services
             return _userRepo.GetUserAccount(userId);
         }
 
+        public UserAccount ReadUserFromDB(string emailAddress)
+        {
+            return _userRepo.GetUserAccount(emailAddress);
+        }
+
         public bool UpdateUserInDB(UserAccount userAccount)
         {
             return _userRepo.UpdateUserAccount(userAccount);

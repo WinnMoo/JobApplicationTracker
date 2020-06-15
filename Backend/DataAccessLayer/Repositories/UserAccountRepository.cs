@@ -53,6 +53,23 @@ namespace DataAccessLayer.Repositories
             return retrievedUserAccount;
         }
 
+        public UserAccount GetUserAccount(string emailAddress)
+        {
+            UserAccount retrievedUserAccount = null;
+            var filter = new BsonDocument("Email", emailAddress);
+            try
+            {
+                var collection = db.GetCollection<UserAccount>("useraccounts");
+                retrievedUserAccount = collection.Find(filter).FirstOrDefault();
+
+            }
+            catch
+            {
+                return retrievedUserAccount;
+            }
+            return retrievedUserAccount;
+        }
+
         public bool InsertUserAccount(UserAccount userAccount)
         {
             bool inserted = false;
