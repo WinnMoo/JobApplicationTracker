@@ -55,5 +55,48 @@ namespace ManagerLayer.Managers
                 return false;
             }
         }
+
+        public bool UpdateUserAccount(AccountRequest request)
+        {
+            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            if(_passwordService.validatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
+            {
+                user.Email = request.EmailAddress;
+                user.FirstName = request.FirstName;
+                user.SecurityAnswer1 = request.SecurityAnswer1;
+                user.SecurityAnswer2 = request.SecurityAnswer2;
+                user.SecurityAnswer3 = request.SecurityAnswer3;
+                user.SecurityQuestion1 = request.SecurityQuestion1;
+                user.SecurityQuestion2 = request.SecurityQuestion2;
+                user.SecurityQuestion3 = request.SecurityQuestion3;
+                return _userAccountService.UpdateUserInDB(user);
+            } else
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateUserPassword(UpdatePasswordRequest request)
+        {
+            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            if (_passwordService.validatePassword(request.OldPassword, user.PasswordSalt, user.PasswordHash)) // Check old password
+            {
+                if(user.SecurityAnswer1 == request.SecurityAnswer1 && user.SecurityAnswer2 == request.SecurityAnswer2 // Check security answers
+                    && user.SecurityAnswer3 == request.SecurityAnswer3)
+                {
+                    byte[] newUserSalt = _passwordService.GenerateSalt();
+                    string newHashedPassword = _passwordService.HashPassword(request.NewPassword, newUserSalt);
+                    user.PasswordSalt = newUserSalt;
+                    user.PasswordHash = newHashedPassword;
+                    return _userAccountService.UpdateUserInDB(user);
+                } else
+                {
+                    return false;
+                }
+            } else
+            {
+                return false;
+            }
+        }
     }
 }

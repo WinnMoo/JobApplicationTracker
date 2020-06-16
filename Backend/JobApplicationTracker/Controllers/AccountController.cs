@@ -27,7 +27,8 @@ namespace ControllerLayer.Controllers
                 if (_userAccountManager.CreateUserAccount(request))
                 {
                     return CreatedAtRoute("CreateAccount", true);
-                } else
+                }
+                else
                 {
                     return BadRequest("Unable to create account");
                 }
@@ -60,9 +61,43 @@ namespace ControllerLayer.Controllers
         [Route("api/account/update")]
         public ActionResult UpdateAccount([FromBody] AccountRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_userAccountManager.UpdateUserAccount(request))
+                {
+                    return Ok("Updated account information successfully");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
+        [HttpPost]
+        [Route("api/account/changepassword")]
+        public ActionResult ChangePassword([FromBody] UpdatePasswordRequest request)
+        {
+            try
+            {
+                if (_userAccountManager.UpdateUserPassword(request))
+                {
+                    return Ok("Updated password successfully");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         [HttpGet]
         [Route("api/account/get")]
