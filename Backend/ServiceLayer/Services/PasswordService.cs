@@ -27,7 +27,7 @@ namespace ServiceLayer.Services
             return passwordHash;
         }
 
-        public bool validatePassword(string passwordToCheck, byte[] passwordSalt, string passwordHash)
+        public bool ValidatePassword(string passwordToCheck, byte[] passwordSalt, string passwordHash)
         {
             var hashedPasswordToCheck = HashPassword(passwordToCheck, passwordSalt);
             if (passwordHash.Equals(hashedPasswordToCheck))
@@ -37,6 +37,11 @@ namespace ServiceLayer.Services
             {
                 return false;
             }
+        }
+
+        public bool ResetPassword()
+        {
+            throw new NotImplementedException();
         }
     }
 }

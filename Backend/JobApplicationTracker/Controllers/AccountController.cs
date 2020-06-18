@@ -6,6 +6,7 @@ using DataAccessLayer.Models;
 using ManagerLayer.Managers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using ServiceLayer.Requests;
 
 namespace ControllerLayer.Controllers
@@ -13,10 +14,11 @@ namespace ControllerLayer.Controllers
     public class AccountController : Controller
     {
         private readonly UserAccountManager _userAccountManager;
+        private MongoClient dbClient;
 
-        public AccountController(UserAccountManager userAccountManager)
+        public AccountController()
         {
-            _userAccountManager = userAccountManager;
+            _userAccountManager = new UserAccountManager(dbClient);
         }
 
         [HttpPost]

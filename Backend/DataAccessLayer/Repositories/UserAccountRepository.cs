@@ -10,15 +10,13 @@ namespace DataAccessLayer.Repositories
 {
     public class UserAccountRepository : IUserAccountRepository
     {
-        IMongoDatabase db;
+        MongoClient db;
         private readonly IMongoCollection<UserAccount> _userAccounts;
-        public UserAccountRepository(IMongoDatabase _db)
+        public UserAccountRepository(MongoClient dbClient)
         {
-            this.db = _db;
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-            _userAccounts = database.GetCollection<UserAccount>(settings.UserAccountsCollectionName);
-            
+            this.db = dbClient;
+            var database = this.db.GetDatabase("Database");
+            _userAccounts = database.GetCollection<UserAccount>("UserAccount");
         }
 
         public bool DeleteUserAccount(ObjectId userId)
@@ -27,7 +25,7 @@ namespace DataAccessLayer.Repositories
             try
             {
                 var filter = new BsonDocument("UserId", userId);
-
+                _userAccounts.DeleteOne(filter);
             }
             catch
             {
@@ -42,9 +40,7 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("UserId", userId);
             try
             {
-                var collection = db.GetCollection<UserAccount>("useraccounts");
-                retrievedUserAccount = collection.Find(filter).FirstOrDefault();
-
+                retrievedUserAccount = _userAccounts.Find(filter).FirstOrDefault();
             }
             catch
             {
@@ -59,8 +55,7 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("Email", emailAddress);
             try
             {
-                var collection = db.GetCollection<UserAccount>("useraccounts");
-                retrievedUserAccount = collection.Find(filter).FirstOrDefault();
+                retrievedUserAccount = _userAccounts.Find(filter).FirstOrDefault();
 
             }
             catch
@@ -75,7 +70,7 @@ namespace DataAccessLayer.Repositories
             bool inserted = false;
             try
             {
-                _userAccounts.InsertOneAsync(userAccount);
+                _userAccounts.InsertOne(userAccount);
                 inserted = true;
             }
             catch
@@ -91,8 +86,7 @@ namespace DataAccessLayer.Repositories
             var updateFilter = new BsonDocument("UserAccountId", updatedUserAccount.UserAccountId);
             try
             {
-                var collection = db.GetCollection<UserAccount>("useraccounts");
-                collection.ReplaceOneAsync(updateFilter, updatedUserAccount);
+                _userAccounts.ReplaceOne(updateFilter, updatedUserAccount);
                 updated = true;
             }
             catch

@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using ServiceLayer;
 using ServiceLayer.Interfaces;
 using ServiceLayer.Requests;
 using ServiceLayer.Services;
@@ -15,10 +16,12 @@ namespace ManagerLayer.Managers
         private IUserAccountService _userAccountService;
         private PasswordService _passwordService;
 
+        private string BaseUrl = "";
 
-        public UserAccountManager(IMongoDatabase db)
+
+        public UserAccountManager(MongoClient dbClient)
         {
-            _userAccountService = new UserAccountService(db);
+            _userAccountService = new UserAccountService(dbClient);
             _passwordService = new PasswordService();
         }
 
@@ -50,6 +53,9 @@ namespace ManagerLayer.Managers
             newUser.SecurityQuestion1 = request.SecurityQuestion1;
             newUser.SecurityQuestion2 = request.SecurityQuestion2;
             newUser.SecurityQuestion3 = request.SecurityQuestion3;
+
+            // TODO: Send email confirmation
+
             if (_userAccountService.InsertUserIntoDB(newUser)) // Inserts new user into DB
             {
                 return new OkObjectResult(true);
@@ -64,7 +70,9 @@ namespace ManagerLayer.Managers
         {
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
 
-            if (_passwordService.validatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
+            // TODO: Send email confirmation
+
+            if (_passwordService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
                 return new BadRequestObjectResult("Invalid password");
             }
@@ -87,7 +95,7 @@ namespace ManagerLayer.Managers
             {
                 return new BadRequestObjectResult("User does not exist");
             }
-            if (!_passwordService.validatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
+            if (!_passwordService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
                 return new BadRequestObjectResult("Invalid Password");
             }
@@ -114,12 +122,14 @@ namespace ManagerLayer.Managers
         {
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
 
-            if(user == null)
+            // TODO: Send email confirmation
+
+            if (user == null)
             {
                 return new BadRequestObjectResult("User does not exist");
             }
 
-            if (!_passwordService.validatePassword(request.OldPassword, user.PasswordSalt, user.PasswordHash)) // Check old password
+            if (!_passwordService.ValidatePassword(request.OldPassword, user.PasswordSalt, user.PasswordHash)) // Check old password
             {
                 return new BadRequestObjectResult("Password is incorrect");
             }
@@ -142,7 +152,29 @@ namespace ManagerLayer.Managers
             {
                 return new StatusCodeResult(500);
             }
+        }
 
+        public ActionResult GenerateResetPassword(string emailAddress)
+        {
+            var user = _userAccountService.ReadUserFromDB(emailAddress);
+            if(user == null)
+            {
+                // TODO: send email to user about someone attempting to reset your account
+                return new BadRequestObjectResult("User does not exist");
+            }
+            string passwordResetToken = CryptoService.GenerateToken();
+            //TODO: Add token to DB
+
+            string resetLink = BaseUrl + passwordResetToken;
+
+            //TODO: send email to user with reset link
+
+            return new OkObjectResult("A password reset link has been sent to your email");
+        }
+
+        public ActionResult ResetPassword()
+        {
+            throw new NotImplementedException();
         }
     }
 }
