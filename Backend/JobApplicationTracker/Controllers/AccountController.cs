@@ -23,15 +23,9 @@ namespace ControllerLayer.Controllers
         [Route("api/account/create")]
         public ActionResult CreateAccount([FromBody] AccountRequest request)
         {
-            try {
-                if (_userAccountManager.CreateUserAccount(request))
-                {
-                    return CreatedAtRoute("CreateAccount", true);
-                }
-                else
-                {
-                    return BadRequest("Unable to create account");
-                }
+            try 
+            {
+                return _userAccountManager.CreateUserAccount(request);
             } catch
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
@@ -43,14 +37,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
-                if (_userAccountManager.DeleteUserAccount(request))
-                {
-                    return CreatedAtRoute("CreateAccount", true);
-                }
-                else
-                {
-                    return BadRequest("Unable to delete account");
-                }
+                return _userAccountManager.DeleteUserAccount(request);
             }
             catch
             {
@@ -63,14 +50,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
-                if (_userAccountManager.UpdateUserAccount(request))
-                {
-                    return Ok("Updated account information successfully");
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return _userAccountManager.UpdateUserAccount(request);
             }
             catch
             {
@@ -84,14 +64,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
-                if (_userAccountManager.UpdateUserPassword(request))
-                {
-                    return Ok("Updated password successfully");
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return _userAccountManager.UpdateUserPassword(request);
             }
             catch
             {

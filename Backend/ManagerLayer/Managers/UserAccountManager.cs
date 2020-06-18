@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using ServiceLayer.Interfaces;
 using ServiceLayer.Requests;
@@ -21,11 +22,20 @@ namespace ManagerLayer.Managers
             _passwordService = new PasswordService();
         }
 
-        public bool CreateUserAccount(AccountRequest request)
+        public ActionResult CreateUserAccount(AccountRequest request)
         {
+            if (!EmailService.IsValidEmailAddress(request.EmailAddress)) // Checks for valid email address
+            {
+                return new BadRequestObjectResult("Invalid Email address");
+            }
+
+            if(_userAccountService.ReadUserFromDB(request.EmailAddress) != null) // Checks if user already exists
+            {
+                return new BadRequestObjectResult("User Already Exists with this Email Address");
+            }
+
             byte[] userSalt = _passwordService.GenerateSalt();
             string hashedPassword = _passwordService.HashPassword(request.Password, userSalt);
-
 
             UserAccount newUser = new UserAccount();
             newUser.Email = request.EmailAddress;
@@ -40,63 +50,99 @@ namespace ManagerLayer.Managers
             newUser.SecurityQuestion1 = request.SecurityQuestion1;
             newUser.SecurityQuestion2 = request.SecurityQuestion2;
             newUser.SecurityQuestion3 = request.SecurityQuestion3;
-            return _userAccountService.InsertUserIntoDB(newUser);
+            if (_userAccountService.InsertUserIntoDB(newUser)) // Inserts new user into DB
+            {
+                return new OkObjectResult(true);
+            } 
+            else
+            {
+                return new StatusCodeResult(500);
+            }
         }
 
-        public bool DeleteUserAccount(LoginRequest request)
+        public ActionResult DeleteUserAccount(LoginRequest request)
         {
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
 
             if (_passwordService.validatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
-                return _userAccountService.DeleteUserFromDB(user.UserAccountId);
-            } else
+                return new BadRequestObjectResult("Invalid password");
+            }
+            if (_userAccountService.DeleteUserFromDB(user.UserAccountId))
             {
-                return false;
+                return new OkObjectResult("User successfully deleted");
+            } 
+            else
+            {
+                return new StatusCodeResult(500);
             }
         }
 
-        public bool UpdateUserAccount(AccountRequest request)
+        public ActionResult UpdateUserAccount(AccountRequest request)
         {
+
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
-            if(_passwordService.validatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
+
+            if(user == null)
             {
-                user.Email = request.EmailAddress;
-                user.FirstName = request.FirstName;
-                user.SecurityAnswer1 = request.SecurityAnswer1;
-                user.SecurityAnswer2 = request.SecurityAnswer2;
-                user.SecurityAnswer3 = request.SecurityAnswer3;
-                user.SecurityQuestion1 = request.SecurityQuestion1;
-                user.SecurityQuestion2 = request.SecurityQuestion2;
-                user.SecurityQuestion3 = request.SecurityQuestion3;
-                return _userAccountService.UpdateUserInDB(user);
-            } else
+                return new BadRequestObjectResult("User does not exist");
+            }
+            if (!_passwordService.validatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
-                return false;
+                return new BadRequestObjectResult("Invalid Password");
+            }
+
+            user.Email = request.EmailAddress;
+            user.FirstName = request.FirstName;
+            user.SecurityAnswer1 = request.SecurityAnswer1;
+            user.SecurityAnswer2 = request.SecurityAnswer2;
+            user.SecurityAnswer3 = request.SecurityAnswer3;
+            user.SecurityQuestion1 = request.SecurityQuestion1;
+            user.SecurityQuestion2 = request.SecurityQuestion2;
+            user.SecurityQuestion3 = request.SecurityQuestion3;
+            if (_userAccountService.UpdateUserInDB(user))
+            {
+                return new OkObjectResult("User successfully updated");
+            } 
+            else
+            {
+                return new StatusCodeResult(500);
             }
         }
 
-        public bool UpdateUserPassword(UpdatePasswordRequest request)
+        public ActionResult UpdateUserPassword(UpdatePasswordRequest request)
         {
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
-            if (_passwordService.validatePassword(request.OldPassword, user.PasswordSalt, user.PasswordHash)) // Check old password
+
+            if(user == null)
             {
-                if(user.SecurityAnswer1 == request.SecurityAnswer1 && user.SecurityAnswer2 == request.SecurityAnswer2 // Check security answers
-                    && user.SecurityAnswer3 == request.SecurityAnswer3)
-                {
-                    byte[] newUserSalt = _passwordService.GenerateSalt();
-                    string newHashedPassword = _passwordService.HashPassword(request.NewPassword, newUserSalt);
-                    user.PasswordSalt = newUserSalt;
-                    user.PasswordHash = newHashedPassword;
-                    return _userAccountService.UpdateUserInDB(user);
-                } else
-                {
-                    return false;
-                }
+                return new BadRequestObjectResult("User does not exist");
+            }
+
+            if (!_passwordService.validatePassword(request.OldPassword, user.PasswordSalt, user.PasswordHash)) // Check old password
+            {
+                return new BadRequestObjectResult("Password is incorrect");
+            }
+
+            if (user.SecurityAnswer1 != request.SecurityAnswer1 || user.SecurityAnswer2 != request.SecurityAnswer2 // Check security answers
+                    || user.SecurityAnswer3 != request.SecurityAnswer3)
+            {
+                return new BadRequestObjectResult("Security answer(s) incorrect");
+            }
+
+            byte[] newUserSalt = _passwordService.GenerateSalt();
+            string newHashedPassword = _passwordService.HashPassword(request.NewPassword, newUserSalt);
+            user.PasswordSalt = newUserSalt;
+            user.PasswordHash = newHashedPassword;
+
+            if (_userAccountService.UpdateUserInDB(user))
+            {
+                return new OkObjectResult("Password changed successfully");
             } else
             {
-                return false;
+                return new StatusCodeResult(500);
             }
+
         }
     }
 }

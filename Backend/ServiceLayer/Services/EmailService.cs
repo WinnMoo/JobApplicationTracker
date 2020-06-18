@@ -1,6 +1,8 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 public static class EmailService
 {
@@ -80,4 +82,6 @@ public static class EmailService
 			return false;
 		}
 	}
+	public static bool IsValidEmailAddress(this string address) => 
+		new EmailAddressAttribute().IsValid(address ?? throw new ArgumentNullException());
 }
