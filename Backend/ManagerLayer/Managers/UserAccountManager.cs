@@ -15,6 +15,7 @@ namespace ManagerLayer.Managers
     {
         private IUserAccountService _userAccountService;
         private PasswordService _passwordService;
+        private ResetService _resetService;
 
         private string BaseUrl = "";
 
@@ -23,6 +24,7 @@ namespace ManagerLayer.Managers
         {
             _userAccountService = new UserAccountService(dbClient);
             _passwordService = new PasswordService();
+            _resetService = new ResetService(dbClient);
         }
 
         public ActionResult CreateUserAccount(AccountRequest request)
@@ -162,8 +164,13 @@ namespace ManagerLayer.Managers
                 // TODO: send email to user about someone attempting to reset your account
                 return new BadRequestObjectResult("User does not exist");
             }
+
+            //TODO: Add if statement to check if number of password resets generated is < 3
+
+
             string passwordResetToken = CryptoService.GenerateToken();
-            //TODO: Add token to DB
+            PasswordResetToken token = new PasswordResetToken(passwordResetToken, user.UserAccountId);
+            _resetService.InsertToken(token);
 
             string resetLink = BaseUrl + passwordResetToken;
 
@@ -172,8 +179,17 @@ namespace ManagerLayer.Managers
             return new OkObjectResult("A password reset link has been sent to your email");
         }
 
-        public ActionResult ResetPassword()
+        public ActionResult ResetPassword(ResetPasswordRequest request)
         {
+            // List of steps:
+            // Check if password reset is valid (exists in DB)
+            // Check how many attempts are left on the token
+            // Check creation time of token
+            // Check if security answers are valid
+            // Update the token (increment attempts, invalidate token if too many attempts etc)
+            // Reset the password 
+            // Send an email notifying user
+
             throw new NotImplementedException();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -37,11 +38,6 @@ namespace ServiceLayer.Services
             {
                 return false;
             }
-        }
-
-        public bool ResetPassword()
-        {
-            throw new NotImplementedException();
         }
     }
 }

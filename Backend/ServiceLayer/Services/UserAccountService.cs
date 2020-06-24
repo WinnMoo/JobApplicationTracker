@@ -14,7 +14,7 @@ namespace ServiceLayer.Services
     public class UserAccountService : IUserAccountService
     {
         private IUserAccountRepository _userRepo;
-        public UserAccountService(IMongoDatabase db)
+        public UserAccountService(MongoClient db)
         {
             _userRepo = new UserAccountRepository(db);
         }
