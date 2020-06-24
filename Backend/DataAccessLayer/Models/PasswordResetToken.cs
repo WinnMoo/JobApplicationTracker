@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace DataAccessLayer.Models
@@ -27,6 +28,8 @@ namespace DataAccessLayer.Models
         public int Attempts { get; set; }
         [Required]
         public ObjectId UserId { get; set; }
+        [Required]
+        public bool IsValid { get; set; }
 
     }
 }
