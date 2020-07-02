@@ -14,9 +14,9 @@ namespace DataAccessLayer.Repositories
         MongoClient db;
         private IMongoCollection<PasswordResetToken> _resetTokens;
 
-        public ResetTokenRepository(MongoClient dbClient)
+        public ResetTokenRepository(MongoClient _db)
         {
-            this.db = dbClient;
+            this.db = _db;
             var database = this.db.GetDatabase("Database");
             _resetTokens = database.GetCollection<PasswordResetToken>("PasswordResetToken");
         }

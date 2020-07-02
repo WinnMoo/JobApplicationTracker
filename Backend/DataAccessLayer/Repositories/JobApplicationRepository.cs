@@ -13,10 +13,13 @@ namespace DataAccessLayer.Repositories
 {
     public class JobApplicationRepository : IJobApplicationRepository
     {
-        IMongoDatabase db;
-        public JobApplicationRepository(IMongoDatabase _db)
+        MongoClient db;
+        private IMongoCollection<JobApplication> _jobApplications;
+        public JobApplicationRepository(MongoClient _db)
         {
             this.db = _db;
+            var database = this.db.GetDatabase("Database");
+            var _jobApplications = database.GetCollection<JobApplication>("jobapplications");
         }
 
         public bool InsertJobApplication(JobApplication jobApplication)
@@ -24,8 +27,7 @@ namespace DataAccessLayer.Repositories
             bool inserted = false;
             try
             {
-                var collection = db.GetCollection<JobApplication>("jobapplications");
-                collection.InsertOneAsync(jobApplication);
+                _jobApplications.InsertOneAsync(jobApplication);
                 inserted = true;
             }
             catch
@@ -42,12 +44,12 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
-                var collection = db.GetCollection<JobApplication>("jobapplications");
-                retrievedJobApplication = collection.Find(filter).FirstOrDefault();
+                retrievedJobApplication = _jobApplications.Find(filter).FirstOrDefault();
+                return retrievedJobApplication;
             }
             catch
             {
-                
+                return null;
             }
             return retrievedJobApplication;
         }
@@ -58,12 +60,11 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("UserAccountId", userId);
             try
             {
-                var collection = db.GetCollection<JobApplication>("jobapplications");
-                collection.Find(filter).ForEachAsync(document => JobApplications.Add(document));
+                _jobApplications.Find(filter).ForEachAsync(document => JobApplications.Add(document));
             }
             catch
             {
-
+                return null;
             }
             return JobApplications;
         }
@@ -75,8 +76,7 @@ namespace DataAccessLayer.Repositories
             var deleteFilter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
-                var collection = db.GetCollection<JobApplication>("jobapplications");
-                collection.DeleteOneAsync(deleteFilter);
+                _jobApplications.DeleteOneAsync(deleteFilter);
                 deleted = true;
             }
             catch
@@ -92,8 +92,7 @@ namespace DataAccessLayer.Repositories
             var updateFilter = new BsonDocument("JobApplicationId", updatedJobApplication.JobApplicationId);
             try
             {
-                var collection = db.GetCollection<JobApplication>("jobapplications");
-                collection.ReplaceOneAsync(updateFilter, updatedJobApplication);
+                _jobApplications.ReplaceOneAsync(updateFilter, updatedJobApplication);
                 updated = true;
             }
             catch

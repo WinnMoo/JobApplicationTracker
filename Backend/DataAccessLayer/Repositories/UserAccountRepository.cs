@@ -12,9 +12,9 @@ namespace DataAccessLayer.Repositories
     {
         MongoClient db;
         private IMongoCollection<UserAccount> _userAccounts;
-        public UserAccountRepository(MongoClient dbClient)
+        public UserAccountRepository(MongoClient _db)
         {
-            this.db = dbClient;
+            this.db = _db;
             var database = this.db.GetDatabase("Database");
             _userAccounts = database.GetCollection<UserAccount>("UserAccount");
         }
@@ -25,7 +25,7 @@ namespace DataAccessLayer.Repositories
             try
             {
                 var filter = new BsonDocument("UserId", userId);
-                _userAccounts.DeleteOne(filter);
+                _userAccounts.DeleteOneAsync(filter);
             }
             catch
             {
