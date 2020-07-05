@@ -13,13 +13,10 @@ namespace ControllerLayer.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserAccountManager _userAccountManager;
-        private MongoClient dbClient;
-
-        public AccountController()
-        {
-            _userAccountManager = new UserAccountManager(dbClient);
-        }
+        
+        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        [Route("api/[controller]")]
 
         [HttpPost]
         [Route("api/account/create")]
@@ -27,8 +24,9 @@ namespace ControllerLayer.Controllers
         {
             try 
             {
+                UserAccountManager _userAccountManager = new UserAccountManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _userAccountManager.CreateUserAccount(request);
-            } catch
+            } catch (Exception e)
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
@@ -39,6 +37,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
+                UserAccountManager _userAccountManager = new UserAccountManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _userAccountManager.DeleteUserAccount(request);
             }
             catch
@@ -52,6 +51,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
+                UserAccountManager _userAccountManager = new UserAccountManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _userAccountManager.UpdateUserAccount(request);
             }
             catch
@@ -66,6 +66,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
+                UserAccountManager _userAccountManager = new UserAccountManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _userAccountManager.UpdateUserPassword(request);
             }
             catch

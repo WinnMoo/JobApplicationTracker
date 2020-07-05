@@ -1,10 +1,12 @@
-﻿using System;
+﻿using DataAccessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ServiceLayer.Services
 {
-    public class JobPostingParsingService
+    public interface IJobPostingParserService
     {
+        JobPosting ScrapeAndReturnPostingInfo(string url);
     }
 }

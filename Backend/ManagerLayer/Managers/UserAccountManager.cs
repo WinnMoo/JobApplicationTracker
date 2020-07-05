@@ -21,11 +21,11 @@ namespace ManagerLayer.Managers
         private string BaseUrl = "";
 
 
-        public UserAccountManager(MongoClient dbClient)
+        public UserAccountManager(MongoClient _db)
         {
-            _userAccountService = new UserAccountService(dbClient);
+            _userAccountService = new UserAccountService(_db);
             _passwordService = new PasswordService();
-            _resetService = new ResetService(dbClient);
+            _resetService = new ResetService(_db);
         }
 
         #region User Accounts
@@ -35,6 +35,8 @@ namespace ManagerLayer.Managers
             {
                 return new BadRequestObjectResult("Invalid Email address");
             }
+
+            //TODO: Add case sensitivity for email address
 
             if(_userAccountService.ReadUserFromDB(request.EmailAddress) != null) // Checks if user already exists
             {

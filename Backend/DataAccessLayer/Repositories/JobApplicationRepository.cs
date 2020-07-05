@@ -49,9 +49,8 @@ namespace DataAccessLayer.Repositories
             }
             catch
             {
-                return null;
+                return retrievedJobApplication;
             }
-            return retrievedJobApplication;
         }
 
         public List<JobApplication> GetJobApplications(ObjectId userId)
@@ -72,7 +71,6 @@ namespace DataAccessLayer.Repositories
         public bool DeleteJobApplication(ObjectId jobApplicationId)
         {
             var deleted = false;
-            
             var deleteFilter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {

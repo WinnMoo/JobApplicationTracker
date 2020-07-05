@@ -11,24 +11,36 @@ namespace ManagerLayer.Managers
 {
     public class JobPostingManager
     {
-        public JobPostingManager()
+        private JobPostingService _jobPostingService;
+        public JobPostingManager(MongoClient _db)
         {
-
+            _jobPostingService = new JobPostingService(_db);
         }
-        
 
         public JobPosting ParseJobPosting(string url)
         {
             JobPostingParserFactoryService _parserFactoryService = new JobPostingParserFactoryService();
             JobPosting _jobPosting;
-            var parser = _parserFactoryService.getParser(url);
-            if(parser == null) // Selects the proper scraper per the URL
+            var parser = _parserFactoryService.getParser(url); // Selects the proper scraper per the URL
+            if (parser == null) 
             {
                 return null;
             }
-            // TODO: Add the newly parsed job posting to the job posting repository
+            
             _jobPosting = parser.ScrapeAndReturnPostingInfo(url);
+
+            AddJobPosting(_jobPosting);
+
             return _jobPosting;
+        }
+
+        public void AddJobPosting(JobPosting jobPosting)
+        {
+            var exists = _jobPostingService.GetJobPosting(jobPosting.URL);
+            if(exists != null)
+            {
+                _jobPostingService.InsertJobPosting(jobPosting);
+            }
         }
     }
 }

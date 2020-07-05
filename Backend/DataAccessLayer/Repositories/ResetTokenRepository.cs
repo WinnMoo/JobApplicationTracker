@@ -55,12 +55,12 @@ namespace DataAccessLayer.Repositories
             bool inserted = false;
             try
             {
-                _resetTokens.InsertOne(token);
+                _resetTokens.InsertOneAsync(token);
                 inserted = true;
                 return inserted;
             } catch
             {
-                return false;
+                return inserted;
             }
         }
 
@@ -70,7 +70,7 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("PasswordResetTokenId", token.PasswordResetTokenId);
             try
             {
-                _resetTokens.ReplaceOne(filter, token);
+                _resetTokens.ReplaceOneAsync(filter, token);
                 updated = true;
             } catch
             {

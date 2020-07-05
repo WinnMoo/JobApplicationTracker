@@ -73,7 +73,7 @@ namespace DataAccessLayer.Repositories
                 _userAccounts.InsertOne(userAccount);
                 inserted = true;
             }
-            catch
+            catch (Exception e)
             {
                 return inserted;
             }

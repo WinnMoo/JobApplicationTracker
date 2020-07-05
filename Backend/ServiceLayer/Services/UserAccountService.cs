@@ -14,9 +14,9 @@ namespace ServiceLayer.Services
     public class UserAccountService : IUserAccountService
     {
         private IUserAccountRepository _userRepo;
-        public UserAccountService(MongoClient db)
+        public UserAccountService(MongoClient _db)
         {
-            _userRepo = new UserAccountRepository(db);
+            _userRepo = new UserAccountRepository(_db);
         }
         public bool DeleteUserFromDB(ObjectId userId)
         {

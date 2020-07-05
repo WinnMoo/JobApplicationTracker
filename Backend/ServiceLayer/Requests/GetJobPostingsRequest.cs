@@ -5,15 +5,15 @@ using System.Text;
 
 namespace ServiceLayer.Requests
 {
-    public class JobApplicationRequest
+    public class GetJobPostingsRequest
     {
         [Required]
-        string CompanyName { get; set; }
+        string EmailAddress { get; set; }
         [Required]
+        int StartIndex { get; set; }
+        [Required]
+        int NumOfItemsToGet { get; set; }
         string JobTitle { get; set; }
-        [Required]
-        string Description { get; set; }
-
         string City { get; set; }
         string State { get; set; }
         string ZipCode { get; set; }

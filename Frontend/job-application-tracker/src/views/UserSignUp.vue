@@ -228,7 +228,7 @@ export default {
       }
       axios({
         method: 'POST',
-        url: `${apiURL}/account/` + '/create',
+        url: `${apiURL}/account/` + 'create',
         data: {
           EmailAddress: this.$data.emailAddress,
           FirstName: this.$data.firstName,
@@ -246,7 +246,7 @@ export default {
         })
         .then(response => {
           this.popup = response;
-          this.popupText = "Password has been reset.";
+          this.popupText = "Account Successfully Created";
         })
         .catch(e => { this.formErrorMessage = e.response.data })
         .finally(() => {
