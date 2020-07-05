@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -28,11 +29,37 @@ namespace DataAccessLayer.Models
         public int AddedCounter { get; set; }
         [Required]
         public string URL { get; set; }
-        public JobPosting(string jobTitle, string company, string location, string url)
+        public JobPosting(string jobTitle, string company, string url)
         {
             this.JobTitle = jobTitle;
             this.Company = company;
-            this.City = location;
+            this.AddedCounter = 0;
+            this.URL = url;
+        }
+        public JobPosting(string jobTitle, string company, string state, string url)
+        {
+            this.JobTitle = jobTitle;
+            this.Company = company;
+            this.State = state;
+            this.AddedCounter = 0;
+            this.URL = url;
+        }
+        public JobPosting(string jobTitle, string company, string city, string state, string url)
+        {
+            this.JobTitle = jobTitle;
+            this.Company = company;
+            this.City = city;
+            this.State = state;
+            this.AddedCounter = 0;
+            this.URL = url;
+        }
+        public JobPosting(string jobTitle, string company, string city, string state, string zipCode, string url)
+        {
+            this.JobTitle = jobTitle;
+            this.Company = company;
+            this.State = state;
+            this.City = city;
+            this.ZipCode = zipCode;
             this.AddedCounter = 0;
             this.URL = url;
         }

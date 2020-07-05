@@ -13,7 +13,10 @@ namespace ServiceLayer.Services.JobParserServices
         const string BASE_JOB_SEARCH_URL = "https://www.indeed.com/jobs";
         public JobPosting ScrapeAndReturnPostingInfo(string url)
         {
-            JobPosting scrappedInfo;
+            JobPosting scrappedInfo = null;
+            string city = "";
+            string state = "";
+            string zipCode = "";
             string urlToScrapeFrom = "";
             string jobTitle = "";
             string companyName = "";
@@ -89,7 +92,33 @@ namespace ServiceLayer.Services.JobParserServices
                     Console.WriteLine("4");
                 }
                 //TODO: Parse location into city, state, zipcode
-                scrappedInfo = new JobPosting(jobTitle, companyName, location, urlToScrapeFrom);
+                if (!location.Equals("-"))
+                {
+                    string locationToParse = location.Replace(",", "");
+                    string[] parsed = locationToParse.Split(" ");
+                    if (parsed.Length == 1)
+                    {
+                        state = parsed[0];
+                        scrappedInfo = new JobPosting(jobTitle, companyName, state, urlToScrapeFrom);
+                    }
+                    if (parsed.Length == 2)
+                    {
+                        city = parsed[0];
+                        state = parsed[1];
+                        scrappedInfo = new JobPosting(jobTitle, companyName, city, state, urlToScrapeFrom);
+                    }
+                    if (parsed.Length == 3)
+                    {
+                        city = parsed[0];
+                        state = parsed[1];
+                        zipCode = parsed[2];
+                        scrappedInfo = new JobPosting(jobTitle, companyName, city, state, zipCode, urlToScrapeFrom);
+                    }
+                }
+                else
+                {
+                    scrappedInfo = new JobPosting(jobTitle, companyName, urlToScrapeFrom);
+                }
                 return scrappedInfo;
             }
             catch (NullReferenceException e)
