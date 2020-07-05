@@ -36,7 +36,7 @@ namespace ManagerLayer.Managers
             } 
             else
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return new ConflictObjectResult("Job Posting Already Exists.");
             }
         }
 
@@ -68,10 +68,10 @@ namespace ManagerLayer.Managers
         public bool InsertJobPostingToDB(JobPosting jobPosting)
         {
             var exists = _jobPostingService.GetJobPosting(jobPosting.URL);
-            if(exists != null)
+            if(exists == null)
             {
-                _jobPostingService.InsertJobPosting(jobPosting);
-                return true;
+                return _jobPostingService.InsertJobPosting(jobPosting);
+
             }
             return false;
         }

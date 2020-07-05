@@ -11,12 +11,11 @@ namespace DataAccessLayer.Repositories
     {
         MongoClient db;
         private IMongoCollection<JobPosting> _jobPostings;
-
         public JobPostingRepository(MongoClient _db)
         {
             this.db = _db;
             var database = this.db.GetDatabase("Database");
-            var _jobPostings = database.GetCollection<JobPosting>("jobPostings");
+            _jobPostings = database.GetCollection<JobPosting>("JobPostings");
         }
 
         public bool InsertJobPosting(JobPosting jobPosting)
@@ -24,7 +23,7 @@ namespace DataAccessLayer.Repositories
             bool inserted = false;
             try
             {
-                _jobPostings.InsertOneAsync(jobPosting);
+                _jobPostings.InsertOne(jobPosting);
                 inserted = true;
                 return inserted;
             } catch
@@ -35,7 +34,17 @@ namespace DataAccessLayer.Repositories
 
         public JobPosting GetJobPosting(string url)
         {
-            throw new NotImplementedException();
+            JobPosting posting = null;
+            var filter = new BsonDocument("URL", url);
+            try
+            {
+                posting = _jobPostings.Find(filter).FirstOrDefault();
+                return posting;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public List<JobPosting> GetJobPostings()
@@ -54,7 +63,7 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("URL", jobPosting.URL);
             try
             {
-                _jobPostings.ReplaceOneAsync(filter, jobPosting);
+                _jobPostings.ReplaceOne(filter, jobPosting);
                 updated = true;
                 return updated;
             } catch

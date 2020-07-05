@@ -18,7 +18,7 @@ namespace DataAccessLayer.Repositories
         {
             this.db = _db;
             var database = this.db.GetDatabase("Database");
-            _resetTokens = database.GetCollection<PasswordResetToken>("PasswordResetToken");
+            _resetTokens = database.GetCollection<PasswordResetToken>("PasswordResetTokens");
         }
 
         public PasswordResetToken GetToken(string resetToken)

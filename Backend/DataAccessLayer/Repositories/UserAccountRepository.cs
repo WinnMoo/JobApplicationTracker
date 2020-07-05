@@ -16,7 +16,7 @@ namespace DataAccessLayer.Repositories
         {
             this.db = _db;
             var database = this.db.GetDatabase("Database");
-            _userAccounts = database.GetCollection<UserAccount>("UserAccount");
+            _userAccounts = database.GetCollection<UserAccount>("UserAccounts");
         }
 
         public bool DeleteUserAccount(ObjectId userId)
@@ -25,7 +25,7 @@ namespace DataAccessLayer.Repositories
             try
             {
                 var filter = new BsonDocument("UserId", userId);
-                _userAccounts.DeleteOneAsync(filter);
+                _userAccounts.DeleteOne(filter);
             }
             catch
             {

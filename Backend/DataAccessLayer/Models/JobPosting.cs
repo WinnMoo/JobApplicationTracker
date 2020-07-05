@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace DataAccessLayer.Models
@@ -18,7 +19,7 @@ namespace DataAccessLayer.Models
         [Required]
         public string Description { get; set; }
         public double Salary { get; set; }
-        public string city { get; set; }
+        public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
         
@@ -27,5 +28,13 @@ namespace DataAccessLayer.Models
         public int AddedCounter { get; set; }
         [Required]
         public string URL { get; set; }
+        public JobPosting(string jobTitle, string company, string location, string url)
+        {
+            this.JobTitle = jobTitle;
+            this.Company = company;
+            this.City = location;
+            this.AddedCounter = 0;
+            this.URL = url;
+        }
     }
 }
