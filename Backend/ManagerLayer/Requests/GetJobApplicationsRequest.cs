@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ServiceLayer.Requests
+namespace ManagerLayer.Requests
 {
     public class GetJobApplicationsRequest
     {
