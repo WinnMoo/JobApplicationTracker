@@ -3,44 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Requests;
+using MongoDB.Driver;
+using ManagerLayer.Managers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ControllerLayer.Controllers
 {
-    [Route("api/[controller]")]
     public class JobAppController : Controller
     {
-        // GET: api/values
+        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private MongoClient dbClient;
+        private JobApplicationManager _jobAppManager;
+
+        public JobAppController()
+        {
+            dbClient = new MongoClient(MONGODB_CONNECTION_STRING);
+            _jobAppManager = new JobApplicationManager(dbClient);
+        }
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("api/jobapp/get")]
+        public ActionResult GetJobApplications([FromBody] JobApplicationRequest request)
         {
-            return new string[] { "value1", "value2" };
+            throw new NotImplementedException();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        [Route("api/jobapp/add")]
+        public ActionResult AddJobApplication([FromBody] JobApplicationRequest request)
         {
+            throw new NotImplementedException();
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPost]
+        [Route("api/jobapp/delete")]
+        public ActionResult DeleteJobApplication([FromBody] JobApplicationRequest request)
         {
+            throw new NotImplementedException();
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost]
+        [Route("api/jobapp/update")]
+        public ActionResult UpdateJobApplication([FromBody] JobApplicationRequest request)
         {
+            throw new NotImplementedException();
         }
     }
 }
