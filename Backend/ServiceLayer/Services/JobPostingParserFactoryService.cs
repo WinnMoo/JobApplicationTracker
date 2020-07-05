@@ -9,6 +9,10 @@ namespace ServiceLayer.Services
     {
         public  IJobPostingParserService getParser(string url)
         {
+            if (String.IsNullOrWhiteSpace(url))
+            {
+                return null;
+            }
             string[] urlSplit = url.Split('.');
 
             switch (urlSplit[1])
