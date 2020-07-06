@@ -24,8 +24,9 @@ namespace ControllerLayer.Controllers
                 JobPostingManager _jobPostingManager = new JobPostingManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _jobPostingManager.AddJobPosting(request.URL);
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

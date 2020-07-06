@@ -13,7 +13,7 @@ namespace ServiceLayer.Services.JobParserServices
         const string BASE_JOB_SEARCH_URL = "https://www.indeed.com/jobs";
         public JobPosting ScrapeAndReturnPostingInfo(string url)
         {
-            JobPosting scrappedInfo = null;
+            JobPosting scrapedInfo = null;
             string city = "";
             string state = "";
             string zipCode = "";
@@ -99,27 +99,27 @@ namespace ServiceLayer.Services.JobParserServices
                     if (parsed.Length == 1)
                     {
                         state = parsed[0];
-                        scrappedInfo = new JobPosting(jobTitle, companyName, state, urlToScrapeFrom);
+                        scrapedInfo = new JobPosting(jobTitle, companyName, state, urlToScrapeFrom);
                     }
                     if (parsed.Length == 2)
                     {
                         city = parsed[0];
                         state = parsed[1];
-                        scrappedInfo = new JobPosting(jobTitle, companyName, city, state, urlToScrapeFrom);
+                        scrapedInfo = new JobPosting(jobTitle, companyName, city, state, urlToScrapeFrom);
                     }
                     if (parsed.Length == 3)
                     {
                         city = parsed[0];
                         state = parsed[1];
                         zipCode = parsed[2];
-                        scrappedInfo = new JobPosting(jobTitle, companyName, city, state, zipCode, urlToScrapeFrom);
+                        scrapedInfo = new JobPosting(jobTitle, companyName, city, state, zipCode, urlToScrapeFrom);
                     }
                 }
                 else
                 {
-                    scrappedInfo = new JobPosting(jobTitle, companyName, urlToScrapeFrom);
+                    scrapedInfo = new JobPosting(jobTitle, companyName, urlToScrapeFrom);
                 }
-                return scrappedInfo;
+                return scrapedInfo;
             }
             catch (NullReferenceException e)
             {
