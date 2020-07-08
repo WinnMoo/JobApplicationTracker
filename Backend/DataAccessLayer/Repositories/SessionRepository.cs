@@ -77,7 +77,7 @@ namespace DataAccessLayer.Repositories
             return updated;
         }
 
-        public void ExpireAllSessions(string emailAddress)
+        public void ExpireAllSessions(string jwtToken)
         {
             throw new NotImplementedException();
         }

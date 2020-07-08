@@ -4,7 +4,11 @@ using System.Text;
 
 namespace ServiceLayer.Services
 {
-    public class JWTService
+    public static class JWTService
     {
+        public static string CreateToken()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
