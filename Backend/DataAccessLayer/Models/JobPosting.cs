@@ -29,12 +29,18 @@ namespace DataAccessLayer.Models
         public int AddedCounter { get; set; }
         [Required]
         public string URL { get; set; }
+        [Required]
+        public bool IsActive { get; set; }
+        [Required]
+        public DateTime DateAdded { get; set; }
         public JobPosting(string jobTitle, string company, string url)
         {
             this.JobTitle = jobTitle;
             this.Company = company;
             this.AddedCounter = 0;
             this.URL = url;
+            this.IsActive = true;
+            this.DateAdded = DateTime.Now;
         }
         public JobPosting(string jobTitle, string company, string state, string url)
         {
@@ -43,6 +49,8 @@ namespace DataAccessLayer.Models
             this.State = state;
             this.AddedCounter = 0;
             this.URL = url;
+            this.IsActive = true;
+            this.DateAdded = DateTime.Now;
         }
         public JobPosting(string jobTitle, string company, string city, string state, string url)
         {
@@ -52,6 +60,8 @@ namespace DataAccessLayer.Models
             this.State = state;
             this.AddedCounter = 0;
             this.URL = url;
+            this.IsActive = true;
+            this.DateAdded = DateTime.Now;
         }
         public JobPosting(string jobTitle, string company, string city, string state, string zipCode, string url)
         {
@@ -62,6 +72,8 @@ namespace DataAccessLayer.Models
             this.ZipCode = zipCode;
             this.AddedCounter = 0;
             this.URL = url;
+            this.IsActive = true;
+            this.DateAdded = DateTime.Now;
         }
     }
 }

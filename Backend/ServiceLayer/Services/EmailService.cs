@@ -2,7 +2,6 @@
 using MimeKit;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 
 public static class EmailService
 {
@@ -21,11 +20,11 @@ public static class EmailService
 	/// <param name="emailSubject">The subject of the email</param>
 	/// <param name="emailBodyPlainText">The body of the email, in plaintext form</param>
 	/// <returns>Returns an email of type MimeMessage</returns>
-	public static MimeMessage CreateEmailPlainBody(string senderName, string senderEmail, string recipientName, string recipientEmail, string emailSubject, string emailBodyPlainText)
+	public static MimeMessage CreateEmailPlainBody(string senderName, string senderEmailAddress, string recipientName, string recipientEmailAddress, string emailSubject, string emailBodyPlainText)
     {
 		var messageToSend = new MimeMessage();
-		messageToSend.From.Add(new MailboxAddress(senderName, senderEmail));
-		messageToSend.To.Add(new MailboxAddress(recipientName, recipientEmail));
+		messageToSend.From.Add(new MailboxAddress(senderName, senderEmailAddress));
+		messageToSend.To.Add(new MailboxAddress(recipientName, recipientEmailAddress));
 		messageToSend.Subject = emailSubject;
 		messageToSend.Body = new TextPart("plain")
 		{

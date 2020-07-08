@@ -71,5 +71,11 @@ namespace DataAccessLayer.Repositories
                 return updated;
             }
         }
+
+        public void ValidateJobPostings()
+        {
+            var update = new BsonDocument("IsActive", false);
+            _jobPostings.UpdateManyAsync(x => x.DateAdded.AddDays(30) <= DateTime.Now, update);
+        }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ManagerLayer.Managers;
 using ManagerLayer.Requests;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +23,21 @@ namespace ControllerLayer.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/jobposting/purge")]
+        public ActionResult PurgeJobPostings()
+        {
+            try
+            {
+                JobPostingManager _jobPostingManager = new JobPostingManager(new MongoClient(MONGODB_CONNECTION_STRING));
+                return _jobPostingManager.ValidateJobPostings();
+            }
+            catch (Exception e)
+            {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

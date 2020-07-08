@@ -1,13 +1,8 @@
 ﻿using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using MongoDB.Driver;
 using ServiceLayer.Services;
-using ServiceLayer.Services.JobParserServices;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ManagerLayer.Managers
 {
@@ -46,7 +41,7 @@ namespace ManagerLayer.Managers
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public JobPosting ParseJobPosting(string url)
+        private JobPosting ParseJobPosting(string url)
         {
             JobPostingParserFactoryService _parserFactoryService = new JobPostingParserFactoryService();
             JobPosting _jobPosting;
@@ -65,7 +60,7 @@ namespace ManagerLayer.Managers
         /// Method to insert job posting to DB
         /// </summary>
         /// <param name="jobPosting"></param>
-        public bool InsertJobPostingToDB(JobPosting jobPosting)
+        private bool InsertJobPostingToDB(JobPosting jobPosting)
         {
             var exists = _jobPostingService.GetJobPosting(jobPosting.URL);
             if(exists == null)
@@ -74,6 +69,15 @@ namespace ManagerLayer.Managers
 
             }
             return false;
+        }
+
+        /// <summary>
+        /// Method to void job postings that are over 30 days old.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ValidateJobPostings()
+        {
+            throw new NotImplementedException();
         }
     }
 }

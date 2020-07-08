@@ -1,25 +1,24 @@
 ﻿using DataAccessLayer.Models;
 using ManagerLayer.Requests;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using MongoDB.Driver;
 using ServiceLayer;
 using ServiceLayer.Interfaces;
 using ServiceLayer.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ManagerLayer.Managers
 {
     public class UserAccountManager
     {
+        private const string EMAILADDRESS = "support@jobtaine.com";
+        private string BaseUrl = "";
+
         private IUserAccountService _userAccountService;
         private PasswordService _passwordService;
         private ResetService _resetService;
-
-        private string BaseUrl = "";
-
 
         public UserAccountManager(MongoClient _db)
         {
@@ -31,15 +30,15 @@ namespace ManagerLayer.Managers
         #region User Accounts
         public ActionResult CreateUserAccount(AccountRequest request)
         {
-            if (!EmailService.IsValidEmailAddress(request.EmailAddress)) // Checks for valid email address
+            if (!EmailService.IsValidEmailAddress(request.EmailAddress.ToLower())) // Checks for valid email address
             {
                 return new BadRequestObjectResult("Invalid Email address");
             }
 
-            //TODO: Add case sensitivity for email address
-
             if(_userAccountService.ReadUserFromDB(request.EmailAddress) != null) // Checks if user already exists
             {
+                var email = EmailConstructorAccountAlreadyExists();
+                EmailService.SendEmail(email);
                 return new BadRequestObjectResult("User Already Exists with this Email Address");
             }
 
@@ -47,7 +46,7 @@ namespace ManagerLayer.Managers
             string hashedPassword = _passwordService.HashPassword(request.Password, userSalt);
 
             UserAccount newUser = new UserAccount();
-            newUser.Email = request.EmailAddress;
+            newUser.Email = request.EmailAddress.ToLower();
             newUser.FirstName = request.FirstName;
 
             newUser.PasswordHash = hashedPassword;
@@ -60,10 +59,10 @@ namespace ManagerLayer.Managers
             newUser.SecurityQuestion2 = request.SecurityQuestion2;
             newUser.SecurityQuestion3 = request.SecurityQuestion3;
 
-            // TODO: Send email confirmation
-
             if (_userAccountService.InsertUserIntoDB(newUser)) // Inserts new user into DB
             {
+                MimeMessage email = EmailConstructorCreatedAccount("Winn", EMAILADDRESS, request.FirstName, request.EmailAddress);
+                EmailService.SendEmail(email);
                 return new OkObjectResult(true);
             } 
             else
@@ -76,14 +75,14 @@ namespace ManagerLayer.Managers
         {
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
 
-            // TODO: Send email confirmation
-
             if (_passwordService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
                 return new BadRequestObjectResult("Invalid password");
             }
             if (_userAccountService.DeleteUserFromDB(user.UserAccountId))
             {
+                var email = EmailConstructorDeletededAccount(user.FirstName, user.Email);
+                EmailService.SendEmail(email);
                 return new OkObjectResult("User successfully deleted");
             } 
             else
@@ -131,8 +130,6 @@ namespace ManagerLayer.Managers
         {
             UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
 
-            // TODO: Send email confirmation
-
             if (user == null)
             {
                 return new BadRequestObjectResult("User does not exist");
@@ -156,6 +153,8 @@ namespace ManagerLayer.Managers
 
             if (_userAccountService.UpdateUserInDB(user))
             {
+                var email = EmailConstructorChangedPassword();
+                EmailService.SendEmail(email);
                 return new OkObjectResult("Password changed successfully");
             } else
             {
@@ -165,10 +164,12 @@ namespace ManagerLayer.Managers
 
         public ActionResult GenerateResetPassword(string emailAddress)
         {
+            MimeMessage email;
             var user = _userAccountService.ReadUserFromDB(emailAddress);
             if(user == null)
             {
-                // TODO: send email to user about someone attempting to reset your account
+                email = EmailConstructorResetUserDoesNotExist();
+                EmailService.SendEmail(email);
                 return new BadRequestObjectResult("User does not exist");
             }
 
@@ -187,7 +188,8 @@ namespace ManagerLayer.Managers
 
             string resetLink = BaseUrl + passwordResetToken;
 
-            //TODO: send email to user with reset link
+            email = EmailConstructorPasswordResetLink();
+            EmailService.SendEmail(email);
 
             return new OkObjectResult("A password reset link has been sent to your email");
         }
@@ -240,10 +242,56 @@ namespace ManagerLayer.Managers
                 return new StatusCodeResult(500);
             }
 
-            // TODO: Send user an email about reset password
+            var email = EmailConstructorPasswordReset();
+            EmailService.SendEmail(email);
 
             return new OkObjectResult("Successfully reset password");
         }
         #endregion
+
+        private MimeMessage EmailConstructorCreatedAccount(string senderName, string senderEmailAddress, string recipientName, string recipientEmailAddress)
+        {
+            string subject = "Your account has been created!";
+            string body = "Hi, \r\n" +
+                        "You have created an account on Jobtaine!\r\n" +
+                        "https://jobtaine.com/ \r\n\r\n" +
+                        "Thanks, Winn";
+
+            return EmailService.CreateEmailPlainBody(senderName, senderEmailAddress, recipientName, recipientEmailAddress, subject, body);
+        }
+
+        private MimeMessage EmailConstructorDeletededAccount(string recipientName, string recipientEmailAddress)
+        {
+            string subject = "Your account has been deleted :(";
+            string body = "Hi, \r\n" +
+                        "You recently requested to delete your account. \r\n" +
+                        "We're sad to see you go, but we wish you well! \r\n" +
+                        "Thanks, Winn";
+
+            return EmailService.CreateEmailPlainBody("Winn", "support@jobtaine.com", recipientName, recipientEmailAddress, subject, body);
+        }
+
+        private MimeMessage EmailConstructorResetUserDoesNotExist()
+        {
+            throw new NotImplementedException();
+        }
+        private MimeMessage EmailConstructorPasswordResetLink()
+        {
+            throw new NotImplementedException();
+        }
+        private MimeMessage EmailConstructorPasswordReset()
+        {
+            throw new NotImplementedException();
+        }
+
+        private MimeMessage EmailConstructorChangedPassword()
+        {
+            throw new NotImplementedException();
+        }
+
+        private MimeMessage EmailConstructorAccountAlreadyExists()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
