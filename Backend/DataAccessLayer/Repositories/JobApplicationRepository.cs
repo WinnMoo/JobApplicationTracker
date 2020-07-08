@@ -19,7 +19,7 @@ namespace DataAccessLayer.Repositories
         {
             this.db = _db;
             var database = this.db.GetDatabase("Database");
-            var _jobApplications = database.GetCollection<JobApplication>("JobApplications");
+            _jobApplications = database.GetCollection<JobApplication>("JobApplications");
         }
 
         public bool InsertJobApplication(JobApplication jobApplication)
