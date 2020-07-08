@@ -13,7 +13,7 @@ namespace DataAccessLayer.Repositories
 {
     public class JobApplicationRepository : IJobApplicationRepository
     {
-        MongoClient db;
+        private MongoClient db;
         private IMongoCollection<JobApplication> _jobApplications;
         public JobApplicationRepository(MongoClient _db)
         {

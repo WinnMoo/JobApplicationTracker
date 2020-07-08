@@ -79,6 +79,10 @@ export default {
   components: {
   },
 
+  created: function () {
+    this.isLoggedIn = localStorage.getItem('isLoggedIn');
+  },
+
   data: () => ({
     drawer: false,
     isLoggedIn: false,
