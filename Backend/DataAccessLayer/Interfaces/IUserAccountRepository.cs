@@ -3,15 +3,16 @@ using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
 {
     public interface IUserAccountRepository
     {
-        public bool InsertUserAccount(UserAccount userAccount);
-        public UserAccount GetUserAccount(ObjectId userId);
-        public UserAccount GetUserAccount(string emailAddress);
-        public bool UpdateUserAccount(UserAccount userAccount);
-        public bool DeleteUserAccount(ObjectId userId);
+        public Task<bool> InsertUserAccountAsync(UserAccount userAccount);
+        public Task<UserAccount> GetUserAccount(ObjectId userId);
+        public Task<UserAccount> GetUserAccount(string emailAddress);
+        public Task<bool> UpdateUserAccount(UserAccount userAccount);
+        public Task<bool> DeleteUserAccount(ObjectId userId);
     }
 }

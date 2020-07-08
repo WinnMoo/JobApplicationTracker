@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -19,13 +20,14 @@ namespace DataAccessLayer.Repositories
             _userAccounts = database.GetCollection<UserAccount>("UserAccounts");
         }
 
-        public bool DeleteUserAccount(ObjectId userId)
+        public async Task<bool> DeleteUserAccount(ObjectId userId)
         {
             var deleted = false;
             try
             {
                 var filter = new BsonDocument("UserId", userId);
-                _userAccounts.DeleteOne(filter);
+                await _userAccounts.DeleteOneAsync(filter);
+                deleted = true;
             }
             catch
             {
@@ -34,13 +36,13 @@ namespace DataAccessLayer.Repositories
             return deleted;
         }
 
-        public UserAccount GetUserAccount(ObjectId userId)
+        public async Task<UserAccount> GetUserAccount(ObjectId userId)
         {
             UserAccount retrievedUserAccount = null;
             var filter = new BsonDocument("UserId", userId);
             try
             {
-                retrievedUserAccount = _userAccounts.Find(filter).FirstOrDefault();
+                retrievedUserAccount = await _userAccounts.Find(filter).FirstOrDefaultAsync();
             }
             catch
             {
@@ -49,14 +51,13 @@ namespace DataAccessLayer.Repositories
             return retrievedUserAccount;
         }
 
-        public UserAccount GetUserAccount(string emailAddress)
+        public async Task<UserAccount> GetUserAccount(string emailAddress)
         {
             UserAccount retrievedUserAccount = null;
             var filter = new BsonDocument("Email", emailAddress);
             try
             {
-                retrievedUserAccount = _userAccounts.Find(filter).FirstOrDefault();
-
+                retrievedUserAccount =  await _userAccounts.Find(filter).FirstOrDefaultAsync();
             }
             catch
             {
@@ -65,12 +66,12 @@ namespace DataAccessLayer.Repositories
             return retrievedUserAccount;
         }
 
-        public bool InsertUserAccount(UserAccount userAccount)
+        public async Task<bool> InsertUserAccountAsync(UserAccount userAccount)
         {
             bool inserted = false;
             try
             {
-                _userAccounts.InsertOne(userAccount);
+                await _userAccounts.InsertOneAsync(userAccount);
                 inserted = true;
             }
             catch (Exception e)
@@ -80,13 +81,13 @@ namespace DataAccessLayer.Repositories
             return inserted;
         }
 
-        public bool UpdateUserAccount(UserAccount updatedUserAccount)
+        public async Task<bool> UpdateUserAccount(UserAccount updatedUserAccount)
         {
             var updated = false;
             var updateFilter = new BsonDocument("UserAccountId", updatedUserAccount.UserAccountId);
             try
             {
-                _userAccounts.ReplaceOne(updateFilter, updatedUserAccount);
+                await _userAccounts.ReplaceOneAsync(updateFilter, updatedUserAccount);
                 updated = true;
             }
             catch

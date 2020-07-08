@@ -20,27 +20,27 @@ namespace ServiceLayer.Services
         }
         public bool DeleteUserFromDB(ObjectId userId)
         {
-            return _userRepo.DeleteUserAccount(userId);
+            return _userRepo.DeleteUserAccount(userId).Result;
         }
 
         public bool InsertUserIntoDB(UserAccount userAccount)
         {
-            return _userRepo.InsertUserAccount(userAccount);
+            return _userRepo.InsertUserAccountAsync(userAccount).Result;
         }
 
         public UserAccount ReadUserFromDB(ObjectId userId)
         {
-            return _userRepo.GetUserAccount(userId);
+            return _userRepo.GetUserAccount(userId).Result;
         }
 
         public UserAccount ReadUserFromDB(string emailAddress)
         {
-            return _userRepo.GetUserAccount(emailAddress);
+            return _userRepo.GetUserAccount(emailAddress).Result;
         }
 
         public bool UpdateUserInDB(UserAccount userAccount)
         {
-            return _userRepo.UpdateUserAccount(userAccount);
+            return _userRepo.UpdateUserAccount(userAccount).Result;
         }
     }
 }
