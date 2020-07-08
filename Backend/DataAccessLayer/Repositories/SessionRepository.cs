@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -19,12 +20,13 @@ namespace DataAccessLayer.Repositories
             var database = this.db.GetDatabase("Database");
             _sessions = database.GetCollection<Session>("Sessions");
         }
-        public bool AddSession(Session session)
+
+        public async Task<bool> AddSession(Session session)
         {
             bool Added = false;
             try
             {
-                _sessions.InsertOne(session);
+                await _sessions.InsertOneAsync(session);
                 Added = true;
             } catch (Exception e)
             {
@@ -33,13 +35,13 @@ namespace DataAccessLayer.Repositories
             return Added;
         }
 
-        public bool DeleteSession(Session session)
+        public async Task<bool> DeleteSession(Session session)
         {
             bool Deleted = false;
             var filter = new BsonDocument("SessionId", session.SessionId);
             try
             {
-                _sessions.DeleteOne(filter);
+                await _sessions.DeleteOneAsync(filter);
                 Deleted = true;
             }
             catch
@@ -49,12 +51,12 @@ namespace DataAccessLayer.Repositories
             return Deleted;
         }
 
-        public Session GetSession(string emailAddress)
+        public async Task<Session> GetSession(string emailAddress)
         {
             var filter = new BsonDocument("EmailAddress", emailAddress);
             try
             {
-                return _sessions.Find(filter).FirstOrDefault();
+                return await _sessions.Find(filter).FirstOrDefaultAsync();
             }
             catch
             {
@@ -62,13 +64,13 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public bool UpdateSession(Session session)
+        public async Task<bool> UpdateSession(Session session)
         {
             bool updated = false;
             var filter = new BsonDocument("SessionId", session.SessionId);
             try
             {
-                _sessions.ReplaceOne(filter, session);
+                await _sessions.ReplaceOneAsync(filter, session);
                 updated = true;
             } catch(Exception e)
             {

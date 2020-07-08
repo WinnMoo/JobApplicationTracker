@@ -19,7 +19,7 @@ namespace ServiceLayer.Services
 
         public bool InsertToken(PasswordResetToken token)
         {
-            throw new NotImplementedException();
+            return _resetTokenRepository.InsertToken(token).Result;
         }
 
         public bool DeleteToken()
@@ -29,12 +29,12 @@ namespace ServiceLayer.Services
 
         public bool UpdateToken(PasswordResetToken token)
         {
-            return _resetTokenRepository.UpdateToken(token);
+            return _resetTokenRepository.UpdateToken(token).Result;
         }
 
         public PasswordResetToken GetToken(string token)
         {
-            return _resetTokenRepository.GetToken(token);
+            return _resetTokenRepository.GetToken(token).Result;
         }
 
         public ICollection<PasswordResetToken> GetTokensByUserId(ObjectId userId)

@@ -18,19 +18,19 @@ namespace ServiceLayer
         }
         public bool AddSession(Session session)
         {
-            return _sessionRepo.AddSession(session);
+            return _sessionRepo.AddSession(session).Result;
         }
         public bool DeleteSession(Session session)
         {
-            return _sessionRepo.DeleteSession(session);
+            return _sessionRepo.DeleteSession(session).Result;
         }
         public bool UpdateSession(Session session)
         {
-            return _sessionRepo.UpdateSession(session);
+            return _sessionRepo.UpdateSession(session).Result;
         }
         public Session GetSession(string emailAddress)
         {
-            return _sessionRepo.GetSession(emailAddress);
+            return _sessionRepo.GetSession(emailAddress).Result;
         }
     }
 }

@@ -3,15 +3,16 @@ using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
 {
     interface IJobApplicationRepository
     {
-        public bool InsertJobApplication(JobApplication jobApplication);
-        public JobApplication GetJobApplication(ObjectId jobApplicationId);
-        public List<JobApplication> GetJobApplications(ObjectId jobApplicationId);
-        public bool DeleteJobApplication(ObjectId jobApplicationId);
-        public bool UpdateJobApplication(JobApplication jobApplication);
+        public Task<bool> InsertJobApplication(JobApplication jobApplication);
+        public Task<JobApplication> GetJobApplication(ObjectId jobApplicationId);
+        public Task<List<JobApplication>> GetJobApplications(ObjectId jobApplicationId);
+        public Task<bool> DeleteJobApplication(ObjectId jobApplicationId);
+        public Task<bool> UpdateJobApplication(JobApplication jobApplication);
     }
 }

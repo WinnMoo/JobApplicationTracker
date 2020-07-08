@@ -18,28 +18,28 @@ namespace ServiceLayer.Services
 
         public bool InsertJobApplication(JobApplication jobApplication)
         {
-            return _jobApplicationRepo.InsertJobApplication(jobApplication);
+            return _jobApplicationRepo.InsertJobApplication(jobApplication).Result;
         }
 
         public bool DeleteJobApplication(ObjectId jobApplicationId)
         {
-            return _jobApplicationRepo.DeleteJobApplication(jobApplicationId);
+            return _jobApplicationRepo.DeleteJobApplication(jobApplicationId).Result;
         }
 
         public bool UpdatejobApplication(JobApplication jobApplication)
         {
-            return _jobApplicationRepo.UpdateJobApplication(jobApplication);
+            return _jobApplicationRepo.UpdateJobApplication(jobApplication).Result;
         }
 
         public JobApplication GetJobApplication(ObjectId jobApplicationId)
         {
-            return _jobApplicationRepo.GetJobApplication(jobApplicationId); 
+            return _jobApplicationRepo.GetJobApplication(jobApplicationId).Result; 
         }
 
         //TODO: add logic to get user specified number of job applications from db
         public List<JobApplication> GetJobApplications(ObjectId userId, int numberOfItems)
         {
-            return _jobApplicationRepo.GetJobApplications(userId);
+            return _jobApplicationRepo.GetJobApplications(userId).Result;
         }
 
     }

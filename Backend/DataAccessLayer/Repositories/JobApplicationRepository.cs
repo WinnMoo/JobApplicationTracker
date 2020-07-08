@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -22,12 +23,12 @@ namespace DataAccessLayer.Repositories
             _jobApplications = database.GetCollection<JobApplication>("JobApplications");
         }
 
-        public bool InsertJobApplication(JobApplication jobApplication)
+        public async Task<bool> InsertJobApplication(JobApplication jobApplication)
         {
             bool inserted = false;
             try
             {
-                _jobApplications.InsertOneAsync(jobApplication);
+                await _jobApplications.InsertOneAsync(jobApplication);
                 inserted = true;
             }
             catch
@@ -37,14 +38,14 @@ namespace DataAccessLayer.Repositories
             return inserted;
         }
 
-        public JobApplication GetJobApplication(ObjectId jobApplicationId)
+        public async Task<JobApplication> GetJobApplication(ObjectId jobApplicationId)
         {
             JobApplication retrievedJobApplication = null;
             
             var filter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
-                retrievedJobApplication = _jobApplications.Find(filter).FirstOrDefault();
+                retrievedJobApplication = await _jobApplications.Find(filter).FirstOrDefaultAsync();
                 return retrievedJobApplication;
             }
             catch
@@ -53,13 +54,13 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public List<JobApplication> GetJobApplications(ObjectId userId)
+        public async Task<List<JobApplication>> GetJobApplications(ObjectId userId)
         {
             var JobApplications = new List<JobApplication>();
             var filter = new BsonDocument("UserAccountId", userId);
             try
             {
-                _jobApplications.Find(filter).ForEachAsync(document => JobApplications.Add(document));
+                await _jobApplications.Find(filter).ForEachAsync(document => JobApplications.Add(document));
             }
             catch
             {
@@ -68,13 +69,13 @@ namespace DataAccessLayer.Repositories
             return JobApplications;
         }
 
-        public bool DeleteJobApplication(ObjectId jobApplicationId)
+        public async Task<bool> DeleteJobApplication(ObjectId jobApplicationId)
         {
             var deleted = false;
             var deleteFilter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
-                _jobApplications.DeleteOneAsync(deleteFilter);
+                await _jobApplications.DeleteOneAsync(deleteFilter);
                 deleted = true;
             }
             catch
@@ -84,13 +85,13 @@ namespace DataAccessLayer.Repositories
             return deleted;
         }
 
-        public bool UpdateJobApplication(JobApplication updatedJobApplication)
+        public async Task<bool> UpdateJobApplication(JobApplication updatedJobApplication)
         {
             var updated = false;
             var updateFilter = new BsonDocument("JobApplicationId", updatedJobApplication.JobApplicationId);
             try
             {
-                _jobApplications.ReplaceOneAsync(updateFilter, updatedJobApplication);
+                await _jobApplications.ReplaceOneAsync(updateFilter, updatedJobApplication);
                 updated = true;
             }
             catch

@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -18,13 +19,13 @@ namespace DataAccessLayer.Repositories
             _resetTokens = database.GetCollection<PasswordResetToken>("PasswordResetTokens");
         }
 
-        public PasswordResetToken GetToken(string resetToken)
+        public async Task<PasswordResetToken> GetToken(string resetToken)
         {
             PasswordResetToken token = null;
             var filter = new BsonDocument("Token", resetToken);
             try
             {
-                token = _resetTokens.Find(filter).FirstOrDefault();
+                token = await _resetTokens.Find(filter).FirstOrDefaultAsync();
                 return token;
             }
             catch
@@ -47,12 +48,12 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public bool InsertToken(PasswordResetToken token)
+        public async Task<bool> InsertToken(PasswordResetToken token)
         {
             bool inserted = false;
             try
             {
-                _resetTokens.InsertOneAsync(token);
+                await _resetTokens.InsertOneAsync(token);
                 inserted = true;
                 return inserted;
             } catch
@@ -61,13 +62,13 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public bool UpdateToken(PasswordResetToken token)
+        public async Task<bool> UpdateToken(PasswordResetToken token)
         {
             bool updated = false;
             var filter = new BsonDocument("PasswordResetTokenId", token.PasswordResetTokenId);
             try
             {
-                _resetTokens.ReplaceOneAsync(filter, token);
+                await _resetTokens.ReplaceOneAsync(filter, token);
                 updated = true;
             } catch
             {

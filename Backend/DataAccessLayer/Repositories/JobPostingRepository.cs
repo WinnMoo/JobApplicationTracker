@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -18,12 +19,12 @@ namespace DataAccessLayer.Repositories
             _jobPostings = database.GetCollection<JobPosting>("JobPostings");
         }
 
-        public bool InsertJobPosting(JobPosting jobPosting)
+        public async Task<bool> InsertJobPosting(JobPosting jobPosting)
         {
             bool inserted = false;
             try
             {
-                _jobPostings.InsertOne(jobPosting);
+                await _jobPostings.InsertOneAsync(jobPosting);
                 inserted = true;
                 return inserted;
             } catch
@@ -32,13 +33,13 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public JobPosting GetJobPosting(string url)
+        public async Task<JobPosting> GetJobPosting(string url)
         {
             JobPosting posting = null;
             var filter = new BsonDocument("URL", url);
             try
             {
-                posting = _jobPostings.Find(filter).FirstOrDefault();
+                posting = await _jobPostings.Find(filter).FirstOrDefaultAsync();
                 return posting;
             }
             catch (Exception e)
@@ -57,13 +58,13 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public bool UpdateJobPosting(JobPosting jobPosting)
+        public async Task<bool> UpdateJobPosting(JobPosting jobPosting)
         {
             bool updated = false;
             var filter = new BsonDocument("URL", jobPosting.URL);
             try
             {
-                _jobPostings.ReplaceOne(filter, jobPosting);
+                await _jobPostings.ReplaceOneAsync(filter, jobPosting);
                 updated = true;
                 return updated;
             } catch

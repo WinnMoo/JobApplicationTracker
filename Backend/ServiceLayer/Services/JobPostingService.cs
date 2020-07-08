@@ -17,7 +17,7 @@ namespace ServiceLayer.Services
 
         public bool InsertJobPosting(JobPosting jobPosting)
         {
-            return _jobPostingRepo.InsertJobPosting(jobPosting);
+            return _jobPostingRepo.InsertJobPosting(jobPosting).Result;
         }
 
         public bool DeleteJobPosting(string url)
@@ -27,12 +27,12 @@ namespace ServiceLayer.Services
 
         public bool UpdateJobPosting(JobPosting jobPosting)
         {
-            return _jobPostingRepo.UpdateJobPosting(jobPosting);
+            return _jobPostingRepo.UpdateJobPosting(jobPosting).Result;
         }
 
         public JobPosting GetJobPosting(string url)
         {
-            return _jobPostingRepo.GetJobPosting(url);
+            return _jobPostingRepo.GetJobPosting(url).Result;
         }
     }
 }
