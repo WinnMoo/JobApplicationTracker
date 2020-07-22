@@ -7,8 +7,8 @@ public static class EmailService
 {
 	static string SMTP_USERNAME = Environment.GetEnvironmentVariable("SMTP_USERNAME");
 	static string SMTP_PASSWORD = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
-	static string SMTP_SERVER = Environment.GetEnvironmentVariable("SMTP_SERVER");
-	static int SMTP_PORT = Int32.Parse(Environment.GetEnvironmentVariable("SMTP_PORT"));
+	static string SMTP_SERVER = Environment.GetEnvironmentVariable("smtpServer");
+	static int SMTP_PORT = Int32.Parse(Environment.GetEnvironmentVariable("smtpPort"));
 
 	/// <summary>
 	/// Composes an email using the supplied parameters. The email body will be in plaintext.

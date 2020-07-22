@@ -36,10 +36,15 @@ namespace ServiceLayer.Services
             return _jobApplicationRepo.GetJobApplication(jobApplicationId).Result; 
         }
 
-        //TODO: add logic to get user specified number of job applications from db
-        public List<JobApplication> GetJobApplications(ObjectId userId, int numberOfItems)
+        public JobApplication GetJobApplication(string url)
         {
-            return _jobApplicationRepo.GetJobApplications(userId).Result;
+            return _jobApplicationRepo.GetJobApplication(url).Result;
+        }
+
+        //TODO: add logic to get user specified number of job applications from db
+        public List<JobApplication> GetJobApplications(ObjectId userId, int startIndex, int numberOfItems)
+        {
+            return _jobApplicationRepo.GetJobApplications(userId, startIndex, numberOfItems).Result;
         }
 
     }

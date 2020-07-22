@@ -1,6 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
+
 namespace DataAccessLayer.Models
 {
     public class JobApplication
@@ -11,21 +13,30 @@ namespace DataAccessLayer.Models
         public string CompanyName { get; set; }
         [BsonRequired]
         public DateTime DateApplied { get; set; }
-        public string Location { get; set; }
-        public string JobPostingLink { get; set; }
+        public string JobTitle { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
+        public string JobPostingURL { get; set; }
+        public string Description { get; set; }
         public ObjectId UserAccountId { get; set; }
+
+        public Dictionary<string, string> UserDefinedFields { get; set; }
         public JobApplication()
         {
 
         }
-        public JobApplication(string companyName, string location, string link)
+
+        public JobApplication(string companyName, string jobTitle, string city, string state, string link, Dictionary<string, string> userFields)
         {
             this.JobApplicationId = ObjectId.GenerateNewId();
             this.CompanyName = companyName;
+            this.JobTitle = jobTitle;
             this.DateApplied = DateTime.Today;
-            this.Location = location;
-            this.JobPostingLink = link;
+            this.City = city;
+            this.State = state;
+            this.JobPostingURL = link;
+            this.UserDefinedFields = userFields;
         }
-        
     }
 }

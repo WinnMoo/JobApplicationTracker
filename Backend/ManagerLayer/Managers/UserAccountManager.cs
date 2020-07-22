@@ -39,7 +39,7 @@ namespace ManagerLayer.Managers
             {
                 var email = EmailConstructorAccountAlreadyExists();
                 EmailService.SendEmail(email);
-                return new BadRequestObjectResult("User Already Exists with this Email Address");
+                return new OkObjectResult("User already exists");
             }
 
             byte[] userSalt = _passwordService.GenerateSalt();
@@ -62,8 +62,12 @@ namespace ManagerLayer.Managers
             if (_userAccountService.InsertUserIntoDB(newUser)) // Inserts new user into DB
             {
                 MimeMessage email = EmailConstructorCreatedAccount("Winn", EMAILADDRESS, request.FirstName, request.EmailAddress);
-                EmailService.SendEmail(email);
-                return new OkObjectResult(true);
+                var sent = EmailService.SendEmail(email);
+                if (!sent)
+                {
+                    // Use logger service to log not sent email
+                }
+                return new OkObjectResult("Account successfully created");
             } 
             else
             {
@@ -216,7 +220,7 @@ namespace ManagerLayer.Managers
                 return new BadRequestObjectResult("Too many attempts have been attempted with this link, please create a new link.");
             }
 
-            if(token.DateCreated.AddMinutes(10) > DateTime.Now)
+            if(token.DateCreated.AddMinutes(10) > DateTime.UtcNow)
             {
                 return new BadRequestObjectResult("The password reset link has expired, please create a new link.");
             }

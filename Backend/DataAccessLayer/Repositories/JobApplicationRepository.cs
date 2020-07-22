@@ -3,8 +3,10 @@ using DataAccessLayer.Models;
 using Microsoft.VisualBasic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Text;
@@ -53,14 +55,41 @@ namespace DataAccessLayer.Repositories
                 return retrievedJobApplication;
             }
         }
+        public async Task<JobApplication> GetJobApplication(string jobPostingURL)
+        {
+            JobApplication retrievedJobApplication = null;
 
-        public async Task<List<JobApplication>> GetJobApplications(ObjectId userId)
+            var filter = new BsonDocument("JobPostingURL", jobPostingURL);
+            try
+            {
+                retrievedJobApplication = await _jobApplications.Find(filter).FirstOrDefaultAsync();
+                return retrievedJobApplication;
+            }
+            catch
+            {
+                return retrievedJobApplication;
+            }
+        }
+        /// <summary>
+        /// Method to get JobApplications from data store
+        /// </summary>
+        /// <param name="userId"> Id associated with user</param>
+        /// <param name="startIndex">The index of where in the list to start, used to get applications from specific index</param>
+        /// <param name="numberOfItems">The number of job applications to get from the data store</param>
+        /// <returns>List of job applications</returns>
+        public async Task<List<JobApplication>> GetJobApplications(ObjectId userId, int startIndex, int numberOfItems )
         {
             var JobApplications = new List<JobApplication>();
             var filter = new BsonDocument("UserAccountId", userId);
             try
             {
-                await _jobApplications.Find(filter).ForEachAsync(document => JobApplications.Add(document));
+                var index = startIndex + numberOfItems;
+                if(index == -1) // If numberOfItems == -1, return all items, otherwise only return a window of items
+                {
+                    await _jobApplications.Find(filter).ToListAsync();
+                } else {
+                    await _jobApplications.Find(filter).Skip(startIndex).Limit(numberOfItems).ToListAsync();
+                }
             }
             catch
             {
@@ -100,6 +129,5 @@ namespace DataAccessLayer.Repositories
             }
             return updated;
         }
-        
     }
 }

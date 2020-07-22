@@ -11,7 +11,8 @@ namespace DataAccessLayer.Interfaces
     {
         public Task<bool> InsertJobApplication(JobApplication jobApplication);
         public Task<JobApplication> GetJobApplication(ObjectId jobApplicationId);
-        public Task<List<JobApplication>> GetJobApplications(ObjectId jobApplicationId);
+        public Task<JobApplication> GetJobApplication(string jobPostingURL);
+        public Task<List<JobApplication>> GetJobApplications(ObjectId jobApplicationId, int startIndex, int numberOfItmes);
         public Task<bool> DeleteJobApplication(ObjectId jobApplicationId);
         public Task<bool> UpdateJobApplication(JobApplication jobApplication);
     }

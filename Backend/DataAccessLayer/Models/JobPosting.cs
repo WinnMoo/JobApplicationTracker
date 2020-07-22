@@ -40,7 +40,7 @@ namespace DataAccessLayer.Models
             this.AddedCounter = 0;
             this.URL = url;
             this.IsActive = true;
-            this.DateAdded = DateTime.Now;
+            this.DateAdded = DateTime.UtcNow;
         }
         public JobPosting(string jobTitle, string company, string state, string url)
         {
@@ -50,7 +50,7 @@ namespace DataAccessLayer.Models
             this.AddedCounter = 0;
             this.URL = url;
             this.IsActive = true;
-            this.DateAdded = DateTime.Now;
+            this.DateAdded = DateTime.UtcNow;
         }
         public JobPosting(string jobTitle, string company, string city, string state, string url)
         {
@@ -61,7 +61,7 @@ namespace DataAccessLayer.Models
             this.AddedCounter = 0;
             this.URL = url;
             this.IsActive = true;
-            this.DateAdded = DateTime.Now;
+            this.DateAdded = DateTime.UtcNow;
         }
         public JobPosting(string jobTitle, string company, string city, string state, string zipCode, string url)
         {
@@ -73,7 +73,7 @@ namespace DataAccessLayer.Models
             this.AddedCounter = 0;
             this.URL = url;
             this.IsActive = true;
-            this.DateAdded = DateTime.Now;
+            this.DateAdded = DateTime.UtcNow;
         }
     }
 }

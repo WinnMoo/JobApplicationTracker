@@ -8,10 +8,10 @@ namespace ManagerLayer.Requests
     public class GetJobApplicationsRequest
     {
         [Required]
-        string EmailAddress { get; set; }
+        public string EmailAddress { get; set; }
         [Required]
-        int StartIndex { get; set; }
+        public int StartIndex { get; set; }
         [Required]
-        int NumOfItemsToGet { get; set; }
+        public int NumOfItemsToGet { get; set; }
     }
 }

@@ -25,8 +25,8 @@ namespace DataAccessLayer.Models
         {
             this.EmailAddress = emailAddress;
             this.JWTToken = jwtToken;
-            this.DateIssued = DateTime.Now;
-            this.DateExpired = DateTime.Now.AddMinutes(30);
+            this.DateIssued = DateTime.UtcNow;
+            this.DateExpired = DateTime.UtcNow.AddMinutes(30);
         }
     }
 }

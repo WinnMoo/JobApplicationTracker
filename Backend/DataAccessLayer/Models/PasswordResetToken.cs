@@ -13,7 +13,7 @@ namespace DataAccessLayer.Models
         public PasswordResetToken(string resetToken, ObjectId userId)
         {
             this.Token = resetToken;
-            this.DateCreated = DateTime.Now;
+            this.DateCreated = DateTime.UtcNow;
             this.Attempts = 0;
             this.UserId = userId;
         }
