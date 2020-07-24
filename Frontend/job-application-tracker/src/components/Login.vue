@@ -50,11 +50,13 @@ export default {
                 })
                     .then(response => {
                     this.popup = response;
-                    this.popupText = "Password has been reset.";
+                    this.popupText = "You are logged in.";
+                    localStorage.setItem = ('isLoggedIn', true);
                 })
                     .catch(e => { this.formErrorMessage = e.response.data })
                     .finally(() => {
                     this.loading = false;
+                    localStorage.setItem = ('isLoggedIn', false);
                 })
             }
         },
