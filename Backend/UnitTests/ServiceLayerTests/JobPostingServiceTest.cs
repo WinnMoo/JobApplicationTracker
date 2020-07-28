@@ -3,25 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UnitTests.ManagerLayerTests
+namespace UnitTests.ServiceLayerTests
 {
     [TestClass]
-    public class SessionManagerTest
+    public class JobPostingServiceTest
     {
         [TestMethod]
-        public void Login()
+        public void InsertJobPosting()
         {
 
         }
 
         [TestMethod]
-        public void LogOut()
+        public void UpdateJobPosting()
         {
 
         }
 
         [TestMethod]
-        public void InvalidateSession()
+        public void DeleteJobPosting()
+        {
+
+        }
+
+        [TestMethod]
+        public void GetJobPosting()
         {
 
         }

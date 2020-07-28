@@ -3,25 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UnitTests.ManagerLayerTests
+namespace UnitTests.DataAccessLayerTests
 {
     [TestClass]
-    public class SessionManagerTest
+    public class ResetTokenRepositoryTest
     {
         [TestMethod]
-        public void Login()
+        public void GetToken()
+        {
+
+        }
+        [TestMethod]
+        public void GetTokens()
+        {
+
+        }
+        [TestMethod]
+        public void InsertToken()
         {
 
         }
 
         [TestMethod]
-        public void LogOut()
-        {
-
-        }
-
-        [TestMethod]
-        public void InvalidateSession()
+        public void UpdateToken()
         {
 
         }
