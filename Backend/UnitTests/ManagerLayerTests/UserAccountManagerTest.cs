@@ -191,7 +191,7 @@ namespace UnitTests.ManagerLayerTests
         [TestMethod]
         public void GeneratePasswordReset_Fail_TooManyAttempts()
         {
-            var emailAddress = "winnmoo@gmail.com";
+            var emailAddress = "winn@example.com";
             uam.GenerateResetPassword(emailAddress);
             uam.GenerateResetPassword(emailAddress);
             uam.GenerateResetPassword(emailAddress);
