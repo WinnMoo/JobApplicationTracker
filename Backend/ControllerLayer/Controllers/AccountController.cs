@@ -13,9 +13,9 @@ namespace ControllerLayer.Controllers
 {
     public class AccountController : Controller
     {
-        
         private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
             "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+
         [Route("api/[controller]")]
 
         [HttpPost]
@@ -26,7 +26,7 @@ namespace ControllerLayer.Controllers
             {
                 UserAccountManager _userAccountManager = new UserAccountManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _userAccountManager.CreateUserAccount(request);
-            } catch (Exception e)
+            } catch
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }

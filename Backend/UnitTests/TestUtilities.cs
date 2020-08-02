@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Models;
+using ManagerLayer.Requests;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -33,6 +34,47 @@ namespace UnitTests
                 SecurityAnswer3 = "SecurityAnswer1"
             };
             return user;
+        }
+
+        public UpdatePasswordRequest CreateUpdatePasswordRequest()
+        {
+            var request = new UpdatePasswordRequest
+            {
+                EmailAddress = "winn@example.org",
+                OldPassword = "password",
+                NewPassword = "password1",
+                SecurityAnswer1 = "SecurityAnswer1",
+                SecurityAnswer2 = "SecurityAnswer2",
+                SecurityAnswer3 = "SecurityAnswer3"
+            };
+
+            return request;
+        }
+
+        public AccountRequest CreateAccountRequest()
+        {
+            AccountRequest request = new AccountRequest
+            {
+                EmailAddress = "winn@example.org",
+                FirstName = "Winn",
+                Password = "password",
+                SecurityQuestion1 = "SecurityQuestion1",
+                SecurityQuestion2 = "SecurityQuestion2",
+                SecurityQuestion3 = "SecurityQuestion3",
+                SecurityAnswer1 = "SecurityAnswer1",
+                SecurityAnswer2 = "SecurityAnswer2",
+                SecurityAnswer3 = "SecurityAnswer3"
+            };
+            return request;
+        }
+
+        public ResetPasswordRequest CreateResetPasswordRequest()
+        {
+            ResetPasswordRequest request = new ResetPasswordRequest
+            {
+
+            };
+            return request;
         }
     }
 }
