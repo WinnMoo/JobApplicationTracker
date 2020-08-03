@@ -72,7 +72,12 @@ namespace UnitTests
         {
             ResetPasswordRequest request = new ResetPasswordRequest
             {
-
+                PasswordResetToken = "",
+                EmailAddress = "winn@example.org",
+                NewPassword = "password1",
+                SecurityAnswer1 = "SecurityAnswer1",
+                SecurityAnswer2 = "SecurityAnswer2",
+                SecurityAnswer3 = "SecurityAnswer3"
             };
             return request;
         }

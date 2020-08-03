@@ -76,5 +76,20 @@ namespace DataAccessLayer.Repositories
             }
             return updated;
         }
+
+        public async Task<bool> DeleteToken(string token)
+        {
+            bool deleted = false;
+            var filter = new BsonDocument("Token", token);
+            try
+            {
+                await _resetTokens.DeleteOneAsync(filter);
+                deleted = true;
+            } catch
+            {
+                return deleted;
+            }
+            return deleted;
+        }
     }
 }
