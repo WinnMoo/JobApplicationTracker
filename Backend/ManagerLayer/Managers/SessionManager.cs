@@ -50,7 +50,8 @@ namespace ManagerLayer.Managers
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-            return new OkObjectResult("jwttoken");
+
+            return new OkObjectResult(jwtToken);
         }
 
         public ActionResult LogOut(string jwtToken)
