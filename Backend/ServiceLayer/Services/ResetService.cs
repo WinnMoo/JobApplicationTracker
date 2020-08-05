@@ -22,9 +22,9 @@ namespace ServiceLayer.Services
             return _resetTokenRepository.InsertToken(token).Result;
         }
 
-        public bool DeleteToken()
+        public bool DeleteToken(string token)
         {
-            throw new NotImplementedException();
+            return _resetTokenRepository.DeleteToken(token).Result;
         }
 
         public bool UpdateToken(PasswordResetToken token)

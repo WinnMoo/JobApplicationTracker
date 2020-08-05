@@ -238,7 +238,7 @@ export default {
           SecurityQuestion3: this.$data.securityQuestion3,
           SecurityAnswer1: this.$data.securityAnswer1,
           SecurityAnswer2: this.$data.securityAnswer2,
-          SecurityAnswer3: this.$data.securityAnswer3,},
+          SecurityAnswer3: this.$data.securityAnswer3},
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true
