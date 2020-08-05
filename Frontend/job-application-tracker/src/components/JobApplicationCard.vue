@@ -66,7 +66,16 @@
 <script>
 export default {
   name: "job-application-card",
-  props:['jobApplications'],
+  props: {
+    jobApplication: {
+      companyName: '',
+      jobTitle: '',
+      location: '',
+      description: '',
+      status: '',
+      dateApplied: '',
+    }
+  },
   data() {
     return {};
   },
