@@ -34,8 +34,7 @@ namespace ServiceLayer.Services
             if (passwordHash.Equals(hashedPasswordToCheck))
             {
                 return true;
-            } else
-            {
+            } else {
                 return false;
             }
         }
