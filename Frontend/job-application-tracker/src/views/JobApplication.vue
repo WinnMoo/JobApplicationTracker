@@ -58,13 +58,9 @@
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
     <v-container>
-      <v-row v-for="(jobApplication, index) in jobApplications" :key="index">
-        <v-col>
-          <JobApplicationCard v-for="jobApplication in jobApplications"
-                              v-bind:key="index"
-                              v-bind:jobApplicaion='jobApplication'></JobApplicationCard>
-        </v-col>
-      </v-row>
+      <JobApplicationCard v-for="jobApplication in jobApplications" 
+                          v-bind:key="jobApplication.id" 
+                          v-bind:jobApplication = "jobApplication"></JobApplicationCard>
       <v-dialog v-model="deleteDialog" width="500">
         <v-card>
           <v-card-title>Are you sure you want to delete this?</v-card-title>
@@ -154,6 +150,7 @@ export default {
       },
       jobApplications: [
         {
+          id: 1,
           company: "Microsoft",
           location: "Long Beach, CA",
           jobTitle: "Software Engineer",
@@ -163,6 +160,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
+          id: 3,
           company: "Apple",
           location: "Seattle, WA",
           jobTitle: "Software Engineer",
@@ -172,6 +170,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
+          id: 4,
           company: "Google",
           location: "Irvine, CA",
           jobTitle: "Software Engineer",
