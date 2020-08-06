@@ -1,59 +1,6 @@
 <template>
   <div class="JobApplication">
-    <v-dialog v-model="addDialog" persistent max-width="600px" ref="dialog">
-      <template v-slot:activator="{ on }">
-        <v-btn class="mx-2" fab dark color="indigo" fixed left bottom v-on="on">
-          <v-icon dark>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-card>
-        <v-form ref="form">
-          <v-card-title>
-            <span class="headline">Add New Job Application</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6" md="6">
-                  <v-text-field
-                    :rules="[rules.required]"
-                    label="Company Name*"
-                    v-model="companyName"
-                    hint="E.g. Microsoft"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                  <v-text-field
-                    :rules="[rules.required]"
-                    label="Job Title*"
-                    v-model="jobTitle"
-                    hint="E.g. Software Engineer"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="12">
-                  <v-textarea
-                    :rules="[rules.required]"
-                    label="Description*"
-                    v-model="description"
-                    required
-                  ></v-textarea>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeAddDialog()">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="addJobApplication()">Save</v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
+    <AddJobApplicationDialog></AddJobApplicationDialog>
     <v-btn class="mx-2" fab dark color="indigo" fixed right bottom @click="top">
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
@@ -61,77 +8,24 @@
       <JobApplicationCard v-for="jobApplication in jobApplications" 
                           v-bind:key="jobApplication.id" 
                           v-bind:jobApplication = "jobApplication"></JobApplicationCard>
-      <v-dialog v-model="deleteDialog" width="500">
-        <v-card>
-          <v-card-title>Are you sure you want to delete this?</v-card-title>
-          <v-card-text>Deleted applications cannot be restored.</v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="deleteDialog = false; deleteJobApplication(indexToDelete)"
-            >Yes</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="updateDialog" persistent max-width="600px" ref="dialog">
-        <v-card>
-          <v-form ref="form">
-            <v-card-title>
-              <span class="headline">Update Job Application</span>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      :rules="[rules.required]"
-                      label="Company Name*"
-                      v-model="companyName"
-                      hint="E.g. Microsoft"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      :rules="[rules.required]"
-                      label="Job Title*"
-                      v-model="jobTitle"
-                      hint="E.g. Software Engineer"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      :rules="[rules.required]"
-                      label="Description*"
-                      v-model="description"
-                      hint="example of persistent helper text"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-              <small>*indicates required field</small>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeUpdateDialog()">Close</v-btn>
-              <v-btn color="blue darken-1" text @click="updateJobApplication(indexToUpdate)">Save</v-btn>
-            </v-card-actions>
-          </v-form>
-        </v-card>
-      </v-dialog>
+      <DeleteJobApplicationDialog @deleteJobApplication="deleteJobApplication"></DeleteJobApplicationDialog>
+      <UpdateJobApplicationDialog></UpdateJobApplicationDialog>
     </v-container>
   </div>
 </template>
 
 <script>
+import AddJobApplicationDialog from '@/components/JobApplicationDialogs/AddJobApplicationDialog.vue'
+import DeleteJobApplicationDialog from '@/components/JobApplicationDialogs/DeleteJobApplicationDialog.vue'
+import UpdateJobApplicationDialog from '@/components/JobApplicationDialogs/UpdateJobApplicationDialog.vue'
 import JobApplicationCard from '@/components/JobApplicationCard.vue'
+
 export default {
   components: {
-    JobApplicationCard
+    AddJobApplicationDialog,
+    JobApplicationCard,
+    DeleteJobApplicationDialog,
+    UpdateJobApplicationDialog
   },
   name: "JobApplication",
   data() {
@@ -145,9 +39,6 @@ export default {
       jobTitle: null,
       description: null,
       location: null,
-      rules: {
-        required: value => !!value || "Required."
-      },
       jobApplications: [
         {
           id: 1,
@@ -190,8 +81,8 @@ export default {
         behavior: "smooth"
       });
     },
-    deleteJobApplication: function(index) {
-      this.jobApplications.splice(index, 1);
+    deleteJobApplication: function() {
+      this.deleteDialog = false
     },
     addJobApplication: function() {
       if (
