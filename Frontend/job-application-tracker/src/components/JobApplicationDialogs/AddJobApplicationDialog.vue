@@ -78,7 +78,7 @@ export default {
       this.addDialog = false;
     },
     addJobApplication: function () {
-      this.$emit('addJobApplication', this.companyName, this.jobTitle, this.description, this.location);
+      this.$emit('addJobApplication', this.companyName, this.jobTitle, this.description);
       this.$refs.form.reset();
       this.addDialog = false;
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="JobApplication">
-    <AddJobApplicationDialog v:on @addJobApplication="addJobApplication($event)"></AddJobApplicationDialog>
+    <AddJobApplicationDialog v:on @addJobApplication="addJobApplication"></AddJobApplicationDialog>
     <v-btn class="mx-2" fab dark color="indigo" fixed right bottom @click="top">
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
@@ -37,7 +37,7 @@ export default {
       indexToUpdate: null,
       jobApplications: [
         {
-          id: 1,
+          id: 0,
           company: "Microsoft",
           location: "Long Beach, CA",
           jobTitle: "Software Engineer",
@@ -47,7 +47,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
-          id: 3,
+          id: 1,
           company: "Apple",
           location: "Seattle, WA",
           jobTitle: "Software Engineer",
@@ -57,7 +57,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
-          id: 4,
+          id: 2,
           company: "Google",
           location: "Irvine, CA",
           jobTitle: "Software Engineer",
@@ -81,21 +81,21 @@ export default {
       this.deleteDialog = false
     },
     addJobApplication: function(companyName, jobTitle, description) {
-      console.log(companyName);
       if (
         companyName != null &&
         jobTitle != null &&
         description != null
       ) {
         var newJobApp = {
+          id: this.jobApplications.length + 1,
           company: companyName,
           jobTitle: jobTitle,
           description: description
         };
         this.addDialog = false;
-        this.jobApplications.splice(0, 0, newJobApp);
+        this.jobApplications.push(newJobApp);
          // Change this push to use an api call to add job application 
-        this.$refs.form.reset();
+        this.$forceUpdate;
       }
     },
     updateJobApplication: function(indexToUpdate) {
