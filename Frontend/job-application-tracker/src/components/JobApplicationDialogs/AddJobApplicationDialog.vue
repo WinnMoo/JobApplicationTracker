@@ -1,5 +1,5 @@
 <template>
-  <v-dialog persistent max-width="600px" ref="dialog">
+  <v-dialog v-model="addDialog" persistent max-width="600px" ref="dialog">
     <template v-slot:activator="{ on }">
         <v-btn class="mx-2" fab dark color="indigo" fixed left bottom v-on="on">
           <v-icon dark>mdi-plus</v-icon>
@@ -62,11 +62,26 @@ export default {
   },
   data() {
     return {
+      addDialog: false,
+      companyName: null,
+      jobTitle: null,
+      description: null,
+      location: null,
       rules: {
         required: value => !!value || "Required."
       }
     };
   },
-  methods: {}
+  methods: {
+    closeAddDialog: function () {
+      this.$refs.form.reset();
+      this.addDialog = false;
+    },
+    addJobApplication: function () {
+      this.$emit('addJobApplication', this.companyName, this.jobTitle, this.description, this.location);
+      this.$refs.form.reset();
+      this.addDialog = false;
+    }
+  }
 };
 </script>
