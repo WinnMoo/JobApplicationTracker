@@ -12,14 +12,14 @@ namespace UnitTests.ServiceLayerTests
     [TestClass]
     public class SessionServiceTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
-            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
 
         SessionService ss;
 
         public SessionServiceTest()
         {
-            MongoClient client = new MongoClient(MONGODB_CONNECTION_STRING);
+            MongoClient client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             ss = new SessionService(client);
         }
 

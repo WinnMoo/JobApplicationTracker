@@ -10,15 +10,15 @@ namespace UnitTests.DataAccessLayerTests
     [TestClass]
     public class SessionRepositoryTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
-            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
 
         readonly MongoClient client;
         readonly SessionRepository sr;
 
         public SessionRepositoryTest()
         {
-            client = new MongoClient(MONGODB_CONNECTION_STRING);
+            client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             sr = new SessionRepository(client);
         }
 

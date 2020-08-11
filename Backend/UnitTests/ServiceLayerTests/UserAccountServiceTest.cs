@@ -12,13 +12,13 @@ namespace UnitTests.ServiceLayerTests
     [TestClass]
     public class UserAccountServiceTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
             "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
         TestUtilities tu;
         UserAccountService uas;
         public UserAccountServiceTest()
         {
-            MongoClient client = new MongoClient(MONGODB_CONNECTION_STRING);
+            MongoClient client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             uas = new UserAccountService(client);
             tu = new TestUtilities();
         }

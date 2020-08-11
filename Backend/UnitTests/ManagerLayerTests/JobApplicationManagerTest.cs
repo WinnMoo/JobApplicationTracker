@@ -10,7 +10,7 @@ namespace UnitTests.ManagerLayerTests
     [TestClass]
     public class JobApplicationManagerTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
             "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
 
         JobApplicationManager jam;
@@ -18,7 +18,7 @@ namespace UnitTests.ManagerLayerTests
 
         public JobApplicationManagerTest()
         {
-            client = new MongoClient(MONGODB_CONNECTION_STRING);
+            client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             jam = new JobApplicationManager(client);
         }
         

@@ -13,14 +13,14 @@ namespace UnitTests.ServiceLayerTests
     [TestClass]
     public class ResetServiceTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
-            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
         ResetService rs;
         UserAccountService uas;
 
         ResetServiceTest()
         {
-            MongoClient client = new MongoClient(MONGODB_CONNECTION_STRING);
+            MongoClient client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             rs = new ResetService(client);
             uas = new UserAccountService(client);
         }

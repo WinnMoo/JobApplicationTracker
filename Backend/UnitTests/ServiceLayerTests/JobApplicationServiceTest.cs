@@ -11,12 +11,12 @@ namespace UnitTests.ServiceLayerTests
     [TestClass]
     public class JobApplicationServiceTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
-            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
         JobApplicationService jas;
         public JobApplicationServiceTest()
         {
-            MongoClient client = new MongoClient(MONGODB_CONNECTION_STRING); 
+            MongoClient client = new MongoClient(MONGODB_TEST_CONNECTION_STRING); 
             jas = new JobApplicationService(client);
         }
 

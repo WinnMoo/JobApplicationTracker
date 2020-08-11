@@ -15,8 +15,8 @@ namespace UnitTests.ManagerLayerTests
     [TestClass]
     public class UserAccountManagerTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
-            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
         readonly TestUtilities tu;
         readonly UserAccountManager uam;
         readonly UserAccountService uas;
@@ -25,7 +25,7 @@ namespace UnitTests.ManagerLayerTests
 
         public UserAccountManagerTest()
         {
-            client = new MongoClient(MONGODB_CONNECTION_STRING);
+            client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             uam = new UserAccountManager(client);
             uas = new UserAccountService(client);
             tu = new TestUtilities();

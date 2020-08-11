@@ -10,15 +10,15 @@ namespace UnitTests.DataAccessLayerTests
     [TestClass]
     public class JobPostingRepositoryTest
     {
-        private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
-            "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
+        private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
+            "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
 
         readonly MongoClient client;
         readonly JobPostingRepository jpr;
 
         public JobPostingRepositoryTest()
         {
-            client = new MongoClient(MONGODB_CONNECTION_STRING);
+            client = new MongoClient(MONGODB_TEST_CONNECTION_STRING);
             jpr = new JobPostingRepository(client);
         }
 
