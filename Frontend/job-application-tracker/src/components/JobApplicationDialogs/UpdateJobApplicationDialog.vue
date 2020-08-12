@@ -1,5 +1,5 @@
 <template>
-  <v-dialog persistent max-width="600px" ref="dialog">
+  <v-dialog :value="this.showDialog" persistent max-width="600px" ref="dialog">
     <v-card>
         <v-form ref="form">
         <v-card-title>
@@ -41,8 +41,8 @@
         </v-card-text>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeUpdateDialog()">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="updateJobApplication(indexToUpdate)">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="updateJobApplication(false)">Close</v-btn>
+            <v-btn color="blue darken-1" text @click="updateJobApplication(true)">Save</v-btn>
         </v-card-actions>
         </v-form>
     </v-card>
@@ -53,14 +53,34 @@
 export default {
   name: "update-job-application-dialog",
   props: {
+    updateDialog: Boolean
+  },
+  watch: {
+    updateDialog: {
+      handler(oldVal, newVal){
+        console.log(oldVal + newVal);
+        this.showDialog = oldVal;
+      }
+    }
   },
   data() {
     return {
+      showDialog: this.updateDialog,
+      companyName: null,
+      jobTitle: null,
+      description: null,
+      location: null,
       rules: {
         required: value => !!value || "Required."
       }
     };
   },
-  methods: {}
+  methods: {
+    updateJobApplication: function(dialogCondition) {
+      this.$emit('updateJobApplication', this.companyName, this.jobTitle, this.description, dialogCondition);
+      this.$refs.form.reset();
+      this.showDialog = false;
+    }
+  }
 };
 </script>

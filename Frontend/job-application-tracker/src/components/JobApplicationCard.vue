@@ -38,11 +38,7 @@
                       <v-btn
                         icon
                         color="primary"
-                        @click="updateDialog = true;
-                    indexToUpdate = index;
-                    companyName = jobApplications[index].company;
-                    jobTitle = jobApplications[index].jobTitle;
-                    description = jobApplications[index].description"
+                        @click="openUpdateDialog"
                       >
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
@@ -68,6 +64,7 @@ export default {
   name: "job-application-card",
   props: {
     jobApplication: {
+      id: '',
       companyName: '',
       jobTitle: '',
       location: '',
@@ -79,6 +76,11 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    openUpdateDialog: function (){
+      console.log("Emitting open update dialog");
+      this.$emit('openUpdateDialog', true);
+    }
+  }
 };
 </script>

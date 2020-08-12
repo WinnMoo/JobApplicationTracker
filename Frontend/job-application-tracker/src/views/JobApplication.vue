@@ -7,9 +7,11 @@
     <v-container>
       <JobApplicationCard v-for="jobApplication in jobApplications" 
                           v-bind:key="jobApplication.id" 
-                          v-bind:jobApplication = "jobApplication"></JobApplicationCard>
+                          v-bind:jobApplication = "jobApplication"
+                          v:on @openUpdateDialog="openUpdateDialog"></JobApplicationCard>
       <DeleteJobApplicationDialog @deleteJobApplication="deleteJobApplication"></DeleteJobApplicationDialog>
-      <UpdateJobApplicationDialog></UpdateJobApplicationDialog>
+      <UpdateJobApplicationDialog v-bind:updateDialog = "this.updateDialog"
+                                  v:on @updateJobApplication = "updateJobApplication"></UpdateJobApplicationDialog>
     </v-container>
   </div>
 </template>
@@ -98,27 +100,30 @@ export default {
         this.$forceUpdate;
       }
     },
-    updateJobApplication: function(indexToUpdate) {
-      if (
-        this.companyName != null &&
-        this.jobTitle != null &&
-        this.description != null
+    openUpdateDialog: function(openDialog){
+      this.updateDialog = openDialog;
+      console.log(this.updateDialog);
+    },
+    updateJobApplication: function(companyName, jobTitle, description, dialogCondition) {
+      if(dialogCondition){
+        if (
+        companyName != null &&
+        jobTitle != null &&
+        description != null
       ) {
         var updatedJobApp = {
-          company: this.companyName,
-          jobTitle: this.jobTitle,
-          description: this.description
+          company: companyName,
+          jobTitle: jobTitle,
+          description: description
         };
         this.updateDialog = false;
-        this.jobApplications.splice(indexToUpdate, 1, updatedJobApp);
-        console.log(updatedJobApp);
-        this.indexToUpdate = null;
-        this.$refs.form.reset();
-      } else {
-        this.companyname = null;
-        this.jobTitle = null;
-        this.description = null;
+        this.jobApplications.splice(0, 1, updatedJobApp);
+        this.$forceUpdate;
       }
+      } else {
+        this.updateDialog = false;
+      }
+      
     },
     closeAddDialog: function() {
       this.$refs.form.reset();
