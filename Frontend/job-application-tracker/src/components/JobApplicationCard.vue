@@ -17,7 +17,18 @@
               <v-list-item-subtitle>{{ jobApplication.jobTitle }}</v-list-item-subtitle>
             </v-col>
             <v-col cols="2" class="text-right">
-              <v-chip :color="this.statuses[jobApplication.status].color" text-color="white"> {{statuses[jobApplication.status].text}}</v-chip>
+              <v-menu offset-x close-on-click rounded="xl">
+                <template v-slot:activator="{ on }">
+                  <v-chip v-on="on" :color="statuses[jobApplication.status].color" text-color="white"> {{statuses[jobApplication.status].text}}</v-chip>
+                </template>
+                <v-card>
+                  <v-list>
+                    <v-list-item v-for="item in statuses" :key="item.color">
+                      <v-chip :color="item.color" text-color="white"> {{item.text}}</v-chip>
+                    </v-list-item>
+                  </v-list>
+                </v-card>
+              </v-menu>
             </v-col>
             <v-col>
               <v-row justify="space-between">
@@ -69,6 +80,7 @@ export default {
   },
   data() {
     return {
+      menu: false,
       statuses: [
         {
           color: "grey",
