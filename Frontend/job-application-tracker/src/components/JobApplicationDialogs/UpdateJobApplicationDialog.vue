@@ -53,6 +53,7 @@
 export default {
   name: "update-job-application-dialog",
   props: {
+    idToUpdate: Number,
     updateDialog: Boolean
   },
   watch: {
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     updateJobApplication: function(dialogCondition) {
-      this.$emit('updateJobApplication', this.companyName, this.jobTitle, this.description, dialogCondition);
+      this.$emit('updateJobApplication', this.companyName, this.jobTitle, this.description, this.idToUpdate, dialogCondition);
       this.$refs.form.reset();
       this.showDialog = false;
     }

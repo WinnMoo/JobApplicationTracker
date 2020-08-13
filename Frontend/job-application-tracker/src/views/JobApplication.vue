@@ -8,9 +8,11 @@
       <JobApplicationCard v-for="jobApplication in jobApplications" 
                           v-bind:key="jobApplication.id" 
                           v-bind:jobApplication = "jobApplication"
-                          v:on @openUpdateDialog="openUpdateDialog"></JobApplicationCard>
+                          v:on @openUpdateDialog="openUpdateDialog"
+                               @updateStatus="updateStatus"></JobApplicationCard>
       <DeleteJobApplicationDialog @deleteJobApplication="deleteJobApplication"></DeleteJobApplicationDialog>
       <UpdateJobApplicationDialog v-bind:updateDialog = "this.updateDialog"
+                                  v-bind:idToUpdate = "this.idToUpdate"
                                   v:on @updateJobApplication = "updateJobApplication"></UpdateJobApplicationDialog>
     </v-container>
   </div>
@@ -37,6 +39,7 @@ export default {
       updateDialog: false,
       indexToDelete: null,
       indexToUpdate: null,
+      idToUpdate: -1,
       jobApplications: [
         {
           id: 0,
@@ -110,30 +113,31 @@ export default {
         this.$forceUpdate;
       }
     },
-    openUpdateDialog: function(openDialog){
+    openUpdateDialog: function(openDialog, jobApplicationId){
       this.updateDialog = openDialog;
-      console.log(this.updateDialog);
+      this.idToUpdate = jobApplicationId;
     },
-    updateJobApplication: function(companyName, jobTitle, description, dialogCondition) {
+    updateJobApplication: function(companyName, jobTitle, description, jobApplicationId, dialogCondition) {
       if(dialogCondition){
-        if (
-        companyName != null &&
-        jobTitle != null &&
-        description != null
-      ) {
-        var updatedJobApp = {
-          company: companyName,
-          jobTitle: jobTitle,
-          description: description
-        };
-        this.updateDialog = false;
-        this.jobApplications.splice(0, 1, updatedJobApp);
-        this.$forceUpdate;
+        if (companyName != null && jobTitle != null && description != null) {
+          this.updateDialog = false;
+          let jobApplicationIndex = this.jobApplications.findIndex(element => element.id == jobApplicationId)
+          console.log(jobApplicationIndex);
+          let updatedJobApplications = this.jobApplications;
+          updatedJobApplications[jobApplicationIndex].company = companyName;
+          updatedJobApplications[jobApplicationIndex].jobTitle = jobTitle;
+          updatedJobApplications[jobApplicationIndex].description = description;
+          this.jobApplications = updatedJobApplications;
+          this.$forceUpdate;
+        }
       }
-      } else {
-        this.updateDialog = false;
-      }
-      
+      this.updateDialog = false;
+    },
+    updateStatus: function(status, jobApplicationId) {
+      let jobApplicationIndex = this.jobApplications.findIndex(element => element.id == jobApplicationId)
+      let updatedJobApplications = this.jobApplications;
+      updatedJobApplications[jobApplicationIndex].status = status;
+      this.jobApplications = updatedJobApplications;
     },
     closeAddDialog: function() {
       this.$refs.form.reset();

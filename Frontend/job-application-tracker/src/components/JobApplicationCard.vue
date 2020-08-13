@@ -17,14 +17,14 @@
               <v-list-item-subtitle>{{ jobApplication.jobTitle }}</v-list-item-subtitle>
             </v-col>
             <v-col cols="2" class="text-right">
-              <v-menu offset-x close-on-click rounded="xl">
+              <v-menu offset-x close-on-click rounded="xl" transition="slide-x-transition">
                 <template v-slot:activator="{ on }">
                   <v-chip v-on="on" :color="statuses[jobApplication.status].color" text-color="white"> {{statuses[jobApplication.status].text}}</v-chip>
                 </template>
                 <v-card>
                   <v-list>
                     <v-list-item v-for="item in statuses" :key="item.color">
-                      <v-chip :color="item.color" text-color="white"> {{item.text}}</v-chip>
+                      <v-chip :color="item.color" text-color="white" @click="selectStatus(item.status)"> {{item.text}}</v-chip>
                     </v-list-item>
                   </v-list>
                 </v-card>
@@ -40,11 +40,7 @@
                 <v-row class="flex-column ma-0 fill-height" justify="center">
                   <v-col class="text-right">
                     <v-col class="px-0">
-                      <v-btn
-                        icon
-                        color="primary"
-                        @click="openUpdateDialog"
-                      >
+                      <v-btn icon color="primary" @click="openUpdateDialog">
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
                     </v-col>
@@ -83,18 +79,22 @@ export default {
       menu: false,
       statuses: [
         {
+          status: 0,
           color: "grey",
           text: "Set Status"
         },
         {
+          status: 1,
           color: "green",
           text: "Accepted"
         },
         {
+          status: 2,
           color: "orange",
           text: "In Progress"
         },
         {
+          status: 3,
           color: "error",
           text: "Rejected"
         }
@@ -102,9 +102,11 @@ export default {
     };
   },
   methods: {
+    selectStatus: function(status) {
+      this.$emit('updateStatus', status, this.jobApplication.id);
+    },
     openUpdateDialog: function (){
-      console.log("Emitting open update dialog");
-      this.$emit('openUpdateDialog', true);
+      this.$emit('openUpdateDialog', true, this.jobApplication.id);
     }
   }
 };
