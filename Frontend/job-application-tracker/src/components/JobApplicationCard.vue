@@ -17,13 +17,7 @@
               <v-list-item-subtitle>{{ jobApplication.jobTitle }}</v-list-item-subtitle>
             </v-col>
             <v-col cols="2" class="text-right">
-              <v-chip v-if="jobApplication.status == 1" color="green" text-color="white">Accepted</v-chip>
-              <v-chip v-if="jobApplication.status == -1" color="error" text-color="white">Rejected</v-chip>
-              <v-chip
-                v-if="jobApplication.status == 0"
-                color="orange"
-                text-color="white"
-              >In Progress</v-chip>
+              <v-chip :color="this.statuses[jobApplication.status].color" text-color="white"> {{statuses[jobApplication.status].text}}</v-chip>
             </v-col>
             <v-col>
               <v-row justify="space-between">
@@ -74,7 +68,26 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      statuses: [
+        {
+          color: "grey",
+          text: "Set Status"
+        },
+        {
+          color: "green",
+          text: "Accepted"
+        },
+        {
+          color: "orange",
+          text: "In Progress"
+        },
+        {
+          color: "error",
+          text: "Rejected"
+        }
+      ]
+    };
   },
   methods: {
     openUpdateDialog: function (){
