@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../components/Login.vue"
 import Feedback from "../views/Feedback.vue";
 import UserSignUp from "../views/UserSignUp.vue";
+import Settings from "../views/Settings.vue";
 import JobPostings from "../views/JobPostings.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 import DocumentUpload from "../views/DocumentUpload.vue";
@@ -56,6 +57,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings
   },
   {
     path: "/about",
