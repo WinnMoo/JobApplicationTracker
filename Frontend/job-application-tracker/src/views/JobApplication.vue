@@ -126,8 +126,11 @@ export default {
         var newJobApp = {
           id: this.jobApplications.length + 1,
           company: companyName,
+          location: "",
           jobTitle: jobTitle,
-          description: description
+          description: description,
+          status: 0,
+          dateApplied: Date.now
         };
         this.addDialog = false;
         this.jobApplications.push(newJobApp);
