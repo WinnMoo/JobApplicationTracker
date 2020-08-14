@@ -19,12 +19,20 @@
             <v-col cols="2" class="text-right">
               <v-menu offset-x close-on-click rounded="xl" transition="slide-x-transition">
                 <template v-slot:activator="{ on }">
-                  <v-chip v-on="on" :color="statuses[jobApplication.status].color" text-color="white"> {{statuses[jobApplication.status].text}}</v-chip>
+                  <v-chip
+                    v-on="on"
+                    :color="statuses[jobApplication.status].color"
+                    text-color="white"
+                  >{{statuses[jobApplication.status].text}}</v-chip>
                 </template>
                 <v-card>
                   <v-list>
                     <v-list-item v-for="item in statuses" :key="item.color">
-                      <v-chip :color="item.color" text-color="white" @click="selectStatus(item.status)"> {{item.text}}</v-chip>
+                      <v-chip
+                        :color="item.color"
+                        text-color="white"
+                        @click="selectStatus(item.status)"
+                      >{{item.text}}</v-chip>
                     </v-list-item>
                   </v-list>
                 </v-card>
@@ -45,7 +53,7 @@
                       </v-btn>
                     </v-col>
                     <v-col class="px-0">
-                      <v-btn icon color="error" @click="deleteDialog = true; indexToDelete = index">
+                      <v-btn icon color="error" @click="openDeleteDialog">
                         <v-icon>mdi-trash-can</v-icon>
                       </v-btn>
                     </v-col>
@@ -65,13 +73,13 @@ export default {
   name: "job-application-card",
   props: {
     jobApplication: {
-      id: '',
-      companyName: '',
-      jobTitle: '',
-      location: '',
-      description: '',
-      status: '',
-      dateApplied: '',
+      id: "",
+      companyName: "",
+      jobTitle: "",
+      location: "",
+      description: "",
+      status: "",
+      dateApplied: ""
     }
   },
   data() {
@@ -103,10 +111,13 @@ export default {
   },
   methods: {
     selectStatus: function(status) {
-      this.$emit('updateStatus', status, this.jobApplication.id);
+      this.$emit("updateStatus", status, this.jobApplication.id);
     },
-    openUpdateDialog: function (){
-      this.$emit('openUpdateDialog', true, this.jobApplication.id);
+    openUpdateDialog: function() {
+      this.$emit("openUpdateDialog", true, this.jobApplication.id);
+    },
+    openDeleteDialog: function() {
+      this.$emit("openDeleteDialog", true, this.jobApplication.id);
     }
   }
 };

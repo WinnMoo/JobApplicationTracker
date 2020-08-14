@@ -1,10 +1,10 @@
 <template>
   <v-dialog v-model="addDialog" persistent max-width="600px" ref="dialog">
     <template v-slot:activator="{ on }">
-        <v-btn class="mx-2" fab dark color="indigo" fixed left bottom v-on="on">
-          <v-icon dark>mdi-plus</v-icon>
-        </v-btn>
-      </template>
+      <v-btn class="mx-2" fab dark color="indigo" fixed left bottom v-on="on">
+        <v-icon dark>mdi-plus</v-icon>
+      </v-btn>
+    </template>
     <v-card>
       <v-form ref="form">
         <v-card-title>
@@ -58,8 +58,7 @@
 <script>
 export default {
   name: "add-job-application-dialog",
-  props: {
-  },
+  props: {},
   data() {
     return {
       addDialog: false,
@@ -73,12 +72,17 @@ export default {
     };
   },
   methods: {
-    closeAddDialog: function () {
+    closeAddDialog: function() {
       this.$refs.form.reset();
       this.addDialog = false;
     },
-    addJobApplication: function () {
-      this.$emit('addJobApplication', this.companyName, this.jobTitle, this.description);
+    addJobApplication: function() {
+      this.$emit(
+        "addJobApplication",
+        this.companyName,
+        this.jobTitle,
+        this.description
+      );
       this.$refs.form.reset();
       this.addDialog = false;
     }

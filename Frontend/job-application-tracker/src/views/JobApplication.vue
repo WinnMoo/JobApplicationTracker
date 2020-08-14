@@ -5,24 +5,36 @@
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
     <v-container>
-      <JobApplicationCard v-for="jobApplication in jobApplications" 
-                          v-bind:key="jobApplication.id" 
-                          v-bind:jobApplication = "jobApplication"
-                          v:on @openUpdateDialog="openUpdateDialog"
-                               @updateStatus="updateStatus"></JobApplicationCard>
-      <DeleteJobApplicationDialog @deleteJobApplication="deleteJobApplication"></DeleteJobApplicationDialog>
-      <UpdateJobApplicationDialog v-bind:updateDialog = "this.updateDialog"
-                                  v-bind:idToUpdate = "this.idToUpdate"
-                                  v:on @updateJobApplication = "updateJobApplication"></UpdateJobApplicationDialog>
+      <JobApplicationCard
+        v-for="jobApplication in jobApplications"
+        v-bind:key="jobApplication.id"
+        v-bind:jobApplication="jobApplication"
+        v:on
+        @openUpdateDialog="openUpdateDialog"
+        @updateStatus="updateStatus"
+        @openDeleteDialog="openDeleteDialog"
+      ></JobApplicationCard>
+      <DeleteJobApplicationDialog
+        v-bind:deleteDialog="this.deleteDialog"
+        v-bind:idToDelete="this.idToDelete"
+        v:on
+        @deleteJobApplication="deleteJobApplication"
+      ></DeleteJobApplicationDialog>
+      <UpdateJobApplicationDialog
+        v-bind:updateDialog="this.updateDialog"
+        v-bind:idToUpdate="this.idToUpdate"
+        v:on
+        @updateJobApplication="updateJobApplication"
+      ></UpdateJobApplicationDialog>
     </v-container>
   </div>
 </template>
 
 <script>
-import AddJobApplicationDialog from '@/components/JobApplicationDialogs/AddJobApplicationDialog.vue'
-import DeleteJobApplicationDialog from '@/components/JobApplicationDialogs/DeleteJobApplicationDialog.vue'
-import UpdateJobApplicationDialog from '@/components/JobApplicationDialogs/UpdateJobApplicationDialog.vue'
-import JobApplicationCard from '@/components/JobApplicationCard.vue'
+import AddJobApplicationDialog from "@/components/JobApplicationDialogs/AddJobApplicationDialog.vue";
+import DeleteJobApplicationDialog from "@/components/JobApplicationDialogs/DeleteJobApplicationDialog.vue";
+import UpdateJobApplicationDialog from "@/components/JobApplicationDialogs/UpdateJobApplicationDialog.vue";
+import JobApplicationCard from "@/components/JobApplicationCard.vue";
 
 export default {
   components: {
@@ -40,6 +52,7 @@ export default {
       indexToDelete: null,
       indexToUpdate: null,
       idToUpdate: -1,
+      idToDelete: -1,
       jobApplications: [
         {
           id: 0,
@@ -92,15 +105,24 @@ export default {
         behavior: "smooth"
       });
     },
-    deleteJobApplication: function() {
-      this.deleteDialog = false
+    openDeleteDialog: function(openDialog, jobApplicationId) {
+      this.deleteDialog = openDialog;
+      this.idToDelete = jobApplicationId;
+    },
+    deleteJobApplication: function(jobApplicationId, deleteCondition) {
+      if (deleteCondition) {
+        let jobApplicationIndex = this.jobApplications.findIndex(
+          element => element.id == jobApplicationId
+        );
+        let updatedJobApplications = this.jobApplications;
+        updatedJobApplications.splice(jobApplicationIndex, 1);
+        this.jobApplications = updatedJobApplications;
+        this.$forceUpdate;
+      }
+      this.deleteDialog = false;
     },
     addJobApplication: function(companyName, jobTitle, description) {
-      if (
-        companyName != null &&
-        jobTitle != null &&
-        description != null
-      ) {
+      if (companyName != null && jobTitle != null && description != null) {
         var newJobApp = {
           id: this.jobApplications.length + 1,
           company: companyName,
@@ -109,20 +131,27 @@ export default {
         };
         this.addDialog = false;
         this.jobApplications.push(newJobApp);
-         // Change this push to use an api call to add job application 
+        // Change this push to use an api call to add job application
         this.$forceUpdate;
       }
     },
-    openUpdateDialog: function(openDialog, jobApplicationId){
+    openUpdateDialog: function(openDialog, jobApplicationId) {
       this.updateDialog = openDialog;
       this.idToUpdate = jobApplicationId;
     },
-    updateJobApplication: function(companyName, jobTitle, description, jobApplicationId, dialogCondition) {
-      if(dialogCondition){
+    updateJobApplication: function(
+      companyName,
+      jobTitle,
+      description,
+      jobApplicationId,
+      dialogCondition
+    ) {
+      if (dialogCondition) {
         if (companyName != null && jobTitle != null && description != null) {
           this.updateDialog = false;
-          let jobApplicationIndex = this.jobApplications.findIndex(element => element.id == jobApplicationId)
-          console.log(jobApplicationIndex);
+          let jobApplicationIndex = this.jobApplications.findIndex(
+            element => element.id == jobApplicationId
+          );
           let updatedJobApplications = this.jobApplications;
           updatedJobApplications[jobApplicationIndex].company = companyName;
           updatedJobApplications[jobApplicationIndex].jobTitle = jobTitle;
@@ -134,21 +163,12 @@ export default {
       this.updateDialog = false;
     },
     updateStatus: function(status, jobApplicationId) {
-      let jobApplicationIndex = this.jobApplications.findIndex(element => element.id == jobApplicationId)
+      let jobApplicationIndex = this.jobApplications.findIndex(
+        element => element.id == jobApplicationId
+      );
       let updatedJobApplications = this.jobApplications;
       updatedJobApplications[jobApplicationIndex].status = status;
       this.jobApplications = updatedJobApplications;
-    },
-    closeAddDialog: function() {
-      this.$refs.form.reset();
-      this.addDialog = false;
-    },
-    closeUpdateDialog: function() {
-      this.updateDialog = false;
-      this.companyname = null;
-      this.jobTitle = null;
-      this.description = null;
-      this.$refs.form.reset();
     }
   }
 };
