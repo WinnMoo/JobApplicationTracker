@@ -9,15 +9,61 @@
             </v-col>
             <v-col class="text-right">
               <v-list-item-title>
-                <v-icon>mdi-map-marker</v-icon>
-                {{ jobApplication.location }}
+                <v-menu offset-x offset-y rounded="xl" transition="slide-x-transition" allow-overflow :close-on-content-click="false">
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on">mdi-map-marker</v-icon>
+                      {{ jobApplication.location }}
+                  </template>
+                  <v-container>
+                  <v-card>
+                      <v-row>
+                        <v-col>
+                          <v-autocomplete
+                      v-model="model"
+                      :items="states"
+                      color="green"
+                      background-color="white"
+                      item-text="Description"
+                      item-value="API"
+                      label="State"
+                      placeholder="Start typing to Search"
+                      return-object
+                    ></v-autocomplete>
+                        </v-col>
+                        <v-col>
+                          <v-autocomplete
+                      v-model="model"
+                      :items="items"
+                      :loading="isLoading"
+                      :search-input.sync="search"
+                      color="green"
+                      background-color="white"
+                      hide-no-data
+                      hide-selected
+                      item-text="Description"
+                      item-value="API"
+                      label="City"
+                      placeholder="Start typing to Search"
+                      return-object
+                    ></v-autocomplete>
+                        </v-col>
+                      </v-row>
+                      
+                    <v-card-items>
+                      <v-btn> Save </v-btn>
+                    </v-card-items>
+                  </v-card>
+                  </v-container>
+                    
+                  
+                </v-menu>
               </v-list-item-title>
             </v-col>
             <v-col cols="10">
               <v-list-item-subtitle>{{ jobApplication.jobTitle }}</v-list-item-subtitle>
             </v-col>
             <v-col cols="2" class="text-right">
-              <v-menu offset-x close-on-click rounded="xl" transition="slide-x-transition">
+              <v-menu offset-x close-on-click rounded="xl" transition="slide-x-transition" open-on-hover>
                 <template v-slot:activator="{ on }">
                   <v-chip
                     v-on="on"
@@ -106,6 +152,22 @@ export default {
           color: "error",
           text: "Rejected"
         }
+      ],
+      states: [
+          'Alabama', 'Alaska', 'Arizona',
+          'Arkansas', 'California', 'Colorado', 'Connecticut',
+          'Delaware', 'District of Columbia', 
+          'Florida', 'Georgia', 'Hawaii', 'Idaho',
+          'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+          'Missouri', 'Montana', 'Nebraska', 'Nevada',
+          'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania',
+          'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
+          'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
       ]
     };
   },

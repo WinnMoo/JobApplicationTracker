@@ -26,6 +26,24 @@ export default {
       showCardView: true,
       darkTheme: false
     };
+  }, 
+  created () {
+    this.showCardView = localStorage.getItem('showCardView');
+    if(this.showCardView === null){
+      this.showCardView = true;
+      localStorage.setitem('showCardView', this.showCardView);
+    }
+    this.darkTheme = localStorage.getItem('showCardView');
+    if(this.darkTheme === null){
+      this.darkTheme = false;
+      localStorage.setItem('darkTheme', this.darkTheme);
+    }
+  },
+  methods: {
+    saveChanges: function () {
+      localStorage.setItem('showCardView', this.showCardView);
+      localStorage.setItem('darkTheme', this.darkTheme);
+    }
   }
 };
 </script>
