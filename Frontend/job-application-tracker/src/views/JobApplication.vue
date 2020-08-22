@@ -59,7 +59,7 @@ export default {
           id: 0,
           company: "Microsoft",
           city: "Long Beach",
-          state: "CA",
+          state: "California",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -70,7 +70,7 @@ export default {
           id: 1,
           company: "Apple",
           city: "Seattle",
-          state: "WA",
+          state: "Washington",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -81,7 +81,7 @@ export default {
           id: 2,
           company: "Google",
           city: "Irvine",
-          state: "CA",
+          state: "California",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -92,7 +92,7 @@ export default {
           id: 3,
           company: "Belkin",
           city: "Irvine",
-          state: "CA",
+          state: "California",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -186,7 +186,6 @@ export default {
       updatedJobApplications[jobApplicationIndex].city = city;
       updatedJobApplications[jobApplicationIndex].state = state;
       this.jobApplications = updatedJobApplications;
-      console.log(this.jobApplications[jobApplicationIndex]);
       this.$forceUpdate;
     }
   }
