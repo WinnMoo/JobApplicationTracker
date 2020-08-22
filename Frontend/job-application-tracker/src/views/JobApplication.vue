@@ -13,6 +13,7 @@
         @openUpdateDialog="openUpdateDialog"
         @updateStatus="updateStatus"
         @openDeleteDialog="openDeleteDialog"
+        @updateLocation="updateLocation"
       ></JobApplicationCard>
       <DeleteJobApplicationDialog
         v-bind:deleteDialog="this.deleteDialog"
@@ -57,7 +58,8 @@ export default {
         {
           id: 0,
           company: "Microsoft",
-          location: "Long Beach, CA",
+          city: "Long Beach",
+          state: "CA",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -67,7 +69,8 @@ export default {
         {
           id: 1,
           company: "Apple",
-          location: "Seattle, WA",
+          city: "Seattle",
+          state: "WA",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -77,7 +80,8 @@ export default {
         {
           id: 2,
           company: "Google",
-          location: "Irvine, CA",
+          city: "Irvine",
+          state: "CA",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -87,7 +91,8 @@ export default {
         {
           id: 3,
           company: "Belkin",
-          location: "Irvine, CA",
+          city: "Irvine",
+          state: "CA",
           jobTitle: "Software Engineer",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -172,6 +177,17 @@ export default {
       let updatedJobApplications = this.jobApplications;
       updatedJobApplications[jobApplicationIndex].status = status;
       this.jobApplications = updatedJobApplications;
+    },
+    updateLocation: function(city, state, jobApplicationId){
+      let jobApplicationIndex = this.jobApplications.findIndex(
+        element => element.id == jobApplicationId
+      );
+      let updatedJobApplications = this.jobApplications;
+      updatedJobApplications[jobApplicationIndex].city = city;
+      updatedJobApplications[jobApplicationIndex].state = state;
+      this.jobApplications = updatedJobApplications;
+      console.log(this.jobApplications[jobApplicationIndex]);
+      this.$forceUpdate;
     }
   }
 };

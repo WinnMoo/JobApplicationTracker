@@ -9,53 +9,55 @@
             </v-col>
             <v-col class="text-right">
               <v-list-item-title>
-                <v-menu offset-x offset-y rounded="xl" transition="slide-x-transition" allow-overflow :close-on-content-click="false">
+                <v-menu
+                  offset-x
+                  offset-y
+                  rounded="xl"
+                  transition="slide-x-transition"
+                  allow-overflow
+                  :close-on-content-click="false"
+                  v-model="menu"
+                >
                   <template v-slot:activator="{ on }">
-                    <v-icon v-on="on">mdi-map-marker</v-icon>
-                      {{ jobApplication.location }}
+                    <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>
+                    {{ jobApplication.city + ", " + jobApplication.state }}
                   </template>
                   <v-container>
-                  <v-card>
+                    <v-card elevation="0">
                       <v-row>
                         <v-col>
                           <v-autocomplete
-                      v-model="model"
-                      :items="states"
-                      color="green"
-                      background-color="white"
-                      item-text="Description"
-                      item-value="API"
-                      label="State"
-                      placeholder="Start typing to Search"
-                      return-object
-                    ></v-autocomplete>
+                            v-model="selectedState"
+                            :items="states"
+                            color="green"
+                            background-color="white"
+                            item-text="Description"
+                            label="State"
+                            placeholder="Start typing to Search"
+                            return-object
+                          ></v-autocomplete>
                         </v-col>
                         <v-col>
                           <v-autocomplete
-                      v-model="model"
-                      :items="items"
-                      :loading="isLoading"
-                      :search-input.sync="search"
-                      color="green"
-                      background-color="white"
-                      hide-no-data
-                      hide-selected
-                      item-text="Description"
-                      item-value="API"
-                      label="City"
-                      placeholder="Start typing to Search"
-                      return-object
-                    ></v-autocomplete>
+                            v-model="selectedCity"
+                            :items="cities"
+                            color="green"
+                            background-color="white"
+                            hide-no-data
+                            hide-selected
+                            item-text="Description"
+                            label="City"
+                            placeholder="Start typing to Search"
+                            return-object
+                          ></v-autocomplete>
                         </v-col>
                       </v-row>
-                      
-                    <v-card-items>
-                      <v-btn> Save </v-btn>
-                    </v-card-items>
-                  </v-card>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn @click="saveLocation">Save</v-btn>
+                      </v-card-actions>
+                    </v-card>
                   </v-container>
-                    
-                  
                 </v-menu>
               </v-list-item-title>
             </v-col>
@@ -63,7 +65,13 @@
               <v-list-item-subtitle>{{ jobApplication.jobTitle }}</v-list-item-subtitle>
             </v-col>
             <v-col cols="2" class="text-right">
-              <v-menu offset-x close-on-click rounded="xl" transition="slide-x-transition" open-on-hover>
+              <v-menu
+                offset-x
+                close-on-click
+                open-on-hover
+                rounded="xl"
+                transition="slide-x-transition"
+              >
                 <template v-slot:activator="{ on }">
                   <v-chip
                     v-on="on"
@@ -73,7 +81,7 @@
                 </template>
                 <v-card>
                   <v-list>
-                    <v-list-item v-for="item in statuses" :key="item.color">
+                    <v-list-item v-for="item in statuses.slice(1)" :key="item.color">
                       <v-chip
                         :color="item.color"
                         text-color="white"
@@ -115,6 +123,8 @@
 </template>
 
 <script>
+import countrycitystatejson from "countrycitystatejson";
+
 export default {
   name: "job-application-card",
   props: {
@@ -122,7 +132,8 @@ export default {
       id: "",
       companyName: "",
       jobTitle: "",
-      location: "",
+      city: "",
+      state: "",
       description: "",
       status: "",
       dateApplied: ""
@@ -131,6 +142,8 @@ export default {
   data() {
     return {
       menu: false,
+      selectedState: "",
+      selectedCity: "",
       statuses: [
         {
           status: 0,
@@ -154,32 +167,82 @@ export default {
         }
       ],
       states: [
-          'Alabama', 'Alaska', 'Arizona',
-          'Arkansas', 'California', 'Colorado', 'Connecticut',
-          'Delaware', 'District of Columbia', 
-          'Florida', 'Georgia', 'Hawaii', 'Idaho',
-          'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-          'Louisiana', 'Maine', 'Maryland',
-          'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-          'Missouri', 'Montana', 'Nebraska', 'Nevada',
-          'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
-          'North Carolina', 'North Dakota', 'Ohio',
-          'Oklahoma', 'Oregon', 'Pennsylvania',
-          'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
-          'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
-          'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
-      ]
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Carolina",
+        "North Dakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virgin Island",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming"
+      ],
+      cities: []
     };
+  },
+  watch: {
+    selectedState: function() {
+      this.cities = countrycitystatejson.getCities("US", this.selectedState);
+    }
   },
   methods: {
     selectStatus: function(status) {
-      this.$emit("updateStatus", status, this.jobApplication.id);
+      if (status !== 0) {
+        this.$emit("updateStatus", status, this.jobApplication.id);
+      }
     },
     openUpdateDialog: function() {
       this.$emit("openUpdateDialog", true, this.jobApplication.id);
     },
     openDeleteDialog: function() {
       this.$emit("openDeleteDialog", true, this.jobApplication.id);
+    },
+    saveLocation: function() {
+      this.$emit("updateLocation", this.selectedCity, this.selectedState, this.jobApplication.id);
+      this.menu = false;
     }
   }
 };

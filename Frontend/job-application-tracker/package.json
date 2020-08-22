@@ -10,20 +10,21 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "countrycitystatejson": "^20.8.9-a",
     "funnel-graph-js": "^1.4.2",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-datatables-net": "^1.2.8",
     "vue-funnel-graph-js": "^0.1.8",
     "vue-router": "^3.4.3",
     "vuetable-2": "^2.0.0-beta.4",
-    "vuetify": "^2.3.8",
+    "vuetify": "^2.3.9",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.3",
-    "@vue/cli-plugin-eslint": "^4.5.3",
-    "@vue/cli-plugin-router": "^4.5.3",
-    "@vue/cli-service": "^4.5.3",
+    "@vue/cli-plugin-babel": "^4.5.4",
+    "@vue/cli-plugin-eslint": "^4.5.4",
+    "@vue/cli-plugin-router": "^4.5.4",
+    "@vue/cli-service": "^4.5.4",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
@@ -34,7 +35,7 @@
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "^2.0.7",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "vuetify-loader": "^1.6.0"
   }
 }
