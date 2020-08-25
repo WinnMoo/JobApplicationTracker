@@ -9,7 +9,7 @@
           <v-card-text>
             <v-text-field label="Email" v-model=this.emailAddress prepend-icon="mdi-account"></v-text-field>
             <v-text-field label="Password" v-model=this.password prepend-inner-icon="mdi-lock"></v-text-field>
-            <span class="font-weight-light" @click="GoToForgotPassword">Forgot Password?</span>
+            <a @click="GoToForgotPassword">Forgot Password?</a>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -61,7 +61,7 @@ export default {
             }
         },
         GoToForgotPassword() {
-          this.$router.push("/resetpassword");
+          this.$router.push("/forgotpassword");
         }
     }
 }

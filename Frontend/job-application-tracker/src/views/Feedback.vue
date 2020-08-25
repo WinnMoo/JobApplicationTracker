@@ -33,7 +33,7 @@ export default {
         }
     },
     methods: {
-        submit() {
+        submit : function () {
             if(this.rating == 0){
                 alert("Please fill in the form completely")
             } else {

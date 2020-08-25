@@ -2,7 +2,7 @@
   <div class="ForgotPassword">
     <v-container>
       <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
-      <v-alert v-model="popup" type="success">{{popupText}}</v-alert>
+      <v-alert v-model="popup" type="success">{{ popupText }}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="6" md="10">
           <v-card class="elevation-12">
@@ -57,7 +57,7 @@ export default {
     }
   },
   methods: {
-    SendPasswordResetLink() {
+    SendPasswordResetLink : function () {
       if (this.emailAddress != null) {
         axios({
           method: "POST",

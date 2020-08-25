@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Login from "../components/Login.vue"
+import Login from "../components/Login.vue";
 import Feedback from "../views/Feedback.vue";
 import UserSignUp from "../views/UserSignUp.vue";
 import Settings from "../views/Settings.vue";
@@ -22,7 +22,7 @@ const routes = [
     component: Home
   },
   {
-    path: '*',
+    path: "*",
     component: PageNotFound
   },
   {

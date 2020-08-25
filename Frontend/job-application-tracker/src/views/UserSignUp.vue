@@ -12,10 +12,20 @@
             <v-card-text>
               <v-row>
                 <v-col>
-                  <v-text-field v-model="emailAddress" label="Email*" clearable prepend-icon="mdi-email"></v-text-field>
+                  <v-text-field
+                    v-model="emailAddress"
+                    label="Email*"
+                    clearable
+                    prepend-icon="mdi-email"
+                  ></v-text-field>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="firstName" label="First Name*" clearable prepend-icon="mdi-account"></v-text-field>
+                  <v-text-field
+                    v-model="firstName"
+                    label="First Name*"
+                    clearable
+                    prepend-icon="mdi-account"
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -58,7 +68,12 @@
                   ></v-select>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="securityAnswer1" label="Security Answer 1*" clearable prepend-icon="mdi-forum"></v-text-field>
+                  <v-text-field
+                    v-model="securityAnswer1"
+                    label="Security Answer 1*"
+                    clearable
+                    prepend-icon="mdi-forum"
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -73,7 +88,12 @@
                   ></v-select>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="securityAnswer2" label="Security Answer 2*" clearable prepend-icon="mdi-forum"></v-text-field>
+                  <v-text-field
+                    v-model="securityAnswer2"
+                    label="Security Answer 2*"
+                    clearable
+                    prepend-icon="mdi-forum"
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -88,7 +108,12 @@
                   ></v-select>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="securityAnswer3" label="Security Answer 3*" clearable prepend-icon="mdi-forum"></v-text-field>
+                  <v-text-field
+                    v-model="securityAnswer3"
+                    label="Security Answer 3*"
+                    clearable
+                    prepend-icon="mdi-forum"
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -97,6 +122,7 @@
                     color="red lighten-2"
                     dark
                     @click="privacyPolicyDialog = true"
+                    :style="{left: '50%', transform:'translateX(-50%)'}"
                   >Privacy Policy</v-btn>
                 </v-col>
                 <v-col>
@@ -105,6 +131,7 @@
                     :rules="[v => !!v || 'You must agree to continue!']"
                     label="Do you agree to our privacy policy?"
                     required
+                    :style="{right: '15%', transform:'translateX(+15%)'}"
                   ></v-checkbox>
                 </v-col>
               </v-row>
@@ -177,16 +204,16 @@ export default {
   },
   watch: {},
   methods: {
-    validate() {
+    validate: function() {
       this.$refs.form.validate();
     },
-    reset() {
+    reset: function() {
       this.$refs.form.reset();
     },
-    resetValidation() {
+    resetValidation: function() {
       this.$refs.form.resetValidation();
     },
-    signUp() {
+    signUp: function() {
       if (
         this.securityQuestion1 == null ||
         this.securityQuestion2 == null ||
