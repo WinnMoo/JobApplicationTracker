@@ -1,6 +1,8 @@
 <template>
   <div class="ForgotPassword">
     <v-container>
+      <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
+      <v-alert v-model="popup" type="success">{{popupText}}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="6" md="10">
           <v-card class="elevation-12">
@@ -38,6 +40,9 @@ export default {
   name: "ForgotPassword",
   data() {
     return {
+      popup: false,
+      popupText: "",
+      errorAlert: false,
       emailAddress: "",
       isEmailAddressFilled: false
     };
@@ -66,9 +71,13 @@ export default {
           }
         })
           .then(response => {
-            this.popup = response;
-            this.popupText = "You are logged in.";
-            localStorage.setItem = ("isLoggedIn", true);
+            this.popup = true;
+            this.popupText =
+              response.data +
+              ". You will be redirected to the login page in 5 seconds.";
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 5000);
           })
           .catch(e => {
             this.formErrorMessage = e.response.data;
