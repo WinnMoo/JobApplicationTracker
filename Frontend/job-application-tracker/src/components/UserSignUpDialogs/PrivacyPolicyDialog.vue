@@ -4,7 +4,7 @@
       color="red lighten-2"
       dark
       @click="privacyPolicyDialog = true"
-      :style="{left: '50%', transform:'translateX(-50%)'}"
+      :style="{left: '50%', transform: 'translateX(-50%)'}"
     >Privacy Policy</v-btn>
     <v-dialog v-model="privacyPolicyDialog" width="500">
       <v-card width="500">

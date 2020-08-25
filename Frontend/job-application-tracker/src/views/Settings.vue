@@ -31,7 +31,7 @@ export default {
     this.showCardView = localStorage.getItem('showCardView');
     if(this.showCardView === null){
       this.showCardView = true;
-      localStorage.setitem('showCardView', this.showCardView);
+      localStorage.setItem('showCardView', this.showCardView);
     }
     this.darkTheme = localStorage.getItem('showCardView');
     if(this.darkTheme === null){
