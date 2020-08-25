@@ -40,6 +40,7 @@ export default {
   name: "ForgotPassword",
   data() {
     return {
+      formErrorMessage: null,
       popup: false,
       popupText: "",
       errorAlert: false,
@@ -81,6 +82,7 @@ export default {
           })
           .catch(e => {
             this.formErrorMessage = e.response.data;
+            this.errorAlert = true;
           })
           .finally(() => {
             this.loading = false;

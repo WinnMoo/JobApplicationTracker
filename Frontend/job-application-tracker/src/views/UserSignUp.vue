@@ -2,7 +2,7 @@
   <div class="UserSignUp">
     <v-container>
       <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
-      <v-alert v-model="popup" type="success">{{popupText}}</v-alert>
+      <v-alert v-model="popup" type="success">{{ popupText }}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="6" md="10">
           <v-card class="elevation-12">
@@ -118,12 +118,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn
-                    color="red lighten-2"
-                    dark
-                    @click="privacyPolicyDialog = true"
-                    :style="{left: '50%', transform:'translateX(-50%)'}"
-                  >Privacy Policy</v-btn>
+                  <PrivacyPolicyDialog></PrivacyPolicyDialog>
                 </v-col>
                 <v-col>
                   <v-checkbox
@@ -131,12 +126,13 @@
                     :rules="[v => !!v || 'You must agree to continue!']"
                     label="Do you agree to our privacy policy?"
                     required
-                    :style="{right: '15%', transform:'translateX(+15%)'}"
+                    :style="{ right: '15%', transform: 'translateX(+15%)' }"
                   ></v-checkbox>
                 </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions>
+              <a id="LoginLink" @click="goToLogin">Already Have an Account?</a>
               <v-spacer></v-spacer>
               <v-btn :disabled="!valid" color="primary" class="mr-4" @click="signUp">Sign Up</v-btn>
             </v-card-actions>
@@ -144,28 +140,19 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-dialog v-model="privacyPolicyDialog" width="500">
-      <v-card>
-        <v-card-title class="headline blue lighten-2" primary-title>Privacy Policy</v-card-title>
-
-        <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="privacyPolicyDialog = false">I accept</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { apiURL } from "@/const.js";
+import PrivacyPolicyDialog from "@/components/UserSignUpDialogs/PrivacyPolicyDialog.vue";
+
 export default {
   name: "UserSignUp",
+  components: {
+    PrivacyPolicyDialog
+  },
   data() {
     return {
       popup: false,
@@ -204,6 +191,9 @@ export default {
   },
   watch: {},
   methods: {
+    goToLogin: function() {
+      this.$router.push("/login");
+    },
     validate: function() {
       this.$refs.form.validate();
     },
@@ -300,3 +290,9 @@ export default {
   }
 };
 </script>
+<style>
+#LoginLink {
+  font-size: 14px;
+  padding: 8px;
+}
+</style>
