@@ -178,7 +178,7 @@ export default {
       updatedJobApplications[jobApplicationIndex].status = status;
       this.jobApplications = updatedJobApplications;
     },
-    updateLocation: function(city, state, jobApplicationId){
+    updateLocation: function(city, state, jobApplicationId) {
       let jobApplicationIndex = this.jobApplications.findIndex(
         element => element.id == jobApplicationId
       );

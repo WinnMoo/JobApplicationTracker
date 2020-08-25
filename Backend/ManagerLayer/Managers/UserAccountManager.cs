@@ -35,10 +35,11 @@ namespace ManagerLayer.Managers
                 return new BadRequestObjectResult("Invalid Email address");
             }
 
-            if(_userAccountService.ReadUserFromDB(request.EmailAddress) != null) // Checks if user already exists
+            var retrievedUser = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            if (retrievedUser != null) // Checks if user already exists
             {
-                var email = EmailConstructorAccountAlreadyExists();
-                EmailService.SendEmail(email);
+                //var email = EmailConstructorAccountAlreadyExists();
+                //EmailService.SendEmail(email); Commented out until email service is implemented
                 return new OkObjectResult("User already exists");
             }
 
@@ -61,12 +62,15 @@ namespace ManagerLayer.Managers
 
             if (_userAccountService.InsertUserIntoDB(newUser)) // Inserts new user into DB
             {
-                MimeMessage email = EmailConstructorCreatedAccount("Winn", EMAILADDRESS, request.FirstName, request.EmailAddress);
+                /* Commented out until email service is implemented
+                 * MimeMessage email = EmailConstructorCreatedAccount("Winn", EMAILADDRESS, request.FirstName, request.EmailAddress);
                 var sent = EmailService.SendEmail(email);
                 if (!sent)
                 {
                     // Use logger service to log not sent email
                 }
+                 */
+                
                 return new OkObjectResult("Account successfully created");
             } 
             else
