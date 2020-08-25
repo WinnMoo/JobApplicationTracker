@@ -7,6 +7,8 @@ import UserSignUp from "../views/UserSignUp.vue";
 import Settings from "../views/Settings.vue";
 import JobPostings from "../views/JobPostings.vue";
 import PageNotFound from "../views/PageNotFound.vue";
+import ResetPassword from "../views/ResetPassword.vue";
+import ForgotPassword from "../views/ForgotPassword.vue";
 import DocumentUpload from "../views/DocumentUpload.vue";
 import JobApplications from "../views/JobApplication.vue";
 import JobApplicationStats from "../views/JobApplicationStats.vue";
@@ -62,6 +64,16 @@ const routes = [
     path: "/settings",
     name: "Settings",
     component: Settings
+  },
+  {
+    path: "/forgotpassword",
+    name: "ForgotPassword",
+    component: ForgotPassword
+  },
+  {
+    path: "/resetpassword",
+    name: "ResetPassword",
+    component: ResetPassword
   },
   {
     path: "/about",

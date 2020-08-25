@@ -1,101 +1,122 @@
 <template>
   <div class="UserSignUp">
-    <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
-    <v-alert v-model="popup" type="success"> {{popupText}} </v-alert>
-    <v-form>
-      <v-container fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="emailAddress" label="Email*" clearable></v-text-field>
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="firstName" label="First Name*" clearable></v-text-field>
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              v-model="password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              name="input-10-1"
-              label="Password*"
-              hint="At least 8 characters"
-              counter
-              @click:append="show1 = !show1"
-            ></v-text-field>
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              :v-model="verifyPassword"
-              :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show4 ? 'text' : 'password'"
-              name="input-10-2"
-              label="Verify Password*"
-              hint="At least 8 characters"
-              counter
-              @click:append="show4 = !show4"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-select
-              v-model="securityQuestion1"
-              :items="securityQuestions"
-              :rules="[v => !!v || 'Item is required']"
-              label="Security Question 1*"
-              required
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="securityAnswer1" label="Security Answer 1*" clearable></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-select
-              v-model="securityQuestion2"
-              :items="securityQuestions"
-              :rules="[v => !!v || 'Item is required']"
-              label="Security Question 2*"
-              required
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="securityAnswer2" label="Security Answer 2*" clearable></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-select
-              v-model="securityQuestion3"
-              :items="securityQuestions"
-              :rules="[v => !!v || 'Item is required']"
-              label="Security Question 3*"
-              required
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="securityAnswer3" label="Security Answer 3*" clearable></v-text-field>
-          </v-col>
-
-          <v-col cols="12" sm="6">Fields with * are required.</v-col>
-
-          <v-col cols="12" sm="6">
-            <v-btn color="red lighten-2" dark @click="privacyPolicyDialog = true">Privacy Policy</v-btn>
-          </v-col>
-
-          <v-col cols="12" sm="3">
-            <v-checkbox
-              v-model="checkbox"
-              :rules="[v => !!v || 'You must agree to continue!']"
-              label="Do you agree to our privacy policy?"
-              required
-            ></v-checkbox>
-          </v-col>
-
-          <v-col cols="12" sm="1">
-            <v-btn :disabled="!valid" color="primary" class="mr-4" @click="signUp">Sign Up</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+    <v-container>
+      <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
+      <v-alert v-model="popup" type="success">{{popupText}}</v-alert>
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="6" md="10">
+          <v-card class="elevation-12">
+            <v-toolbar color="primary" dark flat>
+              <v-toolbar-title>Sign Up</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <v-text-field v-model="emailAddress" label="Email*" clearable prepend-icon="mdi-email"></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field v-model="firstName" label="First Name*" clearable prepend-icon="mdi-account"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="password"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show1 ? 'text' : 'password'"
+                    name="input-10-1"
+                    label="Password*"
+                    hint="At least 8 characters"
+                    counter
+                    @click:append="show1 = !show1"
+                    prepend-icon="mdi-lock"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    :v-model="verifyPassword"
+                    :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show4 ? 'text' : 'password'"
+                    name="input-10-2"
+                    label="Verify Password*"
+                    hint="At least 8 characters"
+                    counter
+                    @click:append="show4 = !show4"
+                    prepend-icon="mdi-lock"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="securityQuestion1"
+                    :items="securityQuestions"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="Security Question 1*"
+                    required
+                    prepend-icon="mdi-shield-account"
+                  ></v-select>
+                </v-col>
+                <v-col>
+                  <v-text-field v-model="securityAnswer1" label="Security Answer 1*" clearable prepend-icon="mdi-forum"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="securityQuestion2"
+                    :items="securityQuestions"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="Security Question 2*"
+                    required
+                    prepend-icon="mdi-shield-account"
+                  ></v-select>
+                </v-col>
+                <v-col>
+                  <v-text-field v-model="securityAnswer2" label="Security Answer 2*" clearable prepend-icon="mdi-forum"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="securityQuestion3"
+                    :items="securityQuestions"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="Security Question 3*"
+                    required
+                    prepend-icon="mdi-shield-account"
+                  ></v-select>
+                </v-col>
+                <v-col>
+                  <v-text-field v-model="securityAnswer3" label="Security Answer 3*" clearable prepend-icon="mdi-forum"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn
+                    color="red lighten-2"
+                    dark
+                    @click="privacyPolicyDialog = true"
+                  >Privacy Policy</v-btn>
+                </v-col>
+                <v-col>
+                  <v-checkbox
+                    v-model="checkbox"
+                    :rules="[v => !!v || 'You must agree to continue!']"
+                    label="Do you agree to our privacy policy?"
+                    required
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn :disabled="!valid" color="primary" class="mr-4" @click="signUp">Sign Up</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-dialog v-model="privacyPolicyDialog" width="500">
       <v-card>
         <v-card-title class="headline blue lighten-2" primary-title>Privacy Policy</v-card-title>
@@ -154,6 +175,7 @@ export default {
       ]
     };
   },
+  watch: {},
   methods: {
     validate() {
       this.$refs.form.validate();
@@ -202,7 +224,7 @@ export default {
         this.errorAlert = true;
       }
       if (this.firstName === null) {
-        this.formErrorMessage = "Please enter an email address.";
+        this.formErrorMessage = "Please enter your first name.";
         this.errorAlert = true;
       }
       if (this.emailAddress === null) {
@@ -234,8 +256,12 @@ export default {
       })
         .then(response => {
           this.popup = true;
-          this.popupText = response.data + ". You will be redirected to the login page in 5 seconds.";
-          setTimeout(() => {this.$router.push("/login");}, 5000);
+          this.popupText =
+            response.data +
+            ". You will be redirected to the login page in 5 seconds.";
+          setTimeout(() => {
+            this.$router.push("/login");
+          }, 5000);
         })
         .catch(e => {
           this.formErrorMessage = e.response.data;

@@ -8,9 +8,11 @@
 
         <p class="subheading font-weight-regular">
           Job Application Tracker allows you to keep track of your job applications in a beautiful, organized environment.
-          <br />To get started, please sign up for an account.
+          <br />To get started, please sign up for an account, or if have an account, please login.
         </p>
         <a href="/signup"> Create an account</a>
+        <br />
+        <a href="/login"> Login </a>
       </v-col>
     </v-row>
   </v-container>
