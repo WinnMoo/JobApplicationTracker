@@ -1,6 +1,7 @@
 <template>
   <div class="UserSignUp">
     <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
+    <v-alert v-model="popup" type="success"> {{popupText}} </v-alert>
     <v-form>
       <v-container fluid>
         <v-row align="center" justify="center">
@@ -119,6 +120,8 @@ export default {
   name: "UserSignUp",
   data() {
     return {
+      popup: false,
+      popupText: "",
       privacyPolicyDialog: false,
       valid: true,
       show1: false,
@@ -230,8 +233,9 @@ export default {
         }
       })
         .then(response => {
-          this.popup = response;
-          this.popupText = "Account Successfully Created";
+          this.popup = true;
+          this.popupText = response.data + ". You will be redirected to the login page in 5 seconds.";
+          setTimeout(() => {this.$router.push("/login");}, 5000);
         })
         .catch(e => {
           this.formErrorMessage = e.response.data;
