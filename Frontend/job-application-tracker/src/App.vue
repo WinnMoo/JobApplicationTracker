@@ -6,6 +6,8 @@
           <v-icon>mdi-menu</v-icon>
         </v-btn>
         <v-img
+          :style="{cursor: 'pointer'}"
+          @click="homepage"
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
@@ -15,7 +17,8 @@
         />
 
         <v-img
-        @click="homepage"
+        :style="{cursor: 'pointer'}"
+          @click="homepage"
           alt="Job Application Tracker"
           class="shrink mt-1 hidden-sm-and-down"
           contain
@@ -111,3 +114,5 @@ export default {
   }
 };
 </script>
+<style>
+</style>
