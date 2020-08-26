@@ -28,9 +28,14 @@ namespace ServiceLayer
         {
             return _sessionRepo.UpdateSession(session).Result;
         }
-        public Session GetSession(string emailAddress)
+        public Session GetSession(string jwtToken)
         {
-            return _sessionRepo.GetSession(emailAddress).Result;
+            return _sessionRepo.GetSession(jwtToken).Result;
+        }
+
+        public bool ExtendSession(string jwtToken)
+        {
+            return _sessionRepo.ExtendSession(jwtToken).Result;
         }
     }
 }

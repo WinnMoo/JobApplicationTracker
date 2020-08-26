@@ -51,9 +51,9 @@ namespace DataAccessLayer.Repositories
             return Deleted;
         }
 
-        public async Task<Session> GetSession(string emailAddress)
+        public async Task<Session> GetSession(string JWTToken)
         {
-            var filter = new BsonDocument("EmailAddress", emailAddress);
+            var filter = new BsonDocument("JWTToken", JWTToken);
             try
             {
                 return await _sessions.Find(filter).FirstOrDefaultAsync();
@@ -72,11 +72,31 @@ namespace DataAccessLayer.Repositories
             {
                 await _sessions.ReplaceOneAsync(filter, session);
                 updated = true;
-            } catch(Exception e)
+            } 
+            catch(Exception e)
             {
                 return updated;
             }
             return updated;
+        }
+
+        public async Task<bool> ExtendSession(string JWTToken)
+        {
+            bool extended = false;
+            var filter = new BsonDocument("JWTToken", JWTToken);
+            try
+            {
+                var sessionToExtend = _sessions.Find(filter).FirstOrDefaultAsync().Result;
+                var idFilter = new BsonDocument("SessionId", sessionToExtend.SessionId);
+                sessionToExtend.DateExpired = DateTime.UtcNow.AddMinutes(30);
+                await _sessions.ReplaceOneAsync(filter, sessionToExtend);
+                extended = true;
+            } 
+            catch
+            {
+                return extended;
+            }
+            return extended;
         }
 
         public void ExpireAllSessions(string jwtToken)

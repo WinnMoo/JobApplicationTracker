@@ -89,7 +89,7 @@ namespace ControllerLayer.Controllers
             try
             {
                 UserAccountManager _userAccountManager = new UserAccountManager(new MongoClient(MONGODB_CONNECTION_STRING));
-                return _userAccountManager.GenerateResetPassword(emailAddress);
+                return _userAccountManager.GenerateResetPasswordToken(emailAddress);
             } 
             catch
             {

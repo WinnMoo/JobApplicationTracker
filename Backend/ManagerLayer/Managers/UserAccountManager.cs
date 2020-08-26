@@ -172,7 +172,7 @@ namespace ManagerLayer.Managers
             }
         }
 
-        public ActionResult GenerateResetPassword(string emailAddress)
+        public ActionResult GenerateResetPasswordToken(string emailAddress)
         {
             MimeMessage email;
             var user = _userAccountService.ReadUserFromDB(emailAddress);

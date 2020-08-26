@@ -12,7 +12,7 @@ namespace DataAccessLayer.Interfaces
         public Task<bool> DeleteSession(Session session);
         public Task<bool> UpdateSession(Session session);
         public Task<Session> GetSession(string jwtToken);
-
+        public Task<bool> ExtendSession(string jwtToken);
         public void ExpireAllSessions(string emailAddress);
     }
 }
