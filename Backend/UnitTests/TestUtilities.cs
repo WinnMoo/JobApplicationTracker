@@ -68,13 +68,11 @@ namespace UnitTests
             return request;
         }
 
-        public ResetPasswordRequest CreateResetPasswordRequest()
+        public SecurityAnswerRequest CreateResetPasswordRequest()
         {
-            ResetPasswordRequest request = new ResetPasswordRequest
+            SecurityAnswerRequest request = new SecurityAnswerRequest
             {
                 PasswordResetToken = "",
-                EmailAddress = "winn@example.org",
-                NewPassword = "password1",
                 SecurityAnswer1 = "SecurityAnswer1",
                 SecurityAnswer2 = "SecurityAnswer2",
                 SecurityAnswer3 = "SecurityAnswer3"

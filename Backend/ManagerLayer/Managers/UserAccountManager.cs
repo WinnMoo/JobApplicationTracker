@@ -3,10 +3,12 @@ using ManagerLayer.Requests;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using ServiceLayer;
 using ServiceLayer.Interfaces;
 using ServiceLayer.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ManagerLayer.Managers
@@ -202,7 +204,30 @@ namespace ManagerLayer.Managers
             return new OkObjectResult("A password reset link has been sent to your email");
         }
 
-        public ActionResult ResetPassword(ResetPasswordRequest request)
+        public ActionResult FetchSecurityQuestions(string PasswordResetToken)
+        {
+            PasswordResetToken token = _resetService.GetToken(PasswordResetToken);
+            if (token == null)
+            {
+                return new BadRequestObjectResult("Invalid password reset link");
+            }
+            if (token.Attempts >= 3)
+            {
+                return new BadRequestObjectResult("Too many attempts have been attempted with this link, please create a new link.");
+            }
+            if (token.DateCreated.AddMinutes(10) > DateTime.UtcNow)
+            {
+                return new BadRequestObjectResult("The password reset link has expired, please create a new link.");
+            }
+            var user = _userAccountService.ReadUserFromDB(token.UserId);
+            Dictionary<string, string> securityQuestions = new Dictionary<string, string>();
+            securityQuestions.Add("SecurityQuestion1", user.SecurityQuestion1);
+            securityQuestions.Add("SecurityQuestion2", user.SecurityQuestion2);
+            securityQuestions.Add("SecurityQuestion3", user.SecurityQuestion3);
+            return new OkObjectResult(JsonConvert.SerializeObject(securityQuestions, Formatting.Indented));
+        }
+
+        public ActionResult CheckSecurityAnswers(SecurityAnswerRequest request)
         {
             // List of steps:
             // Check if password reset is valid (exists in DB) [*]
@@ -229,7 +254,7 @@ namespace ManagerLayer.Managers
                 return new BadRequestObjectResult("The password reset link has expired, please create a new link.");
             }
 
-            var user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            var user = _userAccountService.ReadUserFromDB(token.UserId);
 
             if(user.SecurityAnswer1 != request.SecurityAnswer1 
                 || user.SecurityAnswer2 != request.SecurityAnswer2 
@@ -239,7 +264,13 @@ namespace ManagerLayer.Managers
                 _resetService.UpdateToken(token);
                 return new BadRequestObjectResult("Security answer(s) are not correct");
             }
+            return new OkObjectResult("Able to reset password");
+        }
 
+        public ActionResult ResetPassword(ResetPasswordRequest request)
+        {
+            PasswordResetToken token = _resetService.GetToken(request.PasswordResetToken);
+            var user = _userAccountService.ReadUserFromDB(token.UserId);
             byte[] newUserSalt = _passwordService.GenerateSalt();
             string newHashedPassword = _passwordService.HashPassword(request.NewPassword, newUserSalt);
             user.PasswordSalt = newUserSalt;
