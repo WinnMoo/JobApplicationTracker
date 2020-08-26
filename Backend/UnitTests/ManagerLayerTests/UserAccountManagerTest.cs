@@ -189,7 +189,7 @@ namespace UnitTests.ManagerLayerTests
             var expected = new BadRequestObjectResult("User does not exist");
             var badEmail = "winn.me@example.org";
 
-            var actual = uam.GenerateResetPassword(badEmail);
+            var actual = uam.GenerateResetPasswordToken(badEmail);
 
             Assert.AreEqual(expected, actual);
         }
@@ -198,12 +198,12 @@ namespace UnitTests.ManagerLayerTests
         public void GeneratePasswordReset_Fail_TooManyAttempts()
         {
             var emailAddress = "winn@example.com";
-            uam.GenerateResetPassword(emailAddress);
-            uam.GenerateResetPassword(emailAddress);
-            uam.GenerateResetPassword(emailAddress);
+            uam.GenerateResetPasswordToken(emailAddress);
+            uam.GenerateResetPasswordToken(emailAddress);
+            uam.GenerateResetPasswordToken(emailAddress);
             var expected = new BadRequestObjectResult("Unable to generate password reset link, only 3 are allowed per 24hrs. Please try again in 24hrs.");
 
-            var actual = uam.GenerateResetPassword(emailAddress);
+            var actual = uam.GenerateResetPasswordToken(emailAddress);
 
             Assert.AreEqual(expected, actual);
         }
@@ -222,27 +222,29 @@ namespace UnitTests.ManagerLayerTests
             }
             
             // Act
-            var actual = uam.GenerateResetPassword(emailAddress);
+            var actual = uam.GenerateResetPasswordToken(emailAddress);
 
             //Assert
             Assert.AreEqual(expected, actual);
         }
 
+        // TODO: Add Unit Tests for fetching security questions
+
         [TestMethod]
-        public void ResetPassword_Fail_InvalidLink()
+        public void CheckSecurityAnswers_Fail_InvalidLink()
         {
             var token = CryptoService.GenerateToken();
             var expected = new BadRequestObjectResult("Invalid password reset link");
 
-            var request = tu.CreateResetPasswordRequest();
+            var request = tu.CreateSecurityAnswersRequest();
             request.PasswordResetToken = token;
 
-            var actual = uam.ResetPassword(request);
+            var actual = uam.CheckSecurityAnswers(request);
 
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void ResetPassword_Fail_TooManyAttempts()
+        public void CheckSecurityAnswers_Fail_TooManyAttempts()
         {
             //Arrange
             var emailAddress = "winn@example.org";
@@ -252,26 +254,26 @@ namespace UnitTests.ManagerLayerTests
             {
                 rs.DeleteToken(token.Token);
             }
-            uam.GenerateResetPassword(emailAddress);
+            uam.GenerateResetPasswordToken(emailAddress);
             tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
 
             //Act
-            var request = tu.CreateResetPasswordRequest();
+            var request = tu.CreateSecurityAnswersRequest();
             request.PasswordResetToken = generatedToken.Token;
             request.SecurityAnswer1 = "SecurityAnswer2";
 
-            uam.ResetPassword(request);
-            uam.ResetPassword(request);
-            uam.ResetPassword(request);
-            var actual = uam.ResetPassword(request);
+            uam.CheckSecurityAnswers(request);
+            uam.CheckSecurityAnswers(request);
+            uam.CheckSecurityAnswers(request);
+            var actual = uam.CheckSecurityAnswers(request);
 
             //Assert
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void ResetPassword_Fail_ExpiredLink()
+        public void CheckSecurityAnswers_Fail_ExpiredLink()
         {
             //Arrange
             var emailAddress = "winn@example.org";
@@ -282,7 +284,7 @@ namespace UnitTests.ManagerLayerTests
                 rs.DeleteToken(token.Token);
             }
 
-            uam.GenerateResetPassword(emailAddress); // Generates a "fresh" token
+            uam.GenerateResetPasswordToken(emailAddress); // Generates a "fresh" token
             tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
@@ -290,62 +292,64 @@ namespace UnitTests.ManagerLayerTests
             generatedToken.DateCreated = DateTime.UtcNow.AddMinutes(-60); // Updates the token creation time to be 1 hour previous from now
             rs.UpdateToken(generatedToken);
 
-            var request = tu.CreateResetPasswordRequest();
+            var request = tu.CreateSecurityAnswersRequest();
             request.PasswordResetToken = generatedToken.Token;
 
             //Act
-            var actual = uam.ResetPassword(request);
+            var actual = uam.CheckSecurityAnswers(request);
 
             //Assert
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void ResetPassword_Fail_InvalidSecurityAnswers()
+        public void CheckSecurityAnswers_Fail_InvalidSecurityAnswers()
         {
-            var request = tu.CreateResetPasswordRequest();
+            var emailAddress = "winn@example.org";
+            var request = tu.CreateSecurityAnswersRequest();
             request.SecurityAnswer1 = "SecurityAnswer10";
             var expected = new BadRequestObjectResult("Security answer(s) are not correct");
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(request.EmailAddress).UserAccountId); // Clears all previously created tokens
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId); // Clears all previously created tokens
             foreach (var token in tokens)
             {
                 rs.DeleteToken(token.Token);
             }
 
-            uam.GenerateResetPassword(request.EmailAddress);
-            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(request.EmailAddress).UserAccountId);
+            uam.GenerateResetPasswordToken(emailAddress);
+            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
             request.PasswordResetToken = generatedToken.Token;
 
-            var actual = uam.ResetPassword(request);
+            var actual = uam.CheckSecurityAnswers(request);
 
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void ResetPassword_Pass()
+        public void CheckSecurityAnswers_Pass()
         {
-            var request = tu.CreateResetPasswordRequest();
+            var emailAddress = "winn@example.org";
+            var request = tu.CreateSecurityAnswersRequest();
             var expected = new OkObjectResult("Successfully reset password");
 
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(request.EmailAddress).UserAccountId); // Clears all previously created tokens
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId); // Clears all previously created tokens
             foreach (var token in tokens)
             {
                 rs.DeleteToken(token.Token);
             }
 
-            uam.GenerateResetPassword(request.EmailAddress);
-            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(request.EmailAddress).UserAccountId);
+            uam.GenerateResetPasswordToken(emailAddress);
+            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
             request.PasswordResetToken = generatedToken.Token;
 
-            var actual = uam.ResetPassword(request);
+            var actual = uam.CheckSecurityAnswers(request);
 
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void DeleteUserAccountz_Pass()
+        public void DeleteUserAccount_Pass()
         {
             var expected = new BadRequestObjectResult("Invalid password");
 
