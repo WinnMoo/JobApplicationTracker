@@ -42,10 +42,28 @@
                 ></v-textarea>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Link to job posting"
+                  v-model="jobPostingUrl"
+                  required
+                ></v-text-field>
+                <div v-if="this.error" id="parseError">
+                  Unable to parse job posting
+                </div>
+              </v-col>
+            </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
+          <v-progress-circular
+            v-if="loading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeAddDialog()">Close</v-btn>
           <v-btn color="blue darken-1" text @click="addJobApplication()">Save</v-btn>
@@ -55,7 +73,11 @@
   </v-dialog>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 <script>
+import axios from "axios";
+import lodash from "lodash";
+import { apiURL } from "@/const.js";
 export default {
   name: "add-job-application-dialog",
   props: {},
@@ -66,13 +88,54 @@ export default {
       jobTitle: null,
       description: null,
       location: null,
+      jobPostingUrl: null,
+      loading: false,
+      error: false,
+      errorLoadingJobPostingMessage: null,
       rules: {
         required: value => !!value || "Required."
       }
     };
   },
+  watch: {
+    jobPostingUrl: function(){
+      console.log("watching");
+      this.debouncedParseJobPosting();
+    }
+  },
+  created: function () {
+    this.debouncedParseJobPosting = _.debounce(this.ParseJobPosting, 500);
+  },
   methods: {
-    closeAddDialog: function() {
+    ParseJobPosting: function () {
+      console.log("parsing");
+      this.loading = true;
+      axios({
+      method: "POST",
+        url: `${apiURL}/jobposting/` + "parse",
+        data: {
+          urlToParse: this.jobPostingUrl
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true
+        }
+      })
+        .then(response => {
+          this.popup = true;
+          this.companyName = response.data.CompanyName;
+          this.description = response.data.description;
+          this.jobTitle = response.data.jobTitle;
+        })
+        .catch(e => {
+          this.error = true;
+          this.errorLoadingJobPostingMessage = e.response.data;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    closeAddDialog: function () {
       this.$refs.form.reset();
       this.addDialog = false;
     },
@@ -89,3 +152,8 @@ export default {
   }
 };
 </script>
+<style>
+  #parseError{
+    color:red;
+  }
+</style>

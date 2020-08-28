@@ -68,7 +68,8 @@ namespace UnitTests
             return request;
         }
 
-        public SecurityAnswerRequest CreateResetPasswordRequest()
+
+        public SecurityAnswerRequest CreateSecurityAnswersRequest()
         {
             SecurityAnswerRequest request = new SecurityAnswerRequest
             {
@@ -76,6 +77,16 @@ namespace UnitTests
                 SecurityAnswer1 = "SecurityAnswer1",
                 SecurityAnswer2 = "SecurityAnswer2",
                 SecurityAnswer3 = "SecurityAnswer3"
+            };
+            return request;
+        }
+
+        public ResetPasswordRequest CreateResetPasswordRequest()
+        {
+            ResetPasswordRequest request = new ResetPasswordRequest
+            {
+                PasswordResetToken = "",
+                NewPassword = "Password1!"
             };
             return request;
         }

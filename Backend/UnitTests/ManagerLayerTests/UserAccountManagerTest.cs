@@ -229,6 +229,29 @@ namespace UnitTests.ManagerLayerTests
         }
 
         // TODO: Add Unit Tests for fetching security questions
+        [TestMethod]
+        public void FetchSecurityQuestions_Fail_InvalidLink()
+        {
+
+        }
+
+        [TestMethod]
+        public void FetchSecurityQuestions_Fail_TooManyAttempts()
+        {
+
+        }
+
+        [TestMethod]
+        public void FetchSecurityQuestions_Fail_ExpiredToken()
+        {
+
+        }
+
+        [TestMethod]
+        public void FetchSecurityQuestions_Pass()
+        {
+
+        }
 
         [TestMethod]
         public void CheckSecurityAnswers_Fail_InvalidLink()
@@ -273,7 +296,7 @@ namespace UnitTests.ManagerLayerTests
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public void CheckSecurityAnswers_Fail_ExpiredLink()
+        public void CheckSecurityAnswers_Fail_ExpiredToken()
         {
             //Arrange
             var emailAddress = "winn@example.org";
@@ -363,5 +386,19 @@ namespace UnitTests.ManagerLayerTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        //TODO: Add unit tests for resetting password
+        [TestMethod]
+        public void ResetPassword_Fail_NonConformingPassword()
+        {
+
+        }
+
+        [TestMethod]
+        public void ResetPassword_Pass()
+        {
+
+        }
+
     }
 }

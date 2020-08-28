@@ -269,6 +269,7 @@ namespace ManagerLayer.Managers
 
         public ActionResult ResetPassword(ResetPasswordRequest request)
         {
+            //TODO: Add password checker to ensure new password conforms with password guidelines
             PasswordResetToken token = _resetService.GetToken(request.PasswordResetToken);
             var user = _userAccountService.ReadUserFromDB(token.UserId);
             byte[] newUserSalt = _passwordService.GenerateSalt();
