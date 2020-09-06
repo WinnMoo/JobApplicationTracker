@@ -41,5 +41,16 @@ namespace ControllerLayer.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        [Route("api/jobposting/parse")]
+        public ActionResult ParseJobPosting([FromBody] string urlToParse)
+        {
+            try
+            {
+                JobPostingManager _jobPostingManager = new JobPostingManager(new MongoClient(MONGODB_CONNECTION_STRING));
+                return 
+            }
+        }
     }
 }

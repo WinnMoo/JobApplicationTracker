@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using ManagerLayer.Managers;
 using ManagerLayer.Requests;
+using Org.BouncyCastle.Asn1.Mozilla;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -47,5 +48,6 @@ namespace ControllerLayer.Controllers
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
             throw new NotImplementedException();
         }
+        
     }
 }
