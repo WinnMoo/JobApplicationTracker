@@ -146,7 +146,7 @@ export default {
       })
         .then(response => {
           console.log(response);
-          this.$store.state.isLoggedIn = false;
+          this.$store.dispatch('logOut');
           localStorage.removeItem("jwtToken");
           this.$router.push("/");
           this.$forceUpdate();

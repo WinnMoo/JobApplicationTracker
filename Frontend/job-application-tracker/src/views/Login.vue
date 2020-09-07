@@ -59,7 +59,7 @@ export default {
             this.popup = true;
             this.popupText =
               "You are logged in. You will be redirected to you job applications page in 3 seconds.";
-            this.$store.state.isLoggedIn = true;
+            this.$store.dispatch('logIn');
             localStorage.setItem("jwtToken", response.data);
             setTimeout(() => {
               this.$router.push("/jobapplications");
