@@ -75,7 +75,6 @@ namespace ManagerLayer.Managers
                 jobApplication.City = request.City;
                 jobApplication.CompanyName = request.CompanyName;
                 jobApplication.JobPostingURL = request.URLToJobPosting;
-                jobApplication.ZipCode = request.ZipCode;
                 jobApplication.UserDefinedFields = request.UserFields;
                 jobApplication.Description = request.Description;
                 jobApplication.JobTitle = request.JobTitle;

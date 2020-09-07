@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ManagerLayer.Managers;
 using ManagerLayer.Requests;
 using Microsoft.AspNetCore.Http;
@@ -10,13 +7,13 @@ using MongoDB.Driver;
 
 namespace ControllerLayer.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class SessionController : ControllerBase
     {
         private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
             "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
 
+        [HttpPost]
+        [Route("api/session/login")]
         public ActionResult Login([FromBody] LoginRequest request)
         {
             try
@@ -30,6 +27,8 @@ namespace ControllerLayer.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/session/logout")]
         public ActionResult LogOut(JWTTokenRequest request)
         {
             try

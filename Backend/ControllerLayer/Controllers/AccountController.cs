@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataAccessLayer.Models;
 using ManagerLayer.Managers;
 using ManagerLayer.Requests;
 using Microsoft.AspNetCore.Http;
@@ -15,8 +11,6 @@ namespace ControllerLayer.Controllers
     {
         private readonly string MONGODB_CONNECTION_STRING = Environment.GetEnvironmentVariable(
             "MongoDB_ConnectionString", EnvironmentVariableTarget.User);
-
-        [Route("api/[controller]")]
 
         [HttpPost]
         [Route("api/account/create")]

@@ -7,8 +7,8 @@
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-text-field label="Email" v-model="this.emailAddress" prepend-icon="mdi-account"></v-text-field>
-            <v-text-field label="Password" v-model="this.password" prepend-inner-icon="mdi-lock"></v-text-field>
+            <v-text-field label="Email" v-model="emailAddress" prepend-icon="mdi-account"></v-text-field>
+            <v-text-field label="Password" v-model="password" prepend-icon="mdi-lock"></v-text-field>
             <a @click="GoToForgotPassword">Forgot Password?</a>
           </v-card-text>
           <v-card-actions>
@@ -34,12 +34,12 @@ export default {
   },
   methods: {
     Login() {
-      if (this.emailAddress === null || this.password === null) {
+      if (this.emailAddress == null || this.password == null) {
         alert("Please fill in the form completely");
       } else {
         axios({
           method: "POST",
-          url: `${apiURL}/account/` + "login",
+          url: `${apiURL}/session/` + "login",
           data: {
             EmailAddress: this.$data.emailAddress,
             Password: this.$data.password

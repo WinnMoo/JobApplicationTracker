@@ -252,7 +252,8 @@ export default {
         this.formErrorMessage = "Please read and accept our privacy policy";
         this.errorAlert = true;
       }
-      axios({
+      if(!this.errorAlert){
+        axios({
         method: "POST",
         url: `${apiURL}/account/` + "create",
         data: {
@@ -286,6 +287,7 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+      }
     }
   }
 };
