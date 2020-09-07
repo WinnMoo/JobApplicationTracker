@@ -31,7 +31,7 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-if="isLoggedIn" depressed color="primary" v-bind="attrs" v-on="on">
+          <v-btn v-show="isLoggedIn" depressed color="primary" v-bind="attrs" v-on="on">
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -87,8 +87,6 @@ export default {
   data() {
     return {
       drawer: false,
-      isLoggedIn: false,
-      showLoggedInComponents: false,
       navigationDrawerLinks: [
         {
           title: "Job Applications Tracker",
@@ -112,12 +110,14 @@ export default {
       dropDownMenuLinks: [{ title: "Settings" }, { title: "Log Out" }]
     };
   },
-  created: function() {
-    console.log(localStorage.getItem("isLoggedIn"));
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn;
+    }
   },
   methods: {
     homepage: function() {
-      if (this.showLoggedInComponents == true) {
+      if (this.$store.state.isLoggedIn) {
         this.$router.push("/jobapplications");
       } else {
         this.$router.push("/");
@@ -146,8 +146,7 @@ export default {
       })
         .then(response => {
           console.log(response);
-          localStorage.setItem("isLoggedIn", false);
-          this.isLoggedIn = false;
+          this.$store.state.isLoggedIn = false;
           localStorage.removeItem("jwtToken");
           this.$router.push("/");
           this.$forceUpdate();
@@ -155,13 +154,6 @@ export default {
         .catch(e => {
           this.formErrorMessage = e.response.data;
         });
-    },
-    CheckIfLoggedIn: function () {
-      if(localStorage.getItem("isLoggedIn")){
-        return true;
-      } else {
-        return false;
-      }
     }
   }
 };
