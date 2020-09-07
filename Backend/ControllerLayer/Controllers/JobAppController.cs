@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using ManagerLayer.Managers;
 using ManagerLayer.Requests;
-using Org.BouncyCastle.Asn1.Mozilla;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ControllerLayer.Controllers
 {

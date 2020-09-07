@@ -18,7 +18,7 @@ namespace ControllerLayer.Controllers
         {
             try
             {
-                SessionManager _sessionManager = new SessionManager(new MongoClient(Environment.GetEnvironmentVariable(MONGODB_CONNECTION_STRING)));
+                SessionManager _sessionManager = new SessionManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _sessionManager.Login(request);
             }
             catch
@@ -29,11 +29,11 @@ namespace ControllerLayer.Controllers
 
         [HttpPost]
         [Route("api/session/logout")]
-        public ActionResult LogOut(JWTTokenRequest request)
+        public ActionResult LogOut([FromBody] JWTTokenRequest request)
         {
             try
             {
-                SessionManager _sessionManager = new SessionManager(new MongoClient(Environment.GetEnvironmentVariable(MONGODB_CONNECTION_STRING)));
+                SessionManager _sessionManager = new SessionManager(new MongoClient(MONGODB_CONNECTION_STRING));
                 return _sessionManager.LogOut(request.JWTToken);
             }
             catch

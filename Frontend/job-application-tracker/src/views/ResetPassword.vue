@@ -13,9 +13,7 @@
             <v-card-text>
               <v-row>
                 <v-col>
-                  <div id="SecurityQuestion">
-                    {{ securityQuestions.securityQuestion1 }}
-                  </div>
+                  <div id="SecurityQuestion">{{ securityQuestions.securityQuestion1 }}</div>
                 </v-col>
                 <v-col>
                   <v-text-field v-model="securityAnswer1" label="Security Answer 1" clearable></v-text-field>
@@ -23,9 +21,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <div id="SecurityQuestion">
-                    {{ securityQuestions.securityQuestion2 }}
-                  </div>
+                  <div id="SecurityQuestion">{{ securityQuestions.securityQuestion2 }}</div>
                 </v-col>
                 <v-col>
                   <v-text-field v-model="securityAnswer2" label="Security Answer 2" clearable></v-text-field>
@@ -33,9 +29,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <div id="SecurityQuestion">
-                    {{ securityQuestions.securityQuestion3 }}
-                  </div>
+                  <div id="SecurityQuestion">{{ securityQuestions.securityQuestion3 }}</div>
                 </v-col>
                 <v-col>
                   <v-text-field v-model="securityAnswer3" label="Security Answer 3" clearable></v-text-field>
@@ -43,13 +37,22 @@
               </v-row>
               <v-row v-if="areSecurityAnswersCorrect">
                 <v-col cols="12">
-                  <v-text-field v-model="newPassword" label="New Password" clearable prepend-inner-icon="mdi-lock"></v-text-field>
+                  <v-text-field
+                    v-model="newPassword"
+                    label="New Password"
+                    clearable
+                    prepend-inner-icon="mdi-lock"
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn :disabled="!areAnswersFilled" color="primary" @click="buttonClick"> {{ buttonText }}</v-btn>
+              <v-btn
+                :disabled="!areAnswersFilled"
+                color="primary"
+                @click="buttonClick"
+              >{{ buttonText }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -105,22 +108,24 @@ export default {
       if (
         this.securityAnswer1 != null &&
         this.securityAnswer1.length > 1 &&
-        this.securityAnswer2 != null && this.securityAnswer2.length > 1 &&
-        this.securityAnswer3 != null && this.securityAnswer3.length > 1
+        this.securityAnswer2 != null &&
+        this.securityAnswer2.length > 1 &&
+        this.securityAnswer3 != null &&
+        this.securityAnswer3.length > 1
       ) {
         this.areAnswersFilled = true;
       } else {
         this.areAnswersFilled = false;
       }
     },
-    buttonClick : function () {
-      if(!this.canResetPassword){
+    buttonClick: function() {
+      if (!this.canResetPassword) {
         this.CheckAnswers();
       } else {
         this.ResetPassword();
       }
     },
-    CheckAnswers : function () {
+    CheckAnswers: function() {
       axios({
         method: "POST",
         url: `${apiURL}/account/` + "checkSecurityAnswers",
@@ -137,9 +142,8 @@ export default {
       })
         .then(response => {
           this.popup = true;
-          this.popupText =
-            response.data;
-          this.buttonText = "Reset Password"
+          this.popupText = response.data;
+          this.buttonText = "Reset Password";
           this.canResetPassword = true;
         })
         .catch(e => {
@@ -149,7 +153,7 @@ export default {
           this.loading = false;
         });
     },
-    ResetPassword: function () {
+    ResetPassword: function() {
       axios({
         method: "POST",
         url: `${apiURL}/account/` + "resetpassword",
@@ -182,8 +186,8 @@ export default {
 };
 </script>
 <style>
-  #SecurityQuestion {
-    line-height: 70px;
-    font-size: 18px;
-  }
+#SecurityQuestion {
+  line-height: 70px;
+  font-size: 18px;
+}
 </style>

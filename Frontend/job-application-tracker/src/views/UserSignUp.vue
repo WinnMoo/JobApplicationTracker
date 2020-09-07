@@ -252,41 +252,41 @@ export default {
         this.formErrorMessage = "Please read and accept our privacy policy";
         this.errorAlert = true;
       }
-      if(!this.errorAlert){
+      if (!this.errorAlert) {
         axios({
-        method: "POST",
-        url: `${apiURL}/account/` + "create",
-        data: {
-          EmailAddress: this.$data.emailAddress,
-          FirstName: this.$data.firstName,
-          Password: this.$data.password,
-          SecurityQuestion1: this.$data.securityQuestion1,
-          SecurityQuestion2: this.$data.securityQuestion2,
-          SecurityQuestion3: this.$data.securityQuestion3,
-          SecurityAnswer1: this.$data.securityAnswer1,
-          SecurityAnswer2: this.$data.securityAnswer2,
-          SecurityAnswer3: this.$data.securityAnswer3
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true
-        }
-      })
-        .then(response => {
-          this.popup = true;
-          this.popupText =
-            response.data +
-            ". You will be redirected to the login page in 5 seconds.";
-          setTimeout(() => {
-            this.$router.push("/login");
-          }, 5000);
+          method: "POST",
+          url: `${apiURL}/account/` + "create",
+          data: {
+            EmailAddress: this.$data.emailAddress,
+            FirstName: this.$data.firstName,
+            Password: this.$data.password,
+            SecurityQuestion1: this.$data.securityQuestion1,
+            SecurityQuestion2: this.$data.securityQuestion2,
+            SecurityQuestion3: this.$data.securityQuestion3,
+            SecurityAnswer1: this.$data.securityAnswer1,
+            SecurityAnswer2: this.$data.securityAnswer2,
+            SecurityAnswer3: this.$data.securityAnswer3
+          },
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+          }
         })
-        .catch(e => {
-          this.formErrorMessage = e.response.data;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+          .then(response => {
+            this.popup = true;
+            this.popupText =
+              response.data +
+              ". You will be redirected to the login page in 5 seconds.";
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 5000);
+          })
+          .catch(e => {
+            this.formErrorMessage = e.response.data;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
     }
   }

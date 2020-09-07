@@ -2,7 +2,7 @@
   <div class="Settings" style="text-align:center;" fill-height fluid>
     <v-container>
       <v-alert v-model="popup" dismissible type="success">{{ popupText }}</v-alert>
-      <v-alert v-model="errorPopup" dismissible type="error"> {{ errorMessage}} </v-alert>
+      <v-alert v-model="errorPopup" dismissible type="error">{{ errorMessage}}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12">
           <v-card class="elevation-12">
@@ -23,9 +23,10 @@
               <v-row>
                 <v-col sm="2" md="2" clss="text-left">
                   <v-btn dark color="error" @click="ShowDeleteDialog">Delete Account</v-btn>
-                  <DeleteAccountDialog v-bind:deleteDialog="this.showDeleteDialog"
-                   v:on
-        @DeleteAccount="DeleteAccount"
+                  <DeleteAccountDialog
+                    v-bind:deleteDialog="this.showDeleteDialog"
+                    v:on
+                    @DeleteAccount="DeleteAccount"
                   ></DeleteAccountDialog>
                 </v-col>
               </v-row>

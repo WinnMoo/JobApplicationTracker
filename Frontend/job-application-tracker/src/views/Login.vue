@@ -1,5 +1,7 @@
 <template>
   <v-container>
+    <v-alert v-model="popup" dismissible type="success">{{ popupText }}</v-alert>
+    <v-alert v-model="errorPopup" dismissible type="error">{{ errorMessage}}</v-alert>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="6" md="8">
         <v-card class="elevation-12">
@@ -28,6 +30,10 @@ export default {
   name: "Login",
   data() {
     return {
+      popup: false,
+      popupText: null,
+      errorPopup: false,
+      errorMessage: null,
       emailAddress: null,
       password: null
     };
@@ -50,16 +56,18 @@ export default {
           }
         })
           .then(response => {
-            this.popup = response;
-            this.popupText = "You are logged in.";
-            localStorage.setItem = ("isLoggedIn", true);
+            this.popup = true;
+            this.popupText =
+              "You are logged in. You will be redirected to you job applications page in 3 seconds.";
+            localStorage.setItem("isLoggedIn", true);
+            localStorage.setItem("jwtToken", response.data);
+            setTimeout(() => {
+              this.$router.push("/jobapplications");
+            }, 3000);
+            this.$forceUpdate;
           })
           .catch(e => {
             this.formErrorMessage = e.response.data;
-          })
-          .finally(() => {
-            this.loading = false;
-            localStorage.setItem = ("isLoggedIn", false);
           });
       }
     },
