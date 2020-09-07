@@ -49,7 +49,10 @@ namespace ControllerLayer.Controllers
             try
             {
                 JobPostingManager _jobPostingManager = new JobPostingManager(new MongoClient(MONGODB_CONNECTION_STRING));
-                return 
+                return _jobPostingManager.AddJobPosting(urlToParse);
+            } catch (Exception e)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
