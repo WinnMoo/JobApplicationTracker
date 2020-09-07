@@ -7,13 +7,13 @@
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-text-field label="Email" v-model=this.emailAddress prepend-icon="mdi-account"></v-text-field>
-            <v-text-field label="Password" v-model=this.password prepend-inner-icon="mdi-lock"></v-text-field>
+            <v-text-field label="Email" v-model="this.emailAddress" prepend-icon="mdi-account"></v-text-field>
+            <v-text-field label="Password" v-model="this.password" prepend-inner-icon="mdi-lock"></v-text-field>
             <a @click="GoToForgotPassword">Forgot Password?</a>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click=Login>Login</v-btn>
+            <v-btn color="primary" @click="Login">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -22,47 +22,50 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { apiURL } from '@/const.js';
+import axios from "axios";
+import { apiURL } from "@/const.js";
 export default {
-    name: "Login",
-    data() {
-        return {
-            emailAddress: null,
-            password: null
-        }
+  name: "Login",
+  data() {
+    return {
+      emailAddress: null,
+      password: null
+    };
+  },
+  methods: {
+    Login() {
+      if (this.emailAddress === null || this.password === null) {
+        alert("Please fill in the form completely");
+      } else {
+        axios({
+          method: "POST",
+          url: `${apiURL}/account/` + "login",
+          data: {
+            EmailAddress: this.$data.emailAddress,
+            Password: this.$data.password
+          },
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+          }
+        })
+          .then(response => {
+            this.popup = response;
+            this.popupText = "You are logged in.";
+            localStorage.setItem = ("isLoggedIn", true);
+          })
+          .catch(e => {
+            this.formErrorMessage = e.response.data;
+          })
+          .finally(() => {
+            this.loading = false;
+            localStorage.setItem = ("isLoggedIn", false);
+          });
+      }
     },
-    methods: {
-        Login() {
-            if(this.emailAddress === null || this.password === null){
-                alert("Please fill in the form completely")
-            } else {
-                axios({
-                method: 'POST',
-                url: `${apiURL}/account/` + 'login',
-                data: {
-                    EmailAddress: this.$data.emailAddress,
-                    Password: this.$data.password},
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': true
-                }
-                })
-                    .then(response => {
-                    this.popup = response;
-                    this.popupText = "You are logged in.";
-                    localStorage.setItem = ('isLoggedIn', true);
-                })
-                    .catch(e => { this.formErrorMessage = e.response.data })
-                    .finally(() => {
-                    this.loading = false;
-                    localStorage.setItem = ('isLoggedIn', false);
-                })
-            }
-        },
-        GoToForgotPassword() {
-          this.$router.push("/forgotpassword");
-        }
+    GoToForgotPassword() {
+      this.$router.push("/forgotpassword");
     }
-}
+  }
+};
 </script>
