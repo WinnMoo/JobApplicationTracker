@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "delete-account-dialog",
+  name: "DeleteAccountDialog",
   props: {
     deleteDialog: Boolean
   },

@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "jobpostings",
+  name: "JobPostings",
   data() {
     return {
       searchTerms: null

@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "delete-job-application-dialog",
+  name: "DeleteJobApplicationDialog",
   props: {
     deleteDialog: Boolean,
     idToDelete: Number

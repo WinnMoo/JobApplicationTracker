@@ -79,7 +79,7 @@ import axios from "axios";
 import lodash from "lodash";
 import { apiURL } from "@/const.js";
 export default {
-  name: "add-job-application-dialog",
+  name: "AddJobApplicationDialog",
   props: {},
   data() {
     return {

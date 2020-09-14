@@ -50,7 +50,7 @@ export default {
   components: {
     DeleteAccountDialog
   },
-  name: "settings",
+  name: "Settings",
   data() {
     return {
       errorPopup: false,

@@ -126,7 +126,7 @@
 import countrycitystatejson from "countrycitystatejson";
 
 export default {
-  name: "job-application-card",
+  name: "JobApplicationCard",
   props: {
     jobApplication: {
       id: "",

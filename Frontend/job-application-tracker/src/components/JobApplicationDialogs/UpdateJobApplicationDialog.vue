@@ -51,7 +51,7 @@
 
 <script>
 export default {
-  name: "update-job-application-dialog",
+  name: "UpdateJobApplicationDialog",
   props: {
     updateDialog: Boolean,
     idToUpdate: Number
