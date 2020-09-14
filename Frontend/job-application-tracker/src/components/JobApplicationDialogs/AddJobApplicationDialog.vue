@@ -50,20 +50,14 @@
                   v-model="jobPostingUrl"
                   required
                 ></v-text-field>
-                <div v-if="this.error" id="parseError">
-                  Unable to parse job posting
-                </div>
+                <div v-if="this.error" id="parseError">Unable to parse job posting</div>
               </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
-          <v-progress-circular
-            v-if="loading"
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
+          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeAddDialog()">Close</v-btn>
           <v-btn color="blue darken-1" text @click="addJobApplication()">Save</v-btn>
@@ -98,20 +92,20 @@ export default {
     };
   },
   watch: {
-    jobPostingUrl: function(){
+    jobPostingUrl: function() {
       console.log("watching");
       this.debouncedParseJobPosting();
     }
   },
-  created: function () {
+  created: function() {
     this.debouncedParseJobPosting = _.debounce(this.ParseJobPosting, 500);
   },
   methods: {
-    ParseJobPosting: function () {
+    ParseJobPosting: function() {
       console.log("parsing");
       this.loading = true;
       axios({
-      method: "POST",
+        method: "POST",
         url: `${apiURL}/jobposting/` + "parse",
         data: {
           urlToParse: this.jobPostingUrl
@@ -135,7 +129,7 @@ export default {
           this.loading = false;
         });
     },
-    closeAddDialog: function () {
+    closeAddDialog: function() {
       this.$refs.form.reset();
       this.addDialog = false;
     },
@@ -144,7 +138,8 @@ export default {
         "addJobApplication",
         this.companyName,
         this.jobTitle,
-        this.description
+        this.description,
+        this.jobPostingUrl
       );
       this.$refs.form.reset();
       this.addDialog = false;
@@ -153,7 +148,7 @@ export default {
 };
 </script>
 <style>
-  #parseError{
-    color:red;
-  }
+#parseError {
+  color: red;
+}
 </style>

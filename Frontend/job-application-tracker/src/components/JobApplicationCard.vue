@@ -241,7 +241,12 @@ export default {
       this.$emit("openDeleteDialog", true, this.jobApplication.id);
     },
     saveLocation: function() {
-      this.$emit("updateLocation", this.selectedCity, this.selectedState, this.jobApplication.id);
+      this.$emit(
+        "updateLocation",
+        this.selectedCity,
+        this.selectedState,
+        this.jobApplication.id
+      );
       this.menu = false;
     }
   }
