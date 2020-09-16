@@ -33,6 +33,24 @@
               </v-col>
             </v-row>
             <v-row>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="City"
+                  v-model="city"
+                  hint="E.g. Irvine"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="State"
+                  v-model="state"
+                  hint="E.g. California"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" sm="12" md="12">
                 <v-textarea
                   :rules="[rules.required]"
@@ -81,6 +99,8 @@ export default {
       companyName: null,
       jobTitle: null,
       description: null,
+      city: null,
+      state: null,
       location: null,
       jobPostingUrl: null,
       loading: false,
@@ -139,7 +159,9 @@ export default {
         this.companyName,
         this.jobTitle,
         this.description,
-        this.jobPostingUrl
+        this.jobPostingUrl,
+        this.city,
+        this.state
       );
       this.$refs.form.reset();
       this.addDialog = false;

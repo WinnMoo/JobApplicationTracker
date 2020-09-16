@@ -18,13 +18,13 @@
       ></JobApplicationCard>
       <DeleteJobApplicationDialog
         v-bind:deleteDialog="this.deleteDialog"
-        v-bind:idToDelete="this.idToDelete"
+        v-bind:idToDelete="this.idToModify"
         v:on
         @deleteJobApplication="deleteJobApplication"
       ></DeleteJobApplicationDialog>
       <UpdateJobApplicationDialog
         v-bind:updateDialog="this.updateDialog"
-        v-bind:idToUpdate="this.idToUpdate"
+        v-bind:idToUpdate="this.idToModify"
         v:on
         @updateJobApplication="updateJobApplicationInfo"
       ></UpdateJobApplicationDialog>
@@ -57,8 +57,7 @@ export default {
       updateDialog: false,
       indexToDelete: null,
       indexToUpdate: null,
-      idToUpdate: -1,
-      idToDelete: -1,
+      idToModify: -1,
       jobApplication: {
         JobAppId: null,
         CompanyName: null,
@@ -151,17 +150,19 @@ export default {
     },
     openDeleteDialog: function(openDialog, jobApplicationId) {
       this.deleteDialog = openDialog;
-      this.idToDelete = jobApplicationId;
+      this.idToModify = jobApplicationId;
     },
     openUpdateDialog: function(openDialog, jobApplicationId) {
       this.updateDialog = openDialog;
-      this.idToUpdate = jobApplicationId;
+      this.idToModify = jobApplicationId;
     },
     addJobApplication: function(
       companyName,
       jobTitle,
       description,
-      jobPostingUrl
+      jobPostingUrl,
+      city,
+      state
     ) {
       if (companyName != null && jobTitle != null && description != null) {
         axios({
@@ -173,8 +174,8 @@ export default {
             JobTitle: jobTitle,
             Description: description,
             Status: 0,
-            City: null,
-            State: null,
+            City: city,
+            State: state,
             URLToJobPosting: jobPostingUrl,
             DateApplied: Date.UTC.now,
             UserFields: null,
