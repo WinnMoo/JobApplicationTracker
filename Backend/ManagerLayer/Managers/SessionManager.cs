@@ -32,7 +32,7 @@ namespace ManagerLayer.Managers
             // 2. Create Session
             // 3. Add Session to DB
             // 4. Return JWT Token on success
-            var user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            var user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
             if(user == null)
             {
                 return new BadRequestObjectResult("User not found.");

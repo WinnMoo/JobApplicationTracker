@@ -83,7 +83,7 @@ namespace ManagerLayer.Managers
 
         public ActionResult DeleteUserAccount(LoginRequest request)
         {
-            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
 
             if (_passwordService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
@@ -104,7 +104,7 @@ namespace ManagerLayer.Managers
         public ActionResult UpdateUserAccount(AccountRequest request)
         {
 
-            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
 
             if(user == null)
             {
@@ -138,7 +138,7 @@ namespace ManagerLayer.Managers
         #region Passwords
         public ActionResult UpdateUserPassword(UpdatePasswordRequest request)
         {
-            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
 
             if (user == null)
             {
