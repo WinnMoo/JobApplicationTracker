@@ -13,10 +13,10 @@ namespace ControllerLayer.Controllers
 
         [HttpGet]
         [Route("api/jobapp/get")]
-        public ActionResult GetJobApplications([FromBody] JobApplicationRequest request)
+        public ActionResult GetJobApplications([FromBody] GetJobApplicationsRequest request)
         {
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
-            throw new NotImplementedException();
+            return _jobAppManager.GetJobApplications(request);
         }
 
         [HttpPost]
@@ -27,20 +27,20 @@ namespace ControllerLayer.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("api/jobapp/delete")]
-        public ActionResult DeleteJobApplication([FromBody] JobApplicationRequest request)
+        public ActionResult DeleteJobApplication([FromBody] string jobApplicationId)
         {
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
-            throw new NotImplementedException();
+            return _jobAppManager.DeleteJobApplication(jobApplicationId);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/jobapp/update")]
         public ActionResult UpdateJobApplication([FromBody] JobApplicationRequest request)
         {
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
-            throw new NotImplementedException();
+            return _jobAppManager.UpdateJobApplication(request);
         }
         
     }

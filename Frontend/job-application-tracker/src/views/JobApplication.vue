@@ -1,5 +1,6 @@
 <template>
   <div class="JobApplication">
+    <v-alert v-model="errorPopup" dismissible type="error">{{ errorMessage}}</v-alert>
     <AddJobApplicationDialog v:on @addJobApplication="addJobApplication"></AddJobApplicationDialog>
     <v-btn class="mx-2" fab dark color="indigo" fixed right bottom @click="top">
       <v-icon dark>mdi-chevron-up</v-icon>
@@ -25,17 +26,19 @@
         v-bind:updateDialog="this.updateDialog"
         v-bind:idToUpdate="this.idToUpdate"
         v:on
-        @updateJobApplication="updateJobApplication"
+        @updateJobApplication="updateJobApplicationInfo"
       ></UpdateJobApplicationDialog>
     </v-container>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { apiURL } from "@/const.js";
+import JobApplicationCard from "@/components/JobApplicationCard.vue";
 import AddJobApplicationDialog from "@/components/JobApplicationDialogs/AddJobApplicationDialog.vue";
 import DeleteJobApplicationDialog from "@/components/JobApplicationDialogs/DeleteJobApplicationDialog.vue";
 import UpdateJobApplicationDialog from "@/components/JobApplicationDialogs/UpdateJobApplicationDialog.vue";
-import JobApplicationCard from "@/components/JobApplicationCard.vue";
 
 export default {
   components: {
@@ -47,6 +50,8 @@ export default {
   name: "JobApplication",
   data() {
     return {
+      errorPopup: false,
+      errorMessage: null,
       addDialog: false,
       deleteDialog: false,
       updateDialog: false,
@@ -54,6 +59,18 @@ export default {
       indexToUpdate: null,
       idToUpdate: -1,
       idToDelete: -1,
+      jobApplication: {
+        JobAppId: null,
+        CompanyName: null,
+        JobtTitle: null,
+        Description: null,
+        Status: null,
+        City: null,
+        State: null,
+        URLToJobPosting: null,
+        DateApplied: null,
+        UserEmail: null
+      },
       jobApplications: [
         {
           id: 0,
@@ -110,44 +127,106 @@ export default {
         behavior: "smooth"
       });
     },
+    fetchJobApplications: function() {
+      axios({
+        method: "GET",
+        url: `${apiURL}/jobapp/` + "get",
+        data: {
+          EmailAddress: this.$data.emailAddress,
+          StartIndex: 0,
+          NumOfItemsToget: -1
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true
+        }
+      })
+        .then(response => {
+          this.jobApplications = response.data;
+          this.$forceUpdate;
+        })
+        .catch(e => {
+          this.ErrorMessage = e.response.data;
+        });
+    },
     openDeleteDialog: function(openDialog, jobApplicationId) {
       this.deleteDialog = openDialog;
       this.idToDelete = jobApplicationId;
-    },
-    deleteJobApplication: function(jobApplicationId, deleteCondition) {
-      if (deleteCondition) {
-        let jobApplicationIndex = this.jobApplications.findIndex(
-          element => element.id == jobApplicationId
-        );
-        let updatedJobApplications = this.jobApplications;
-        updatedJobApplications.splice(jobApplicationIndex, 1);
-        this.jobApplications = updatedJobApplications;
-        this.$forceUpdate;
-      }
-      this.deleteDialog = false;
-    },
-    addJobApplication: function(companyName, jobTitle, description) {
-      if (companyName != null && jobTitle != null && description != null) {
-        var newJobApp = {
-          id: this.jobApplications.length + 1,
-          company: companyName,
-          location: "",
-          jobTitle: jobTitle,
-          description: description,
-          status: 0,
-          dateApplied: Date.now
-        };
-        this.addDialog = false;
-        this.jobApplications.push(newJobApp);
-        // Change this push to use an api call to add job application
-        this.$forceUpdate;
-      }
     },
     openUpdateDialog: function(openDialog, jobApplicationId) {
       this.updateDialog = openDialog;
       this.idToUpdate = jobApplicationId;
     },
-    updateJobApplication: function(
+    addJobApplication: function(
+      companyName,
+      jobTitle,
+      description,
+      jobPostingUrl
+    ) {
+      if (companyName != null && jobTitle != null && description != null) {
+        axios({
+          method: "POST",
+          url: `${apiURL}/jobapp/` + "add",
+          data: {
+            JobAppId: null,
+            CompanyName: companyName,
+            JobTitle: jobTitle,
+            Description: description,
+            Status: 0,
+            City: null,
+            State: null,
+            URLToJobPosting: jobPostingUrl,
+            DateApplied: Date.UTC.now,
+            UserFields: null,
+            UserEmail: this.$store.getters.emailAddress
+          },
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+          }
+        })
+          .then(response => {
+            this.jobApplications.push(response.data);
+            this.$forceUpdate;
+          })
+          .catch(e => {
+            this.ErrorMessage = e.response.data;
+          });
+        this.addDialog = false;
+        this.$forceUpdate;
+      }
+    },
+    deleteJobApplication: function(jobApplicationId, deleteCondition) {
+      if (deleteCondition) {
+        axios({
+          method: "POST",
+          url: `${apiURL}/jobapp/` + "add",
+          data: {
+            jobApplicationId
+          },
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+          }
+        })
+          .then(response => {
+            console.log(response.data);
+            let jobApplicationIndex = this.jobApplications.findIndex(
+              element => element.id == jobApplicationId
+            );
+            let updatedJobApplications = this.jobApplications;
+            updatedJobApplications.splice(jobApplicationIndex, 1);
+            this.jobApplications = updatedJobApplications;
+            this.$forceUpdate;
+          })
+          .catch(e => {
+            this.ErrorMessage = e.response.data;
+          });
+      } else {
+        this.deleteDialog = false;
+      }
+    },
+    updateJobApplicationInfo: function(
       companyName,
       jobTitle,
       description,
@@ -160,12 +239,11 @@ export default {
           let jobApplicationIndex = this.jobApplications.findIndex(
             element => element.id == jobApplicationId
           );
-          let updatedJobApplications = this.jobApplications;
-          updatedJobApplications[jobApplicationIndex].company = companyName;
-          updatedJobApplications[jobApplicationIndex].jobTitle = jobTitle;
-          updatedJobApplications[jobApplicationIndex].description = description;
-          this.jobApplications = updatedJobApplications;
-          this.$forceUpdate;
+          this.JobApplication = this.jobApplications[jobApplicationIndex];
+          this.JobApplication.CompanyName = companyName;
+          this.JobApplication.JobTitle = jobTitle;
+          this.JobApplication.Description = description;
+          this.updateJobApplication(this.JobApplication, jobApplicationIndex);
         }
       }
       this.updateDialog = false;
@@ -174,19 +252,49 @@ export default {
       let jobApplicationIndex = this.jobApplications.findIndex(
         element => element.id == jobApplicationId
       );
-      let updatedJobApplications = this.jobApplications;
-      updatedJobApplications[jobApplicationIndex].status = status;
-      this.jobApplications = updatedJobApplications;
+      this.JobApplication = this.jobApplications[jobApplicationIndex];
+      this.JobApplication.Status = status;
+      this.updateJobApplication(this.JobApplication, jobApplicationIndex);
     },
     updateLocation: function(city, state, jobApplicationId) {
       let jobApplicationIndex = this.jobApplications.findIndex(
         element => element.id == jobApplicationId
       );
-      let updatedJobApplications = this.jobApplications;
-      updatedJobApplications[jobApplicationIndex].city = city;
-      updatedJobApplications[jobApplicationIndex].state = state;
-      this.jobApplications = updatedJobApplications;
-      this.$forceUpdate;
+      this.JobApplication = this.jobApplications[jobApplicationIndex];
+      this.JobApplication.City = city;
+      this.JobApplication.State = state;
+      this.updateJobApplication(this.JobApplication, jobApplicationIndex);
+    },
+    updateJobApplication: function(JobApplication, jobApplicationIndex) {
+      axios({
+        method: "PUT",
+        url: `${apiURL}/jobapp/` + "update",
+        data: {
+          JobAppId: JobApplication.JobAppId,
+          CompanyName: JobApplication.CompanyName,
+          JobTitle: JobApplication.JobtTitle,
+          Description: JobApplication.Description,
+          Status: JobApplication.Status,
+          City: JobApplication.City,
+          State: JobApplication.State,
+          URLToJobPosting: JobApplication.URLToJobPosting,
+          DateApplied: JobApplication.DateApplied,
+          UserEmail: this.$store.getters.emailAddress
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true
+        }
+      })
+        .then(response => {
+          let updatedJobApplications = this.jobApplications;
+          updatedJobApplications[jobApplicationIndex] = response.data;
+          this.jobApplications = updatedJobApplications;
+          this.$forceUpdate;
+        })
+        .catch(e => {
+          this.ErrorMessage = e.response.data;
+        });
     }
   }
 };

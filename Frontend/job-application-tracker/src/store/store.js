@@ -1,35 +1,51 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [createPersistedState({
-    storage: window.localStorage,
-  })],
+  plugins: [
+    createPersistedState({
+      storage: window.localStorage
+    })
+  ],
 
   state: {
-    isLoggedIn: false
+    isLoggedIn: false,
+    emailAddress: null
   },
 
   mutations: {
-    change(state, isLoggedIn) {
-      state.isLoggedIn = isLoggedIn
+    changeLoginStatus(state, isLoggedIn) {
+      state.isLoggedIn = isLoggedIn;
+    },
+
+    changeEmailAddress(state, emailAddress) {
+      state.emailAddress = emailAddress;
     }
   },
 
   getters: {
-    isLoggedIn: state => state.isLoggedIn
+    isLoggedIn: state => state.isLoggedIn,
+    emailAddress: state => state.emailAddress
   },
 
   actions: {
     logOut(context) {
-      context.commit('change', false);
+      context.commit("changeLoginStatus", false);
     },
 
     logIn(context) {
-      context.commit('change', true);
+      context.commit("changeLoginStatus", true);
+    },
+
+    setEmailAddress(context, emailAddress) {
+      context.commit("changeEmailAddress", emailAddress);
+    },
+
+    removeEmailAddress(context) {
+      context.commit("changeEmailAddress", null);
     }
   }
-})
+});

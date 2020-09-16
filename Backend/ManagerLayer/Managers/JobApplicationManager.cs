@@ -22,7 +22,9 @@ namespace ManagerLayer.Managers
         {
             try
             {
-                JobApplication newJobApp = new JobApplication(request.CompanyName, request.Description, request.City, request.State, request.URLToJobPosting, request.UserFields);
+                JobApplication newJobApp = new JobApplication(request.CompanyName, request.JobTitle, 
+                                                              request.Description, request.Status, request.City, 
+                                                              request.State, request.URLToJobPosting, request.UserFields);
                 var user = userAccountService.ReadUserFromDB(request.UserEmail);
                 newJobApp.UserAccountId = user.UserAccountId;
                 if (!jobAppService.InsertJobApplication(newJobApp))
@@ -40,14 +42,14 @@ namespace ManagerLayer.Managers
             
         }
 
-        public ActionResult DeleteJobApplication(JobApplicationRequest request)
+        public ActionResult DeleteJobApplication(string jobApplicationId)
         {
             try
             {
-                var jobApplication = jobAppService.GetJobApplication(request.JobAppId);
+                var jobApplication = jobAppService.GetJobApplication(jobApplicationId);
                 if (jobApplication == null)
                 {
-                    return new BadRequestObjectResult("Invalid job application");
+                    return new NotFoundObjectResult("Job application not found");
                 }
                 if (!jobAppService.DeleteJobApplication(jobApplication.JobApplicationId))
                 {
@@ -72,20 +74,21 @@ namespace ManagerLayer.Managers
                     return new BadRequestObjectResult("Invalid job application");
                 }
 
-                jobApplication.City = request.City;
                 jobApplication.CompanyName = request.CompanyName;
+                jobApplication.JobTitle = request.JobTitle;
+                jobApplication.Description = request.Description;
+                jobApplication.Status = request.Status;
+                jobApplication.City = request.City;
+                jobApplication.State = request.State;
                 jobApplication.JobPostingURL = request.URLToJobPosting;
                 jobApplication.UserDefinedFields = request.UserFields;
-                jobApplication.Description = request.Description;
-                jobApplication.JobTitle = request.JobTitle;
-                jobApplication.State = request.State;
 
                 if (!jobAppService.UpdatejobApplication(jobApplication))
                 {
                     return new StatusCodeResult(StatusCodes.Status500InternalServerError);
                 } else
                 {
-                    return new OkObjectResult("Deleted job application successfully");
+                    return new OkObjectResult(jobApplication);
                 }
             } catch
             {
@@ -98,10 +101,8 @@ namespace ManagerLayer.Managers
             try
             {
                 var user = userAccountService.ReadUserFromDB(request.EmailAddress);
-                jobAppService.GetJobApplications(user.UserAccountId, request.StartIndex, request.NumOfItemsToGet);
-
-
-                throw new NotImplementedException();
+                var jobApplications = jobAppService.GetJobApplications(user.UserAccountId, request.StartIndex, request.NumOfItemsToGet);
+                return new OkObjectResult(jobApplications);
             } catch {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
