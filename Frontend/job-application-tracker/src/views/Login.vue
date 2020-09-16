@@ -10,7 +10,14 @@
           </v-toolbar>
           <v-card-text>
             <v-text-field label="Email" v-model="emailAddress" prepend-icon="mdi-account"></v-text-field>
-            <v-text-field label="Password" v-model="password" prepend-icon="mdi-lock"></v-text-field>
+            <v-text-field
+              label="Password"
+              v-model="password"
+              prepend-icon="mdi-lock"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              @click:append="show = !show"
+            ></v-text-field>
             <a @click="GoToForgotPassword">Forgot Password?</a>
           </v-card-text>
           <v-card-actions>
@@ -36,7 +43,8 @@ export default {
       errorPopup: false,
       errorMessage: null,
       emailAddress: null,
-      password: null
+      password: null,
+      show: false
     };
   },
   methods: {
@@ -60,8 +68,8 @@ export default {
             this.popup = true;
             this.popupText =
               "You are logged in. You will be redirected to you job applications page in 3 seconds.";
-            this.$store.dispatch('logIn');
-            this.$store.dispatch('setEmailAddress', this.emailAddress);
+            this.$store.dispatch("logIn");
+            this.$store.dispatch("setEmailAddress", this.emailAddress);
             localStorage.setItem("jwtToken", response.data);
             setTimeout(() => {
               this.$router.push("/jobapplications");
