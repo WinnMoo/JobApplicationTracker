@@ -20,7 +20,7 @@ namespace DataAccessLayer.Repositories
             _userAccounts = database.GetCollection<UserAccount>("UserAccounts");
         }
 
-        public async Task<bool> DeleteUserAccount(ObjectId userId)
+        public async Task<bool> DeleteUserAccount(string userId)
         {
             var deleted = false;
             try
@@ -36,7 +36,7 @@ namespace DataAccessLayer.Repositories
             return deleted;
         }
 
-        public async Task<UserAccount> GetUserAccount(ObjectId userId)
+        public async Task<UserAccount> GetUserAccountUsingId(string userId)
         {
             UserAccount retrievedUserAccount = null;
             var filter = new BsonDocument("UserId", userId);
@@ -51,7 +51,7 @@ namespace DataAccessLayer.Repositories
             return retrievedUserAccount;
         }
 
-        public async Task<UserAccount> GetUserAccount(string emailAddress)
+        public async Task<UserAccount> GetUserAccountUsingEmail(string emailAddress)
         {
             UserAccount retrievedUserAccount = null;
             var filter = new BsonDocument("Email", emailAddress);

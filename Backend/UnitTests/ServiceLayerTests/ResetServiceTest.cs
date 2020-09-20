@@ -28,7 +28,7 @@ namespace UnitTests.ServiceLayerTests
         [TestMethod]
         public void InsertToken()
         {
-            var user = uas.ReadUserFromDB("winn@example.org");
+            var user = uas.ReadUserFromDBUsingEmail("winn@example.org");
             PasswordResetToken token = new PasswordResetToken(CryptoService.GenerateToken(), user.UserAccountId);
 
             var inserted = rs.InsertToken(token);
@@ -39,7 +39,7 @@ namespace UnitTests.ServiceLayerTests
         [TestMethod]
         public void GetTokenByUserId()
         {
-            var user = uas.ReadUserFromDB("winn@example.org");
+            var user = uas.ReadUserFromDBUsingEmail("winn@example.org");
 
             var tokens = rs.GetTokensByUserId(user.UserAccountId);
 
@@ -49,7 +49,7 @@ namespace UnitTests.ServiceLayerTests
         [TestMethod]
         public void GetToken()
         {
-            var user = uas.ReadUserFromDB("winn@example.org");
+            var user = uas.ReadUserFromDBUsingEmail("winn@example.org");
 
             List<PasswordResetToken> tokens = rs.GetTokensByUserId(user.UserAccountId).ToList<PasswordResetToken>();
 
@@ -65,7 +65,7 @@ namespace UnitTests.ServiceLayerTests
         public void UpdateToken()
         {
             var attempts = 3;
-            var user = uas.ReadUserFromDB("winn@example.org");
+            var user = uas.ReadUserFromDBUsingEmail("winn@example.org");
             List<PasswordResetToken> tokens = rs.GetTokensByUserId(user.UserAccountId).ToList<PasswordResetToken>();
 
             var firstToken = tokens[0];

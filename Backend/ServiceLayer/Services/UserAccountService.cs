@@ -13,12 +13,12 @@ namespace ServiceLayer.Services
 {
     public class UserAccountService : IUserAccountService
     {
-        private IUserAccountRepository _userRepo;
+        private readonly IUserAccountRepository _userRepo;
         public UserAccountService(MongoClient _db)
         {
             _userRepo = new UserAccountRepository(_db);
         }
-        public bool DeleteUserFromDB(ObjectId userId)
+        public bool DeleteUserFromDB(string userId)
         {
             return _userRepo.DeleteUserAccount(userId).Result;
         }
@@ -28,14 +28,14 @@ namespace ServiceLayer.Services
             return _userRepo.InsertUserAccountAsync(userAccount).Result;
         }
 
-        public UserAccount ReadUserFromDB(ObjectId userId)
+        public UserAccount ReadUserFromDBUsingId(string userId)
         {
-            return _userRepo.GetUserAccount(userId).Result;
+            return _userRepo.GetUserAccountUsingId(userId).Result;
         }
 
-        public UserAccount ReadUserFromDB(string emailAddress)
+        public UserAccount ReadUserFromDBUsingEmail(string emailAddress)
         {
-            return _userRepo.GetUserAccount(emailAddress).Result;
+            return _userRepo.GetUserAccountUsingEmail(emailAddress).Result;
         }
 
         public bool UpdateUserInDB(UserAccount userAccount)

@@ -16,8 +16,8 @@ namespace DataAccessLayer.Repositories
 {
     public class JobApplicationRepository : IJobApplicationRepository
     {
-        private MongoClient db;
-        private IMongoCollection<JobApplication> _jobApplications;
+        private readonly MongoClient db;
+        private readonly IMongoCollection<JobApplication> _jobApplications;
         public JobApplicationRepository(MongoClient _db)
         {
             this.db = _db;
@@ -40,7 +40,7 @@ namespace DataAccessLayer.Repositories
             return inserted;
         }
 
-        public async Task<JobApplication> GetJobApplication(ObjectId jobApplicationId)
+        public async Task<JobApplication> GetJobApplicationUsingId(string jobApplicationId)
         {
             JobApplication retrievedJobApplication = null;
             
@@ -55,7 +55,7 @@ namespace DataAccessLayer.Repositories
                 return retrievedJobApplication;
             }
         }
-        public async Task<JobApplication> GetJobApplication(string jobPostingURL)
+        public async Task<JobApplication> GetJobApplicationUsingUrl(string jobPostingURL)
         {
             JobApplication retrievedJobApplication = null;
 
@@ -77,7 +77,7 @@ namespace DataAccessLayer.Repositories
         /// <param name="startIndex">The index of where in the list to start, used to get applications from specific index</param>
         /// <param name="numberOfItems">The number of job applications to get from the data store</param>
         /// <returns>List of job applications</returns>
-        public async Task<List<JobApplication>> GetJobApplications(ObjectId userId, int startIndex, int numberOfItems )
+        public async Task<List<JobApplication>> GetJobApplications(string userId, int startIndex, int numberOfItems )
         {
             var JobApplications = new List<JobApplication>();
             var filter = new BsonDocument("UserAccountId", userId);
@@ -98,7 +98,7 @@ namespace DataAccessLayer.Repositories
             return JobApplications;
         }
 
-        public async Task<bool> DeleteJobApplication(ObjectId jobApplicationId)
+        public async Task<bool> DeleteJobApplication(string jobApplicationId)
         {
             var deleted = false;
             var deleteFilter = new BsonDocument("JobApplicationId", jobApplicationId);

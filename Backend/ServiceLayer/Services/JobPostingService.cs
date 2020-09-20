@@ -9,7 +9,7 @@ namespace ServiceLayer.Services
 {
     public class JobPostingService
     {
-        private JobPostingRepository _jobPostingRepo;
+        private readonly JobPostingRepository _jobPostingRepo;
         public JobPostingService(MongoClient _db)
         {
             _jobPostingRepo = new JobPostingRepository(_db);

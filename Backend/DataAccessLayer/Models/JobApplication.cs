@@ -8,7 +8,8 @@ namespace DataAccessLayer.Models
     public class JobApplication
     {
         [BsonId]
-        public ObjectId JobApplicationId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string JobApplicationId { get; set; }
         [BsonRequired]
         public string CompanyName { get; set; }
         public string JobTitle { get; set; }
@@ -19,7 +20,7 @@ namespace DataAccessLayer.Models
         public string JobPostingURL { get; set; }
         [BsonRequired]
         public DateTime DateApplied { get; set; }
-        public ObjectId UserAccountId { get; set; }
+        public string UserAccountId { get; set; }
         public JobApplication()
         {
 
@@ -27,7 +28,7 @@ namespace DataAccessLayer.Models
 
         public JobApplication(string companyName, string jobTitle, string description, int status, string city, string state, string link)
         {
-            this.JobApplicationId = ObjectId.GenerateNewId();
+            this.JobApplicationId = ObjectId.GenerateNewId().ToString();
             this.CompanyName = companyName;
             this.JobTitle = jobTitle;
             this.Description = description;

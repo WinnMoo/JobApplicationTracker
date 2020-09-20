@@ -111,7 +111,7 @@ namespace UnitTests.ManagerLayerTests
 
             //Get user from db and compare new updated info
             var actual = uam.UpdateUserAccount(request);
-            var retrievedUpdatedAccount = uas.ReadUserFromDB("winn@example.org");
+            var retrievedUpdatedAccount = uas.ReadUserFromDBUsingEmail("winn@example.org");
 
             Assert.AreEqual(expected, actual);
             Assert.AreEqual(newSecurityAnswer, retrievedUpdatedAccount.SecurityAnswer3);
@@ -215,7 +215,7 @@ namespace UnitTests.ManagerLayerTests
             var emailAddress = "winn@example.org";
             var expected = new OkObjectResult("A password reset link has been sent to your email");
             // Clear all previously created tokens
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId);
             foreach(var token in tokens)
             {
                 rs.DeleteToken(token.Token);
@@ -272,13 +272,13 @@ namespace UnitTests.ManagerLayerTests
             //Arrange
             var emailAddress = "winn@example.org";
             var expected = new BadRequestObjectResult("Too many attempts have been attempted with this link, please create a new link.");
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId);
             foreach (var token in tokens)
             {
                 rs.DeleteToken(token.Token);
             }
             uam.GenerateResetPasswordToken(emailAddress);
-            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
+            tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
 
@@ -301,14 +301,14 @@ namespace UnitTests.ManagerLayerTests
             //Arrange
             var emailAddress = "winn@example.org";
             var expected = new BadRequestObjectResult("The password reset link has expired, please create a new link.");
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId); // Clears all previously created tokens
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId); // Clears all previously created tokens
             foreach (var token in tokens)
             {
                 rs.DeleteToken(token.Token);
             }
 
             uam.GenerateResetPasswordToken(emailAddress); // Generates a "fresh" token
-            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
+            tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
 
@@ -331,14 +331,14 @@ namespace UnitTests.ManagerLayerTests
             var request = tu.CreateSecurityAnswersRequest();
             request.SecurityAnswer1 = "SecurityAnswer10";
             var expected = new BadRequestObjectResult("Security answer(s) are not correct");
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId); // Clears all previously created tokens
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId); // Clears all previously created tokens
             foreach (var token in tokens)
             {
                 rs.DeleteToken(token.Token);
             }
 
             uam.GenerateResetPasswordToken(emailAddress);
-            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
+            tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
             request.PasswordResetToken = generatedToken.Token;
@@ -354,14 +354,14 @@ namespace UnitTests.ManagerLayerTests
             var request = tu.CreateSecurityAnswersRequest();
             var expected = new OkObjectResult("Successfully reset password");
 
-            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId); // Clears all previously created tokens
+            var tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId); // Clears all previously created tokens
             foreach (var token in tokens)
             {
                 rs.DeleteToken(token.Token);
             }
 
             uam.GenerateResetPasswordToken(emailAddress);
-            tokens = rs.GetTokensByUserId(uas.ReadUserFromDB(emailAddress).UserAccountId);
+            tokens = rs.GetTokensByUserId(uas.ReadUserFromDBUsingEmail(emailAddress).UserAccountId);
             var tokensAsList = tokens.ToList<PasswordResetToken>();
             var generatedToken = tokensAsList[0];
             request.PasswordResetToken = generatedToken.Token;

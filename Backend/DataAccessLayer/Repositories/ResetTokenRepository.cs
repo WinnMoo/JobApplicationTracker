@@ -9,8 +9,8 @@ namespace DataAccessLayer.Repositories
 {
     public class ResetTokenRepository
     {
-        MongoClient db;
-        private IMongoCollection<PasswordResetToken> _resetTokens;
+        readonly MongoClient db;
+        readonly private IMongoCollection<PasswordResetToken> _resetTokens;
 
         public ResetTokenRepository(MongoClient _db)
         {
@@ -21,11 +21,10 @@ namespace DataAccessLayer.Repositories
 
         public async Task<PasswordResetToken> GetToken(string resetToken)
         {
-            PasswordResetToken token = null;
             var filter = new BsonDocument("Token", resetToken);
             try
             {
-                token = await _resetTokens.Find(filter).FirstOrDefaultAsync();
+                PasswordResetToken token = await _resetTokens.Find(filter).FirstOrDefaultAsync();
                 return token;
             }
             catch
@@ -34,7 +33,7 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public ICollection<PasswordResetToken> GetTokens(ObjectId userId)
+        public ICollection<PasswordResetToken> GetTokens(string userId)
         {
             var filter = new BsonDocument("UserId", userId);
             try

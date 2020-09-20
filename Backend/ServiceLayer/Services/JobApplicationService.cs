@@ -10,7 +10,7 @@ namespace ServiceLayer.Services
 {
     public class JobApplicationService
     {
-        private JobApplicationRepository _jobApplicationRepo;
+        private readonly JobApplicationRepository _jobApplicationRepo;
         public JobApplicationService(MongoClient _db)
         {
             _jobApplicationRepo = new JobApplicationRepository(_db);
@@ -21,7 +21,7 @@ namespace ServiceLayer.Services
             return _jobApplicationRepo.InsertJobApplication(jobApplication).Result;
         }
 
-        public bool DeleteJobApplication(ObjectId jobApplicationId)
+        public bool DeleteJobApplication(string jobApplicationId)
         {
             return _jobApplicationRepo.DeleteJobApplication(jobApplicationId).Result;
         }
@@ -31,18 +31,18 @@ namespace ServiceLayer.Services
             return _jobApplicationRepo.UpdateJobApplication(jobApplication).Result;
         }
 
-        public JobApplication GetJobApplication(ObjectId jobApplicationId)
+        public JobApplication GetJobApplication(string jobApplicationId)
         {
-            return _jobApplicationRepo.GetJobApplication(jobApplicationId).Result; 
+            return _jobApplicationRepo.GetJobApplicationUsingId(jobApplicationId).Result; 
         }
 
-        public JobApplication GetJobApplication(string url)
+        public JobApplication GetJobApplicationUsingUrl(string url)
         {
-            return _jobApplicationRepo.GetJobApplication(url).Result;
+            return _jobApplicationRepo.GetJobApplicationUsingUrl(url).Result;
         }
 
         //TODO: add logic to get user specified number of job applications from db
-        public List<JobApplication> GetJobApplications(ObjectId userId, int startIndex, int numberOfItems)
+        public List<JobApplication> GetJobApplications(string userId, int startIndex, int numberOfItems)
         {
             return _jobApplicationRepo.GetJobApplications(userId, startIndex, numberOfItems).Result;
         }

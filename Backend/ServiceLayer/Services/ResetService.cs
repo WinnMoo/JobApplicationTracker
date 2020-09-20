@@ -10,7 +10,7 @@ namespace ServiceLayer.Services
 {
     public class ResetService
     {
-        private ResetTokenRepository _resetTokenRepository;
+        private readonly ResetTokenRepository _resetTokenRepository;
 
         public ResetService(MongoClient db)
         {
@@ -37,7 +37,7 @@ namespace ServiceLayer.Services
             return _resetTokenRepository.GetToken(token).Result;
         }
 
-        public ICollection<PasswordResetToken> GetTokensByUserId(ObjectId userId)
+        public ICollection<PasswordResetToken> GetTokensByUserId(string userId)
         {
             return _resetTokenRepository.GetTokens(userId);
         }

@@ -10,9 +10,9 @@ namespace DataAccessLayer.Interfaces
     public interface IUserAccountRepository
     {
         public Task<bool> InsertUserAccountAsync(UserAccount userAccount);
-        public Task<UserAccount> GetUserAccount(ObjectId userId);
-        public Task<UserAccount> GetUserAccount(string emailAddress);
+        public Task<UserAccount> GetUserAccountUsingId(string userId);
+        public Task<UserAccount> GetUserAccountUsingEmail(string emailAddress);
         public Task<bool> UpdateUserAccount(UserAccount userAccount);
-        public Task<bool> DeleteUserAccount(ObjectId userId);
+        public Task<bool> DeleteUserAccount(string userId);
     }
 }

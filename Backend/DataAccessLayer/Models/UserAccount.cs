@@ -10,7 +10,8 @@ namespace DataAccessLayer.Models
     {
 
         [BsonId]
-        public ObjectId UserAccountId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserAccountId { get; set; }
         [BsonRequired]
         public string FirstName {get; set;}
         [BsonRequired]

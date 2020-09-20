@@ -16,11 +16,11 @@ namespace ManagerLayer.Managers
     public class UserAccountManager
     {
         private const string EMAILADDRESS = "support@jobtaine.com";
-        private string BaseUrl = "";
+        private const string BaseUrl = "www.jobtaine.org";
 
-        private IUserAccountService _userAccountService;
-        private PasswordService _passwordService;
-        private ResetService _resetService;
+        private readonly IUserAccountService _userAccountService;
+        private readonly PasswordService _passwordService;
+        private readonly ResetService _resetService;
 
         public UserAccountManager(MongoClient _db)
         {
@@ -37,7 +37,7 @@ namespace ManagerLayer.Managers
                 return new BadRequestObjectResult("Invalid Email address");
             }
 
-            var retrievedUser = _userAccountService.ReadUserFromDB(request.EmailAddress);
+            var retrievedUser = _userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress);
             if (retrievedUser != null) // Checks if user already exists
             {
                 //var email = EmailConstructorAccountAlreadyExists();
@@ -48,19 +48,21 @@ namespace ManagerLayer.Managers
             byte[] userSalt = _passwordService.GenerateSalt();
             string hashedPassword = _passwordService.HashPassword(request.Password, userSalt);
 
-            UserAccount newUser = new UserAccount();
-            newUser.Email = request.EmailAddress.ToLower();
-            newUser.FirstName = request.FirstName;
+            UserAccount newUser = new UserAccount
+            {
+                Email = request.EmailAddress.ToLower(),
+                FirstName = request.FirstName,
 
-            newUser.PasswordHash = hashedPassword;
-            newUser.PasswordSalt = userSalt;
+                PasswordHash = hashedPassword,
+                PasswordSalt = userSalt,
 
-            newUser.SecurityAnswer1 = request.SecurityAnswer1;
-            newUser.SecurityAnswer2 = request.SecurityAnswer2;
-            newUser.SecurityAnswer3 = request.SecurityAnswer3;
-            newUser.SecurityQuestion1 = request.SecurityQuestion1;
-            newUser.SecurityQuestion2 = request.SecurityQuestion2;
-            newUser.SecurityQuestion3 = request.SecurityQuestion3;
+                SecurityAnswer1 = request.SecurityAnswer1,
+                SecurityAnswer2 = request.SecurityAnswer2,
+                SecurityAnswer3 = request.SecurityAnswer3,
+                SecurityQuestion1 = request.SecurityQuestion1,
+                SecurityQuestion2 = request.SecurityQuestion2,
+                SecurityQuestion3 = request.SecurityQuestion3
+            };
 
             if (_userAccountService.InsertUserIntoDB(newUser)) // Inserts new user into DB
             {
@@ -83,7 +85,7 @@ namespace ManagerLayer.Managers
 
         public ActionResult DeleteUserAccount(LoginRequest request)
         {
-            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
+            UserAccount user = _userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress.ToLower());
 
             if (_passwordService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
             {
@@ -104,7 +106,7 @@ namespace ManagerLayer.Managers
         public ActionResult UpdateUserAccount(AccountRequest request)
         {
 
-            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
+            UserAccount user = _userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress.ToLower());
 
             if(user == null)
             {
@@ -138,7 +140,7 @@ namespace ManagerLayer.Managers
         #region Passwords
         public ActionResult UpdateUserPassword(UpdatePasswordRequest request)
         {
-            UserAccount user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
+            UserAccount user = _userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress.ToLower());
 
             if (user == null)
             {
@@ -175,7 +177,7 @@ namespace ManagerLayer.Managers
         public ActionResult GenerateResetPasswordToken(string emailAddress)
         {
             MimeMessage email;
-            var user = _userAccountService.ReadUserFromDB(emailAddress);
+            var user = _userAccountService.ReadUserFromDBUsingEmail(emailAddress);
             if(user == null)
             {
                 email = EmailConstructorResetUserDoesNotExist();
@@ -219,11 +221,13 @@ namespace ManagerLayer.Managers
             {
                 return new BadRequestObjectResult("The password reset link has expired, please create a new link.");
             }
-            var user = _userAccountService.ReadUserFromDB(token.UserId);
-            Dictionary<string, string> securityQuestions = new Dictionary<string, string>();
-            securityQuestions.Add("SecurityQuestion1", user.SecurityQuestion1);
-            securityQuestions.Add("SecurityQuestion2", user.SecurityQuestion2);
-            securityQuestions.Add("SecurityQuestion3", user.SecurityQuestion3);
+            var user = _userAccountService.ReadUserFromDBUsingId(token.UserId);
+            Dictionary<string, string> securityQuestions = new Dictionary<string, string>
+            {
+                { "SecurityQuestion1", user.SecurityQuestion1 },
+                { "SecurityQuestion2", user.SecurityQuestion2 },
+                { "SecurityQuestion3", user.SecurityQuestion3 }
+            };
             return new OkObjectResult(JsonConvert.SerializeObject(securityQuestions, Formatting.Indented));
         }
 
@@ -254,7 +258,7 @@ namespace ManagerLayer.Managers
                 return new BadRequestObjectResult("The password reset link has expired, please create a new link.");
             }
 
-            var user = _userAccountService.ReadUserFromDB(token.UserId);
+            var user = _userAccountService.ReadUserFromDBUsingId(token.UserId);
 
             if(user.SecurityAnswer1 != request.SecurityAnswer1 
                 || user.SecurityAnswer2 != request.SecurityAnswer2 
@@ -271,7 +275,7 @@ namespace ManagerLayer.Managers
         {
             //TODO: Add password checker to ensure new password conforms with password guidelines
             PasswordResetToken token = _resetService.GetToken(request.PasswordResetToken);
-            var user = _userAccountService.ReadUserFromDB(token.UserId);
+            var user = _userAccountService.ReadUserFromDBUsingId(token.UserId);
             byte[] newUserSalt = _passwordService.GenerateSalt();
             string newHashedPassword = _passwordService.HashPassword(request.NewPassword, newUserSalt);
             user.PasswordSalt = newUserSalt;

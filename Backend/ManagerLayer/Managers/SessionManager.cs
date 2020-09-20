@@ -13,9 +13,9 @@ namespace ManagerLayer.Managers
 {
     public class SessionManager
     {
-        private SessionService _sessionService;
-        private UserAccountService _userAccountService;
-        private PasswordService _passwordService;
+        private readonly SessionService _sessionService;
+        private readonly UserAccountService _userAccountService;
+        private readonly PasswordService _passwordService;
 
         public SessionManager(MongoClient _db)
         {
@@ -32,7 +32,7 @@ namespace ManagerLayer.Managers
             // 2. Create Session
             // 3. Add Session to DB
             // 4. Return JWT Token on success
-            var user = _userAccountService.ReadUserFromDB(request.EmailAddress.ToLower());
+            var user = _userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress.ToLower());
             if(user == null)
             {
                 return new BadRequestObjectResult("User not found.");

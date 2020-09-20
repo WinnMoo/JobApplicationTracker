@@ -38,9 +38,9 @@ namespace UnitTests.ServiceLayerTests
         {
             var emailAddress = "winn@example.org";
 
-            var userRetrievedByEmail = uas.ReadUserFromDB(emailAddress);
+            var userRetrievedByEmail = uas.ReadUserFromDBUsingEmail(emailAddress);
 
-            var userRetrievedById = uas.ReadUserFromDB(userRetrievedByEmail.UserAccountId);
+            var userRetrievedById = uas.ReadUserFromDBUsingEmail(userRetrievedByEmail.UserAccountId);
 
             Assert.IsNotNull(userRetrievedById);
             Assert.AreEqual(userRetrievedByEmail, userRetrievedById);
@@ -51,7 +51,7 @@ namespace UnitTests.ServiceLayerTests
         {
             var emailAddress = "winn@example.org";
 
-            var user = uas.ReadUserFromDB(emailAddress);
+            var user = uas.ReadUserFromDBUsingEmail(emailAddress);
 
             Assert.IsNotNull(user);
         }
@@ -61,7 +61,7 @@ namespace UnitTests.ServiceLayerTests
         {
             var emailAddress = "winn@example.org";
 
-            var userRetrievedByEmail = uas.ReadUserFromDB(emailAddress);
+            var userRetrievedByEmail = uas.ReadUserFromDBUsingEmail(emailAddress);
 
             userRetrievedByEmail.FirstName = "Bob";
 
@@ -75,7 +75,7 @@ namespace UnitTests.ServiceLayerTests
         {
             var emailAddress = "winn@example.org";
 
-            var user = uas.ReadUserFromDB(emailAddress);
+            var user = uas.ReadUserFromDBUsingEmail(emailAddress);
             var deleted = uas.DeleteUserFromDB(user.UserAccountId);
 
             Assert.IsTrue(deleted);

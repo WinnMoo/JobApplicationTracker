@@ -9,9 +9,9 @@ namespace ServiceLayer.Interfaces
     public interface IUserAccountService
     {
         public bool InsertUserIntoDB(UserAccount userAccount);
-        public bool DeleteUserFromDB(ObjectId userId);
+        public bool DeleteUserFromDB(string userId);
         public bool UpdateUserInDB(UserAccount userAccount);
-        public UserAccount ReadUserFromDB(ObjectId userId);
-        public UserAccount ReadUserFromDB(string emailAddress);
+        public UserAccount ReadUserFromDBUsingId(string userId);
+        public UserAccount ReadUserFromDBUsingEmail(string emailAddress);
     }
 }

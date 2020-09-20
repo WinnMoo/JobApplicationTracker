@@ -10,7 +10,7 @@ namespace DataAccessLayer.Models
 {
     public class PasswordResetToken
     {
-        public PasswordResetToken(string resetToken, ObjectId userId)
+        public PasswordResetToken(string resetToken, string userId)
         {
             this.Token = resetToken;
             this.DateCreated = DateTime.UtcNow;
@@ -19,7 +19,8 @@ namespace DataAccessLayer.Models
         }
 
         [BsonId]
-        public ObjectId PasswordResetTokenId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string PasswordResetTokenId { get; set; }
         [Required]
         public string Token { get; set; }
         [Required]
@@ -27,7 +28,7 @@ namespace DataAccessLayer.Models
         [Required]
         public int Attempts { get; set; }
         [Required]
-        public ObjectId UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public bool IsValid { get; set; }
 

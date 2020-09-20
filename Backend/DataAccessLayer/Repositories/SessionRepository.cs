@@ -11,8 +11,8 @@ namespace DataAccessLayer.Repositories
 {
     public class SessionRepository : ISessionRepository
     {
-        private MongoClient db;
-        private IMongoCollection<Session> _sessions;
+        private readonly MongoClient db;
+        private readonly IMongoCollection<Session> _sessions;
 
         public SessionRepository(MongoClient _db)
         {

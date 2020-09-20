@@ -10,10 +10,10 @@ namespace DataAccessLayer.Interfaces
     interface IJobApplicationRepository
     {
         public Task<bool> InsertJobApplication(JobApplication jobApplication);
-        public Task<JobApplication> GetJobApplication(ObjectId jobApplicationId);
-        public Task<JobApplication> GetJobApplication(string jobPostingURL);
-        public Task<List<JobApplication>> GetJobApplications(ObjectId jobApplicationId, int startIndex, int numberOfItmes);
-        public Task<bool> DeleteJobApplication(ObjectId jobApplicationId);
+        public Task<JobApplication> GetJobApplicationUsingId(string jobApplicationId);
+        public Task<JobApplication> GetJobApplicationUsingUrl(string jobPostingURL);
+        public Task<List<JobApplication>> GetJobApplications(string jobApplicationId, int startIndex, int numberOfItmes);
+        public Task<bool> DeleteJobApplication(string jobApplicationId);
         public Task<bool> UpdateJobApplication(JobApplication jobApplication);
     }
 }

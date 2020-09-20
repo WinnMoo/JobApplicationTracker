@@ -10,8 +10,8 @@ namespace ManagerLayer.Managers
 {
     public class JobApplicationManager
     {
-        private JobApplicationService jobAppService;
-        private UserAccountService userAccountService;
+        private readonly JobApplicationService jobAppService;
+        private readonly UserAccountService userAccountService;
         public JobApplicationManager(MongoClient dbClient)
         {
             jobAppService = new JobApplicationService(dbClient);
@@ -25,7 +25,7 @@ namespace ManagerLayer.Managers
                 JobApplication newJobApp = new JobApplication(request.CompanyName, request.JobTitle, 
                                                               request.Description, request.Status, request.City, 
                                                               request.State, request.URLToJobPosting);
-                var user = userAccountService.ReadUserFromDB(request.UserEmail.ToLower());
+                var user = userAccountService.ReadUserFromDBUsingEmail(request.UserEmail.ToLower());
                 newJobApp.UserAccountId = user.UserAccountId;
                 if (!jobAppService.InsertJobApplication(newJobApp))
                 {
@@ -52,7 +52,7 @@ namespace ManagerLayer.Managers
                 {
                     return new NotFoundObjectResult("Job application not found");
                 }
-                if (!jobAppService.DeleteJobApplication(jobApplication.JobApplicationId))
+                if (!jobAppService.DeleteJobApplication(jobApplicationId))
                 {
                     return new StatusCodeResult(StatusCodes.Status500InternalServerError);
                 } else
@@ -100,7 +100,7 @@ namespace ManagerLayer.Managers
         {
             try
             {
-                var user = userAccountService.ReadUserFromDB(request.EmailAddress);
+                var user = userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress);
                 var jobApplications = jobAppService.GetJobApplications(user.UserAccountId, request.StartIndex, request.NumOfItemsToGet);
                 return new OkObjectResult(jobApplications);
             } catch {
