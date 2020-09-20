@@ -11,8 +11,8 @@ namespace DataAccessLayer.Repositories
 {
     public class UserAccountRepository : IUserAccountRepository
     {
-        MongoClient db;
-        private IMongoCollection<UserAccount> _userAccounts;
+        readonly MongoClient db;
+        readonly private IMongoCollection<UserAccount> _userAccounts;
         public UserAccountRepository(MongoClient _db)
         {
             this.db = _db;

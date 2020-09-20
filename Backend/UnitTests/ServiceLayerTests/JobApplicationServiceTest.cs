@@ -13,7 +13,7 @@ namespace UnitTests.ServiceLayerTests
     {
         private readonly string MONGODB_TEST_CONNECTION_STRING = Environment.GetEnvironmentVariable(
             "MongoDB_Test_ConnectionString", EnvironmentVariableTarget.User);
-        JobApplicationService jas;
+        readonly JobApplicationService jas;
         public JobApplicationServiceTest()
         {
             MongoClient client = new MongoClient(MONGODB_TEST_CONNECTION_STRING); 
@@ -30,8 +30,7 @@ namespace UnitTests.ServiceLayerTests
                 JobTitle = "Software Engineer",
                 City = "Westminster",
                 State = "CA",
-                JobPostingURL = "jobtaine.com/jobapplication",
-                UserDefinedFields = new Dictionary<string, string>()
+                JobPostingURL = "jobtaine.com/jobapplication"
             };
 
             //Act
@@ -51,8 +50,7 @@ namespace UnitTests.ServiceLayerTests
                 JobTitle = "Software Engineer",
                 City = "Westminster",
                 State = "CA",
-                JobPostingURL = "jobtaine.com/jobapplication",
-                UserDefinedFields = new Dictionary<string, string>()
+                JobPostingURL = "jobtaine.com/jobapplication"
             };
 
             //Act
@@ -104,8 +102,7 @@ namespace UnitTests.ServiceLayerTests
                 JobTitle = "Software Engineer",
                 City = "Long Beach",
                 State = "CA",
-                JobPostingURL = "greetngroup.com/jobapplication",
-                UserDefinedFields = new Dictionary<string, string>()
+                JobPostingURL = "greetngroup.com/jobapplication"
             };
             jas.InsertJobApplication(jobApplication);
             //Act
