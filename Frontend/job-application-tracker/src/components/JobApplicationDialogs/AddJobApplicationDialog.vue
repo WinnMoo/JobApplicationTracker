@@ -113,7 +113,6 @@ export default {
   },
   watch: {
     jobPostingUrl: function() {
-      console.log("watching");
       this.debouncedParseJobPosting();
     }
   },
@@ -122,7 +121,6 @@ export default {
   },
   methods: {
     ParseJobPosting: function() {
-      console.log("parsing");
       this.loading = true;
       axios({
         method: "POST",

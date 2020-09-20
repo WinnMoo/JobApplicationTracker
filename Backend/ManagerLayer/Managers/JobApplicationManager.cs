@@ -24,8 +24,8 @@ namespace ManagerLayer.Managers
             {
                 JobApplication newJobApp = new JobApplication(request.CompanyName, request.JobTitle, 
                                                               request.Description, request.Status, request.City, 
-                                                              request.State, request.URLToJobPosting, request.UserFields);
-                var user = userAccountService.ReadUserFromDB(request.UserEmail);
+                                                              request.State, request.URLToJobPosting);
+                var user = userAccountService.ReadUserFromDB(request.UserEmail.ToLower());
                 newJobApp.UserAccountId = user.UserAccountId;
                 if (!jobAppService.InsertJobApplication(newJobApp))
                 {
@@ -33,10 +33,11 @@ namespace ManagerLayer.Managers
                 }
                 else
                 {
-                    return new OkObjectResult("Added job application successfully");
+                    return new OkObjectResult(newJobApp);
                 }
-            } catch
+            } catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             
@@ -81,7 +82,6 @@ namespace ManagerLayer.Managers
                 jobApplication.City = request.City;
                 jobApplication.State = request.State;
                 jobApplication.JobPostingURL = request.URLToJobPosting;
-                jobApplication.UserDefinedFields = request.UserFields;
 
                 if (!jobAppService.UpdatejobApplication(jobApplication))
                 {

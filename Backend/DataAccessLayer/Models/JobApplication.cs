@@ -19,24 +19,23 @@ namespace DataAccessLayer.Models
         public string JobPostingURL { get; set; }
         [BsonRequired]
         public DateTime DateApplied { get; set; }
-        public Dictionary<string, string> UserDefinedFields { get; set; }
         public ObjectId UserAccountId { get; set; }
         public JobApplication()
         {
 
         }
 
-        public JobApplication(string companyName, string jobTitle, string description, int status, string city, string state, string link, Dictionary<string, string> userFields)
+        public JobApplication(string companyName, string jobTitle, string description, int status, string city, string state, string link)
         {
             this.JobApplicationId = ObjectId.GenerateNewId();
             this.CompanyName = companyName;
             this.JobTitle = jobTitle;
+            this.Description = description;
             this.Status = status;
             this.DateApplied = DateTime.Today;
             this.City = city;
             this.State = state;
             this.JobPostingURL = link;
-            this.UserDefinedFields = userFields;
         }
     }
 }

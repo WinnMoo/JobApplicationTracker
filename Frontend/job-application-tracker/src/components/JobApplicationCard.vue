@@ -5,7 +5,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-col>
-              <v-list-item-title class="display-1 text--primary">{{ jobApplication.company }}</v-list-item-title>
+              <v-list-item-title class="display-1 text--primary">{{ jobApplication.companyName }}</v-list-item-title>
             </v-col>
             <v-col class="text-right">
               <v-list-item-title>
@@ -134,7 +134,7 @@ export default {
       jobTitle: "",
       city: "",
       state: "",
-      description: "",
+      Description: "",
       status: "",
       dateApplied: ""
     }

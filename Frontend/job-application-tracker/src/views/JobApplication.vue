@@ -73,7 +73,7 @@ export default {
       jobApplications: [
         {
           id: 0,
-          company: "Microsoft",
+          companyName: "Microsoft",
           city: "Long Beach",
           state: "California",
           jobTitle: "Software Engineer",
@@ -84,7 +84,7 @@ export default {
         },
         {
           id: 1,
-          company: "Apple",
+          companyName: "Apple",
           city: "Seattle",
           state: "Washington",
           jobTitle: "Software Engineer",
@@ -95,7 +95,7 @@ export default {
         },
         {
           id: 2,
-          company: "Google",
+          companyName: "Google",
           city: "Irvine",
           state: "California",
           jobTitle: "Software Engineer",
@@ -106,7 +106,7 @@ export default {
         },
         {
           id: 3,
-          company: "Belkin",
+          companyName: "Belkin",
           city: "Irvine",
           state: "California",
           jobTitle: "Software Engineer",
@@ -178,7 +178,6 @@ export default {
             State: state,
             URLToJobPosting: jobPostingUrl,
             DateApplied: Date.UTC.now,
-            UserFields: null,
             UserEmail: this.$store.getters.emailAddress
           },
           headers: {
@@ -187,6 +186,7 @@ export default {
           }
         })
           .then(response => {
+            console.log(response.data);
             this.jobApplications.push(response.data);
             this.$forceUpdate;
           })

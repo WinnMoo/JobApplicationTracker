@@ -24,7 +24,7 @@ namespace ControllerLayer.Controllers
         public ActionResult AddJobApplication([FromBody] JobApplicationRequest request)
         {
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
-            throw new NotImplementedException();
+            return _jobAppManager.AddJobApplication(request);
         }
 
         [HttpDelete]

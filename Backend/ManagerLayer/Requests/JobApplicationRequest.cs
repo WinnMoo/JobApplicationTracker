@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ namespace ManagerLayer.Requests
 {
     public class JobApplicationRequest
     {
-        public ObjectId JobAppId { get; set; }
+        public string JobAppId { get; set; }
         [Required]
         public string CompanyName { get; set; }
         [Required]
@@ -19,8 +20,6 @@ namespace ManagerLayer.Requests
         public string City { get; set; }
         public string State { get; set; }
         public string URLToJobPosting { get; set; }
-        public DateTime DateApplied { get; set; }
-        public Dictionary<string, string> UserFields { get; set; }
         public string UserEmail { get; set; }
     }
 }
