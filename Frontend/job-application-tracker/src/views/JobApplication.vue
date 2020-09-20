@@ -58,21 +58,21 @@ export default {
       indexToDelete: null,
       indexToUpdate: null,
       idToModify: -1,
-      jobApplication: {
-        JobAppId: null,
-        CompanyName: null,
-        JobtTitle: null,
-        Description: null,
-        Status: null,
-        City: null,
-        State: null,
-        URLToJobPosting: null,
-        DateApplied: null,
-        UserEmail: null
+      JobApplication: {
+        jobApplicationId: null,
+        companyName: null,
+        jobtTitle: null,
+        description: null,
+        status: null,
+        city: null,
+        state: null,
+        uRLToJobPosting: null,
+        dateApplied: null,
+        userEmail: null
       },
       jobApplications: [
         {
-          id: 0,
+          jobApplicationId: 0,
           companyName: "Microsoft",
           city: "Long Beach",
           state: "California",
@@ -83,7 +83,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
-          id: 1,
+          jobApplicationId: 1,
           companyName: "Apple",
           city: "Seattle",
           state: "Washington",
@@ -94,7 +94,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
-          id: 2,
+          jobApplicationId: 2,
           companyName: "Google",
           city: "Irvine",
           state: "California",
@@ -105,7 +105,7 @@ export default {
           dateApplied: "12/12/12"
         },
         {
-          id: 3,
+          jobApplicationId: 3,
           companyName: "Belkin",
           city: "Irvine",
           state: "California",
@@ -186,7 +186,6 @@ export default {
           }
         })
           .then(response => {
-            console.log(response.data);
             this.jobApplications.push(response.data);
             this.$forceUpdate;
           })
@@ -238,7 +237,7 @@ export default {
         if (companyName != null && jobTitle != null && description != null) {
           this.updateDialog = false;
           let jobApplicationIndex = this.jobApplications.findIndex(
-            element => element.id == jobApplicationId
+            element => element.jobApplicationId == jobApplicationId
           );
           this.JobApplication = this.jobApplications[jobApplicationIndex];
           this.JobApplication.CompanyName = companyName;
@@ -251,7 +250,7 @@ export default {
     },
     updateStatus: function(status, jobApplicationId) {
       let jobApplicationIndex = this.jobApplications.findIndex(
-        element => element.id == jobApplicationId
+        element => element.jobApplicationId == jobApplicationId
       );
       this.JobApplication = this.jobApplications[jobApplicationIndex];
       this.JobApplication.Status = status;
@@ -259,7 +258,7 @@ export default {
     },
     updateLocation: function(city, state, jobApplicationId) {
       let jobApplicationIndex = this.jobApplications.findIndex(
-        element => element.id == jobApplicationId
+        element => element.jobApplicationId == jobApplicationId
       );
       this.JobApplication = this.jobApplications[jobApplicationIndex];
       this.JobApplication.City = city;
@@ -267,19 +266,20 @@ export default {
       this.updateJobApplication(this.JobApplication, jobApplicationIndex);
     },
     updateJobApplication: function(JobApplication, jobApplicationIndex) {
+      console.log(JobApplication)
       axios({
         method: "PUT",
         url: `${apiURL}/jobapp/` + "update",
         data: {
-          JobAppId: JobApplication.JobAppId,
-          CompanyName: JobApplication.CompanyName,
-          JobTitle: JobApplication.JobtTitle,
-          Description: JobApplication.Description,
+          JobAppId: JobApplication.jobApplicationId,
+          CompanyName: JobApplication.companyName,
+          JobTitle: JobApplication.jobTitle,
+          Description: JobApplication.description,
           Status: JobApplication.Status,
-          City: JobApplication.City,
-          State: JobApplication.State,
-          URLToJobPosting: JobApplication.URLToJobPosting,
-          DateApplied: JobApplication.DateApplied,
+          City: JobApplication.city,
+          State: JobApplication.state,
+          URLToJobPosting: JobApplication.jobPostingURL,
+          DateApplied: JobApplication.dateApplied,
           UserEmail: this.$store.getters.emailAddress
         },
         headers: {

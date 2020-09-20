@@ -129,7 +129,7 @@ export default {
   name: "JobApplicationCard",
   props: {
     jobApplication: {
-      id: "",
+      jobApplicationId: "",
       companyName: "",
       jobTitle: "",
       city: "",
@@ -231,21 +231,21 @@ export default {
   methods: {
     selectStatus: function(status) {
       if (status !== 0) {
-        this.$emit("updateStatus", status, this.jobApplication.id);
+        this.$emit("updateStatus", status, this.jobApplication.jobApplicationId);
       }
     },
     openUpdateDialog: function() {
-      this.$emit("openUpdateDialog", true, this.jobApplication.id);
+      this.$emit("openUpdateDialog", true, this.jobApplication.jobApplicationId);
     },
     openDeleteDialog: function() {
-      this.$emit("openDeleteDialog", true, this.jobApplication.id);
+      this.$emit("openDeleteDialog", true, this.jobApplication.jobApplicationId);
     },
     saveLocation: function() {
       this.$emit(
         "updateLocation",
         this.selectedCity,
         this.selectedState,
-        this.jobApplication.id
+        this.jobApplication.jobApplicationId
       );
       this.menu = false;
     }
