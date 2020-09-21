@@ -215,23 +215,23 @@ export default {
       if (
         this.securityQuestion1 === this.securityQuestion2 ||
         this.securityQuestion1 === this.securityQuestion3 ||
-        this.securityQuestion2 == this.securityQuestion3
+        this.securityQuestion2 === this.securityQuestion3
       ) {
         this.formErrorMessage = "Please choose 3 different security questions.";
         this.errorAlert = true;
       }
       if (
-        this.securityQuestion1 == null ||
-        this.securityQuestion2 == null ||
-        this.securityQuestion3 == null
+        this.securityAnswer1 == null ||
+        this.securityAnswer2 == null ||
+        this.securityAnswer3 == null
       ) {
         this.formErrorMessage = "Please fill in your security answers.";
         this.errorAlert = true;
       }
-      var strongRegex = new RegExp(
+      var strongRegexPassword = new RegExp(
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.,;'+=-])(?=.{8,})"
       );
-      if (!strongRegex.test(this.password)) {
+      if (!strongRegexPassword.test(this.password)) {
         this.formErrorMessage =
           "Password must contain 1 uppercase character, 1 lowercase character, 1 number, 1 special character and be at least 8 characters long.";
         this.errorAlert = true;
@@ -283,6 +283,7 @@ export default {
           })
           .catch(e => {
             this.formErrorMessage = e.response.data;
+            this.errorAlert = true;
           })
           .finally(() => {
             this.loading = false;
