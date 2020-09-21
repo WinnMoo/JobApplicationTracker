@@ -17,7 +17,7 @@ export default {
   name: "DeleteJobApplicationDialog",
   props: {
     deleteDialog: Boolean,
-    idToDelete: Number
+    idToDelete: String
   },
   watch: {
     deleteDialog: {

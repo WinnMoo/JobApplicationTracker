@@ -47,7 +47,7 @@ namespace DataAccessLayer.Repositories
             var filter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
-                retrievedJobApplication = await _jobApplications.Find(filter).FirstOrDefaultAsync();
+                retrievedJobApplication = await _jobApplications.Find(x => x.JobApplicationId == jobApplicationId).FirstOrDefaultAsync();
                 return retrievedJobApplication;
             }
             catch
@@ -117,10 +117,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> UpdateJobApplication(JobApplication updatedJobApplication)
         {
             var updated = false;
-            var updateFilter = new BsonDocument("JobApplicationId", updatedJobApplication.JobApplicationId);
             try
             {
-                await _jobApplications.ReplaceOneAsync(updateFilter, updatedJobApplication);
+                await _jobApplications.ReplaceOneAsync(x => x.JobApplicationId == updatedJobApplication.JobApplicationId, updatedJobApplication);
                 updated = true;
             }
             catch

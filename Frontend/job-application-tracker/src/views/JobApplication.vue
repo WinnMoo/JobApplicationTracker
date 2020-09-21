@@ -57,7 +57,7 @@ export default {
       updateDialog: false,
       indexToDelete: null,
       indexToUpdate: null,
-      idToModify: -1,
+      idToModify: null,
       JobApplication: {
         jobApplicationId: null,
         companyName: null,
@@ -240,9 +240,10 @@ export default {
             element => element.jobApplicationId == jobApplicationId
           );
           this.JobApplication = this.jobApplications[jobApplicationIndex];
-          this.JobApplication.CompanyName = companyName;
-          this.JobApplication.JobTitle = jobTitle;
-          this.JobApplication.Description = description;
+          this.JobApplication.companyName = companyName;
+          this.JobApplication.jobTitle = jobTitle;
+          this.JobApplication.description = description;
+          console.log(this.JobApplication);
           this.updateJobApplication(this.JobApplication, jobApplicationIndex);
         }
       }
@@ -253,7 +254,7 @@ export default {
         element => element.jobApplicationId == jobApplicationId
       );
       this.JobApplication = this.jobApplications[jobApplicationIndex];
-      this.JobApplication.Status = status;
+      this.JobApplication.status = status;
       this.updateJobApplication(this.JobApplication, jobApplicationIndex);
     },
     updateLocation: function(city, state, jobApplicationId) {
@@ -261,12 +262,11 @@ export default {
         element => element.jobApplicationId == jobApplicationId
       );
       this.JobApplication = this.jobApplications[jobApplicationIndex];
-      this.JobApplication.City = city;
-      this.JobApplication.State = state;
+      this.JobApplication.city = city;
+      this.JobApplication.state = state;
       this.updateJobApplication(this.JobApplication, jobApplicationIndex);
     },
     updateJobApplication: function(JobApplication, jobApplicationIndex) {
-      console.log(JobApplication)
       axios({
         method: "PUT",
         url: `${apiURL}/jobapp/` + "update",
@@ -275,7 +275,7 @@ export default {
           CompanyName: JobApplication.companyName,
           JobTitle: JobApplication.jobTitle,
           Description: JobApplication.description,
-          Status: JobApplication.Status,
+          Status: JobApplication.status,
           City: JobApplication.city,
           State: JobApplication.state,
           URLToJobPosting: JobApplication.jobPostingURL,
@@ -288,6 +288,7 @@ export default {
         }
       })
         .then(response => {
+          console.log(response.data);
           let updatedJobApplications = this.jobApplications;
           updatedJobApplications[jobApplicationIndex] = response.data;
           this.jobApplications = updatedJobApplications;
