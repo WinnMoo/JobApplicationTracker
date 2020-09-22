@@ -197,10 +197,11 @@ export default {
       }
     },
     deleteJobApplication: function(jobApplicationId, deleteCondition) {
+      console.log(jobApplicationId);
       if (deleteCondition) {
         axios({
-          method: "POST",
-          url: `${apiURL}/jobapp/` + "add",
+          method: "DELETE",
+          url: `${apiURL}/jobapp/` + "delete",
           data: {
             jobApplicationId
           },
@@ -221,6 +222,7 @@ export default {
           })
           .catch(e => {
             this.ErrorMessage = e.response.data;
+            this.errorPopup = true;
           });
       } else {
         this.deleteDialog = false;

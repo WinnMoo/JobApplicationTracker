@@ -29,10 +29,10 @@ namespace ControllerLayer.Controllers
 
         [HttpDelete]
         [Route("api/jobapp/delete")]
-        public ActionResult DeleteJobApplication([FromBody] string jobApplicationId)
+        public ActionResult DeleteJobApplication([FromBody] DeleteJobApplicationRequest request)
         {
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
-            return _jobAppManager.DeleteJobApplication(jobApplicationId);
+            return _jobAppManager.DeleteJobApplication(request.JobApplicationId);
         }
 
         [HttpPut]

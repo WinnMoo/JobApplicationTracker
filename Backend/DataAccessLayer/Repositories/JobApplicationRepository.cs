@@ -101,10 +101,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> DeleteJobApplication(string jobApplicationId)
         {
             var deleted = false;
-            var deleteFilter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
-                await _jobApplications.DeleteOneAsync(deleteFilter);
+                await _jobApplications.DeleteOneAsync(x => x.JobApplicationId == jobApplicationId);
                 deleted = true;
             }
             catch
