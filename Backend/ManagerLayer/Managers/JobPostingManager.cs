@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using ServiceLayer.Services;
@@ -27,11 +28,11 @@ namespace ManagerLayer.Managers
             }
             if (InsertJobPostingToDB(JobPostToAdd))
             {
-                return new OkObjectResult("Job Posting has been successfully added.");
-            } 
+                return new ObjectResult(JobPostToAdd) { StatusCode = StatusCodes.Status201Created };
+            }
             else
             {
-                return new ConflictObjectResult("Job Posting Already Exists.");
+                return new OkObjectResult(JobPostToAdd);
             }
         }
 
@@ -66,7 +67,6 @@ namespace ManagerLayer.Managers
             if(exists == null)
             {
                 return _jobPostingService.InsertJobPosting(jobPosting);
-
             }
             return false;
         }

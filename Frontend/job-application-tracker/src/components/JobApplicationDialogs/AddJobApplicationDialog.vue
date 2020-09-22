@@ -34,20 +34,10 @@
             </v-row>
             <v-row>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field
-                  label="City"
-                  v-model="city"
-                  hint="E.g. Irvine"
-                  required
-                ></v-text-field>
+                <v-text-field label="City" v-model="city" hint="E.g. Irvine"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field
-                  label="State"
-                  v-model="state"
-                  hint="E.g. California"
-                  required
-                ></v-text-field>
+                <v-text-field label="State" v-model="state" hint="E.g. California"></v-text-field>
               </v-col>
             </v-row>
             <v-row>
@@ -62,13 +52,8 @@
             </v-row>
             <v-row>
               <v-col cols="12" sm="12" md="12">
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Link to job posting"
-                  v-model="jobPostingUrl"
-                  required
-                ></v-text-field>
-                <div v-if="this.error" id="parseError">Unable to parse job posting</div>
+                <v-text-field label="Link to job posting" v-model="jobPostingUrl" required></v-text-field>
+                <div v-if="this.parseError" id="parseError">Unable to parse job posting</div>
               </v-col>
             </v-row>
           </v-container>
@@ -105,6 +90,7 @@ export default {
       jobPostingUrl: null,
       loading: false,
       error: false,
+      parseError: false,
       errorLoadingJobPostingMessage: null,
       rules: {
         required: value => !!value || "Required."
@@ -121,48 +107,59 @@ export default {
   },
   methods: {
     ParseJobPosting: function() {
-      this.loading = true;
-      axios({
-        method: "POST",
-        url: `${apiURL}/jobposting/` + "parse",
-        data: {
-          urlToParse: this.jobPostingUrl
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true
-        }
-      })
-        .then(response => {
-          this.popup = true;
-          this.companyName = response.data.CompanyName;
-          this.description = response.data.description;
-          this.jobTitle = response.data.jobTitle;
+      if (this.jobPostingUrl != null) {
+        this.loading = true;
+        axios({
+          method: "POST",
+          url: `${apiURL}/jobposting/` + "parse",
+          data: {
+            UrlToParse: this.jobPostingUrl
+          },
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+          }
         })
-        .catch(e => {
-          this.error = true;
-          this.errorLoadingJobPostingMessage = e.response.data;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+          .then(response => {
+            console.log(response.data);
+            this.companyName = response.data.company;
+            this.description = response.data.description;
+            this.jobTitle = response.data.jobTitle;
+            this.state = response.data.state;
+          })
+          .catch(e => {
+            this.parseError = true;
+            this.errorLoadingJobPostingMessage = e.response.data;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      }
     },
     closeAddDialog: function() {
       this.$refs.form.reset();
+      this.jobPostingUrl = null;
+      this.parseError = false;
       this.addDialog = false;
+      this.$forceUpdate;
     },
     addJobApplication: function() {
-      this.$emit(
-        "addJobApplication",
-        this.companyName,
-        this.jobTitle,
-        this.description,
-        this.jobPostingUrl,
-        this.city,
-        this.state
-      );
-      this.$refs.form.reset();
-      this.addDialog = false;
+      if (
+        this.companyName != null &&
+        this.jobTitle != null &&
+        this.description != null
+      ) {
+        this.$emit(
+          "addJobApplication",
+          this.companyName,
+          this.jobTitle,
+          this.description,
+          this.jobPostingUrl,
+          this.city,
+          this.state
+        );
+        closeAddDialog();
+      }
     }
   }
 };

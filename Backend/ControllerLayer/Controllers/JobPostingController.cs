@@ -44,12 +44,12 @@ namespace ControllerLayer.Controllers
 
         [HttpPost]
         [Route("api/jobposting/parse")]
-        public ActionResult ParseJobPosting([FromBody] string urlToParse)
+        public ActionResult ParseJobPosting([FromBody] ParseJobPostingRequest request)
         {
             try
             {
                 JobPostingManager _jobPostingManager = new JobPostingManager(new MongoClient(MONGODB_CONNECTION_STRING));
-                return _jobPostingManager.AddJobPosting(urlToParse);
+                return _jobPostingManager.AddJobPosting(request.UrlToParse);
             } catch (Exception e)
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);

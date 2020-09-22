@@ -245,7 +245,6 @@ export default {
           this.JobApplication.companyName = companyName;
           this.JobApplication.jobTitle = jobTitle;
           this.JobApplication.description = description;
-          console.log(this.JobApplication);
           this.updateJobApplication(this.JobApplication, jobApplicationIndex);
         }
       }
@@ -291,7 +290,6 @@ export default {
       })
         .then(response => {
           this.$set(this.jobApplications, jobApplicationIndex, response.data);
-          console.log(this.jobApplications);
         })
         .catch(e => {
           this.ErrorMessage = e.response.data;

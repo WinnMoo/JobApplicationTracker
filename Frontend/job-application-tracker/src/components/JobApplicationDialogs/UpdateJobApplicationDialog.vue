@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     updateJobApplication: function(dialogCondition) {
-      console.log(this.companyName, this.jobTitle, this.description);
       this.$emit(
         "updateJobApplication",
         this.companyName,

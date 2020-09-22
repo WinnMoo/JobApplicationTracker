@@ -231,14 +231,26 @@ export default {
   methods: {
     selectStatus: function(status) {
       if (status !== 0) {
-        this.$emit("updateStatus", status, this.jobApplication.jobApplicationId);
+        this.$emit(
+          "updateStatus",
+          status,
+          this.jobApplication.jobApplicationId
+        );
       }
     },
     openUpdateDialog: function() {
-      this.$emit("openUpdateDialog", true, this.jobApplication.jobApplicationId);
+      this.$emit(
+        "openUpdateDialog",
+        true,
+        this.jobApplication.jobApplicationId
+      );
     },
     openDeleteDialog: function() {
-      this.$emit("openDeleteDialog", true, this.jobApplication.jobApplicationId);
+      this.$emit(
+        "openDeleteDialog",
+        true,
+        this.jobApplication.jobApplicationId
+      );
     },
     saveLocation: function() {
       this.$emit(
