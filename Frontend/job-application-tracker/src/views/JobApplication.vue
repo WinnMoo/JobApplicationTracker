@@ -130,10 +130,10 @@ export default {
       axios({
         method: "GET",
         url: `${apiURL}/jobapp/` + "get",
-        data: {
-          EmailAddress: this.$data.emailAddress,
+        params: {
           StartIndex: 0,
-          NumOfItemsToget: -1
+          NumOfItemsToGet: -1,
+          EmailAddress: this.$store.getters.emailAddress
         },
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -297,6 +297,9 @@ export default {
           this.ErrorMessage = e.response.data;
         });
     }
+  },
+  created: function () {
+    this.fetchJobApplications();
   }
 };
 </script>

@@ -79,23 +79,20 @@ namespace DataAccessLayer.Repositories
         /// <returns>List of job applications</returns>
         public async Task<List<JobApplication>> GetJobApplications(string userId, int startIndex, int numberOfItems )
         {
-            var JobApplications = new List<JobApplication>();
-            var filter = new BsonDocument("UserAccountId", userId);
             try
             {
                 var index = startIndex + numberOfItems;
                 if(index == -1) // If numberOfItems == -1, return all items, otherwise only return a window of items
                 {
-                    await _jobApplications.Find(filter).ToListAsync();
+                    return await _jobApplications.Find(x => x.UserAccountId == userId).ToListAsync();
                 } else {
-                    await _jobApplications.Find(filter).Skip(startIndex).Limit(numberOfItems).ToListAsync();
+                    return await _jobApplications.Find(x => x.UserAccountId == userId).Skip(startIndex).Limit(numberOfItems).ToListAsync();
                 }
             }
             catch
             {
                 return null;
             }
-            return JobApplications;
         }
 
         public async Task<bool> DeleteJobApplication(string jobApplicationId)

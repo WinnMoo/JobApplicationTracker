@@ -96,12 +96,16 @@ namespace ManagerLayer.Managers
             }
         }
 
-        public ActionResult GetJobApplications(GetJobApplicationsRequest request)
+        public ActionResult GetJobApplications(int startIndex, int numOfItemsToGet, string emailAddress)
         {
             try
             {
-                var user = userAccountService.ReadUserFromDBUsingEmail(request.EmailAddress);
-                var jobApplications = jobAppService.GetJobApplications(user.UserAccountId, request.StartIndex, request.NumOfItemsToGet);
+                var user = userAccountService.ReadUserFromDBUsingEmail(emailAddress.ToLower());
+                if(user == null)
+                {
+                    return new NotFoundObjectResult("Email address not found");
+                }
+                var jobApplications = jobAppService.GetJobApplications(user.UserAccountId, startIndex, numOfItemsToGet);
                 return new OkObjectResult(jobApplications);
             } catch {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);

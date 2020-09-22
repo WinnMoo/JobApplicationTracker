@@ -13,10 +13,10 @@ namespace ControllerLayer.Controllers
 
         [HttpGet]
         [Route("api/jobapp/get")]
-        public ActionResult GetJobApplications([FromBody] GetJobApplicationsRequest request)
+        public ActionResult GetJobApplications([FromQuery] int startIndex, [FromQuery] int numOfItemsToGet, [FromQuery] string emailAddress)
         {
             JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
-            return _jobAppManager.GetJobApplications(request);
+            return _jobAppManager.GetJobApplications(startIndex, numOfItemsToGet, emailAddress);
         }
 
         [HttpPost]
