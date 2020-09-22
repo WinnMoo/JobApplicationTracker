@@ -288,11 +288,8 @@ export default {
         }
       })
         .then(response => {
-          console.log(response.data);
-          let updatedJobApplications = this.jobApplications;
-          updatedJobApplications[jobApplicationIndex] = response.data;
-          this.jobApplications = updatedJobApplications;
-          this.$forceUpdate;
+          this.$set(this.jobApplications, jobApplicationIndex, response.data);
+          console.log(this.jobApplications);
         })
         .catch(e => {
           this.ErrorMessage = e.response.data;
