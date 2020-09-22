@@ -8,7 +8,7 @@
           <v-textarea
               outlined
               hint="Feel free to leave any suggestions or feedback about this application"
-              placeholder="I love job app track!"
+              placeholder="I love Jobtaine!"
               v-model="this.feedback"
               width="800"
               persistent-hint
