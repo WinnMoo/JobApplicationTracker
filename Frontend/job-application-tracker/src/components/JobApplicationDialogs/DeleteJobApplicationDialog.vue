@@ -22,8 +22,8 @@ export default {
   watch: {
     deleteDialog: {
       handler(oldVal, newVal) {
-        console.log(oldVal + newVal);
         this.showDialog = oldVal;
+        newVal;
       }
     }
   },

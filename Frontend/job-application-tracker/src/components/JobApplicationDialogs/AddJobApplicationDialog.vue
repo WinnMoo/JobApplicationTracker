@@ -141,7 +141,6 @@ export default {
       this.jobPostingUrl = null;
       this.parseError = false;
       this.addDialog = false;
-      this.$forceUpdate;
     },
     addJobApplication: function() {
       if (
@@ -158,7 +157,7 @@ export default {
           this.city,
           this.state
         );
-        closeAddDialog();
+        this.closeAddDialog();
       }
     }
   }

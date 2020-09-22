@@ -55,8 +55,6 @@ export default {
       addDialog: false,
       deleteDialog: false,
       updateDialog: false,
-      indexToDelete: null,
-      indexToUpdate: null,
       idToModify: null,
       JobApplication: {
         jobApplicationId: null,
@@ -71,50 +69,6 @@ export default {
         userEmail: null
       },
       jobApplications: [
-        {
-          jobApplicationId: 0,
-          companyName: "Microsoft",
-          city: "Long Beach",
-          state: "California",
-          jobTitle: "Software Engineer",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          status: "1",
-          dateApplied: "12/12/12"
-        },
-        {
-          jobApplicationId: 1,
-          companyName: "Apple",
-          city: "Seattle",
-          state: "Washington",
-          jobTitle: "Software Engineer",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          status: "0",
-          dateApplied: "12/12/12"
-        },
-        {
-          jobApplicationId: 2,
-          companyName: "Google",
-          city: "Irvine",
-          state: "California",
-          jobTitle: "Software Engineer",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          status: "2",
-          dateApplied: "12/12/12"
-        },
-        {
-          jobApplicationId: 3,
-          companyName: "Belkin",
-          city: "Irvine",
-          state: "California",
-          jobTitle: "Software Engineer",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          status: "3",
-          dateApplied: "12/12/12"
-        }
       ]
     };
   },
@@ -197,7 +151,6 @@ export default {
       }
     },
     deleteJobApplication: function(jobApplicationId, deleteCondition) {
-      console.log(jobApplicationId);
       if (deleteCondition) {
         axios({
           method: "DELETE",
@@ -211,18 +164,20 @@ export default {
           }
         })
           .then(response => {
-            console.log(response.data);
             let jobApplicationIndex = this.jobApplications.findIndex(
-              element => element.id == jobApplicationId
+              element => element.jobApplicationId == jobApplicationId
             );
             let updatedJobApplications = this.jobApplications;
             updatedJobApplications.splice(jobApplicationIndex, 1);
             this.jobApplications = updatedJobApplications;
             this.$forceUpdate;
+            return response;
           })
           .catch(e => {
             this.ErrorMessage = e.response.data;
             this.errorPopup = true;
+          }).finally(() => {
+            this.deleteDialog = false;
           });
       } else {
         this.deleteDialog = false;
