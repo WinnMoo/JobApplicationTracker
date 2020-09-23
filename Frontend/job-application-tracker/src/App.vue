@@ -139,7 +139,6 @@ export default {
       } else {
         this.$router.push("/");
       }
-      console.log(this.isLoggedIn);
     },
     DropDownMenuClick: function(title) {
       if (title === "Settings") {
@@ -162,7 +161,7 @@ export default {
         }
       })
         .then(response => {
-          console.log(response);
+          return response;
         })
         .catch(e => {
           this.formErrorMessage = e.response.data;

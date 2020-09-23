@@ -84,9 +84,8 @@ namespace DataAccessLayer.Repositories
             try
             {
                 var sessionToExtend = _sessions.Find(x => x.JWTToken == JWTToken).FirstOrDefaultAsync().Result;
-                var idFilter = new BsonDocument("SessionId", sessionToExtend.SessionId);
                 sessionToExtend.DateExpired = DateTime.UtcNow.AddMinutes(30);
-                await _sessions.ReplaceOneAsync(filter, sessionToExtend);
+                await _sessions.ReplaceOneAsync(x => x.SessionId == sessionToExtend.SessionId, sessionToExtend);
                 extended = true;
             } 
             catch
