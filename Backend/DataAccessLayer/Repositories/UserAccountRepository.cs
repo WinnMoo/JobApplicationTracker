@@ -25,8 +25,7 @@ namespace DataAccessLayer.Repositories
             var deleted = false;
             try
             {
-                var filter = new BsonDocument("UserId", userId);
-                await _userAccounts.DeleteOneAsync(filter);
+                await _userAccounts.DeleteOneAsync(x => x.UserAccountId == userId);
                 deleted = true;
             }
             catch
@@ -39,10 +38,9 @@ namespace DataAccessLayer.Repositories
         public async Task<UserAccount> GetUserAccountUsingId(string userId)
         {
             UserAccount retrievedUserAccount = null;
-            var filter = new BsonDocument("UserId", userId);
             try
             {
-                retrievedUserAccount = await _userAccounts.Find(filter).FirstOrDefaultAsync();
+                retrievedUserAccount = await _userAccounts.Find(x => x.UserAccountId == userId).FirstOrDefaultAsync();
             }
             catch
             {
@@ -54,10 +52,9 @@ namespace DataAccessLayer.Repositories
         public async Task<UserAccount> GetUserAccountUsingEmail(string emailAddress)
         {
             UserAccount retrievedUserAccount = null;
-            var filter = new BsonDocument("Email", emailAddress);
             try
             {
-                retrievedUserAccount =  await _userAccounts.Find(filter).FirstOrDefaultAsync();
+                retrievedUserAccount =  await _userAccounts.Find(x => x.Email == emailAddress).FirstOrDefaultAsync();
             }
             catch
             {
@@ -84,10 +81,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> UpdateUserAccount(UserAccount updatedUserAccount)
         {
             var updated = false;
-            var updateFilter = new BsonDocument("UserAccountId", updatedUserAccount.UserAccountId);
             try
             {
-                await _userAccounts.ReplaceOneAsync(updateFilter, updatedUserAccount);
+                await _userAccounts.ReplaceOneAsync(x => x.UserAccountId == updatedUserAccount.UserAccountId, updatedUserAccount);
                 updated = true;
             }
             catch

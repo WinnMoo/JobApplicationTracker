@@ -36,10 +36,9 @@ namespace DataAccessLayer.Repositories
         public async Task<JobPosting> GetJobPosting(string url)
         {
             JobPosting posting = null;
-            var filter = new BsonDocument("URL", url);
             try
             {
-                posting = await _jobPostings.Find(filter).FirstOrDefaultAsync();
+                posting = await _jobPostings.Find(x => x.URL == url).FirstOrDefaultAsync();
                 return posting;
             }
             catch (Exception e)
@@ -61,10 +60,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> UpdateJobPosting(JobPosting jobPosting)
         {
             bool updated = false;
-            var filter = new BsonDocument("URL", jobPosting.URL);
             try
             {
-                await _jobPostings.ReplaceOneAsync(filter, jobPosting);
+                await _jobPostings.ReplaceOneAsync(x => x.URL == jobPosting.URL, jobPosting);
                 updated = true;
                 return updated;
             } catch
@@ -76,7 +74,7 @@ namespace DataAccessLayer.Repositories
         public void ValidateJobPostings()
         {
             var update = new BsonDocument("IsActive", false);
-            _jobPostings.UpdateManyAsync(x => x.DateAdded.AddDays(30) <= DateTime.Now, update);
+            _jobPostings.UpdateManyAsync(x => x.DateAdded.AddDays(30) <= DateTime.UtcNow, update);
         }
     }
 }

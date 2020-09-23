@@ -2,12 +2,14 @@
 using ManagerLayer.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.IO;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
 using ServiceLayer;
 using ServiceLayer.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.Json;
 
 namespace ManagerLayer.Managers
 {
@@ -50,8 +52,10 @@ namespace ManagerLayer.Managers
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-
-            return new OkObjectResult(jwtToken);
+            var jsonString = JsonSerializer.Serialize(session);
+            var jObject = JObject.Parse(jsonString);
+            jObject.Add("firstName", user.FirstName);
+            return new OkObjectResult(jObject.ToString());
         }
 
         public ActionResult LogOut(string jwtToken)
@@ -73,12 +77,16 @@ namespace ManagerLayer.Managers
         public Session InvalidateSession(string jwtToken)
         {
             var session = _sessionService.GetSession(jwtToken);
-            if(session != null)
+            if(session == null)
             {
-                session.DateExpired = DateTime.Now;
-                return session;
+                return null;
             }
-            return null;
+            session.DateExpired = DateTime.UtcNow;
+            if (!_sessionService.UpdateSession(session))
+            {
+                return null;
+            }
+            return session;
         }
     }
 }

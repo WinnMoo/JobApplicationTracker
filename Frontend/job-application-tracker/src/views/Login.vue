@@ -65,12 +65,14 @@ export default {
           }
         })
           .then(response => {
+            console.log(response.data);
             this.popup = true;
             this.popupText =
               "You are logged in. You will be redirected to you job applications page in 3 seconds.";
             this.$store.dispatch("logIn");
             this.$store.dispatch("setEmailAddress", this.emailAddress);
-            localStorage.setItem("jwtToken", response.data);
+            this.$store.dispatch("setFirstName", response.data.firstName)
+            localStorage.setItem("jwtToken", response.data.JWTToken);
             setTimeout(() => {
               this.$router.push("/jobapplications");
             }, 3000);

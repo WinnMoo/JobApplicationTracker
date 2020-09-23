@@ -13,7 +13,8 @@ export default new Vuex.Store({
 
   state: {
     isLoggedIn: false,
-    emailAddress: null
+    emailAddress: null,
+    firstName: null
   },
 
   mutations: {
@@ -23,12 +24,17 @@ export default new Vuex.Store({
 
     changeEmailAddress(state, emailAddress) {
       state.emailAddress = emailAddress;
+    },
+
+    changeFirstName(state, firstName){
+      state.firstName = firstName;
     }
   },
 
   getters: {
     isLoggedIn: state => state.isLoggedIn,
-    emailAddress: state => state.emailAddress
+    emailAddress: state => state.emailAddress,
+    firstName: state => state.firstName
   },
 
   actions: {
@@ -46,6 +52,13 @@ export default new Vuex.Store({
 
     removeEmailAddress(context) {
       context.commit("changeEmailAddress", null);
+    },
+
+    setFirstName(context, firstName) { 
+      context.commit("changeFirstName", firstName);
+    },
+    removeFirstName(context) { 
+      context.commit("changeFirstName", null);
     }
   }
 });

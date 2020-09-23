@@ -19,65 +19,104 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      title: 'Home'
+    }
   },
   {
     path: "*",
-    component: PageNotFound
+    component: PageNotFound,
+    meta: {
+      title: 'Page Not Found'
+    }
   },
   {
     path: "/feedback",
     name: "Feedback",
-    component: Feedback
+    component: Feedback,
+    meta: {
+      title: 'Leave Feedback'
+    }
   },
   {
     path: "/jobapplications",
     name: "JobApplications",
-    component: JobApplications
+    component: JobApplications,
+    meta: {
+      title: 'Your Saved Job Applications'
+    }
   },
   {
     path: "/jobpostings",
     name: "JobPostings",
-    component: JobPostings
+    component: JobPostings,
+    meta: {
+      title: 'Job Postings'
+    }
   },
   {
     path: "/jobapplicationstats",
     name: "JobApplicationStats",
-    component: JobApplicationStats
+    component: JobApplicationStats,
+    meta: {
+      title: 'Your Job Application Statistics'
+    }
   },
   {
     path: "/documentupload",
     name: "DocumentUpload",
-    component: DocumentUpload
+    component: DocumentUpload,
+    meta: {
+      title: 'Upload Documents'
+    }
   },
   {
     path: "/signup",
     name: "UserSignUp",
-    component: UserSignUp
+    component: UserSignUp,
+    meta: {
+      title: 'Sign Up'
+    }
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
+    meta: {
+      title: 'Login'
+    }
   },
   {
     path: "/settings",
     name: "Settings",
-    component: Settings
+    component: Settings,
+    meta: {
+      title: 'Settings'
+    }
   },
   {
     path: "/forgotpassword",
     name: "ForgotPassword",
-    component: ForgotPassword
+    component: ForgotPassword,
+    meta: {
+      title: 'Forgot Password'
+    }
   },
   {
     path: "/resetpassword",
     name: "ResetPassword",
-    component: ResetPassword
+    component: ResetPassword,
+    meta: {
+      title: 'Reset Password'
+    }
   },
   {
     path: "/about",
     name: "About",
+    meta: {
+      title: 'About JobTaine'
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -85,6 +124,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   }
 ];
+
 
 const router = new VueRouter({
   mode: "history",

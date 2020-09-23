@@ -9,10 +9,9 @@ namespace DataAccessLayer.Models
 {
     public class Session
     {
-        [Required]
         [BsonId]
-        public ObjectId SessionId { get; set; }
-        [Required]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string SessionId { get; set; }
         public string JWTToken { get; set; }
         [Required]
         public string EmailAddress { get; set; }

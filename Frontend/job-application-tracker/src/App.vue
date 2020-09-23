@@ -49,11 +49,13 @@
     <v-navigation-drawer v-model="drawer" app floating temporary>
       <v-list-item>
         <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+          <v-avatar color="indigo" size="36">
+            <span class="white--text headline">{{firstName}}</span>
+          </v-avatar>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>{{ this.$store.getters.emailAddress.toLowerCase() }}</v-list-item-title>
+          <v-list-item-title>{{ emailAddress }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -83,7 +85,8 @@ import axios from "axios";
 import { apiURL } from "@/const.js";
 export default {
   name: "App",
-  components: {},
+  components: {
+  },
   data() {
     return {
       drawer: false,
@@ -113,6 +116,20 @@ export default {
   computed: {
     isLoggedIn () {
       return this.$store.getters.isLoggedIn;
+    },
+    firstName () {
+      if(this.$store.getters.firstName == null){
+        return null;
+      } else {
+        return this.$store.getters.firstName.substring(0, 1);
+      }
+    },
+    emailAddress () {
+      if(this.$store.getters.emailAddress == null){
+        return null;
+      } else {
+        return this.$store.getters.emailAddress.toLowerCase();
+      }
     }
   },
   methods: {
@@ -146,13 +163,17 @@ export default {
       })
         .then(response => {
           console.log(response);
-          this.$store.dispatch('logOut');
-          localStorage.removeItem("jwtToken");
-          this.$router.push("/");
-          this.$forceUpdate();
         })
         .catch(e => {
           this.formErrorMessage = e.response.data;
+        })
+        .finally(() => {
+          this.$store.dispatch('logOut');
+          this.$store.dispatch('removeEmailAddress');
+          this.$store.dispatch('removeFirstName');
+          localStorage.removeItem("jwtToken");
+          this.$router.push("/");
+          this.$forceUpdate();
         });
     }
   }

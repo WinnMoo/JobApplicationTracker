@@ -21,10 +21,9 @@ namespace DataAccessLayer.Repositories
 
         public async Task<PasswordResetToken> GetToken(string resetToken)
         {
-            var filter = new BsonDocument("Token", resetToken);
             try
             {
-                PasswordResetToken token = await _resetTokens.Find(filter).FirstOrDefaultAsync();
+                PasswordResetToken token = await _resetTokens.Find(x => x.Token == resetToken).FirstOrDefaultAsync();
                 return token;
             }
             catch
@@ -35,7 +34,6 @@ namespace DataAccessLayer.Repositories
 
         public ICollection<PasswordResetToken> GetTokens(string userId)
         {
-            var filter = new BsonDocument("UserId", userId);
             try
             {
                 var tokens = _resetTokens.AsQueryable<PasswordResetToken>().Where(r => r.UserId == userId).ToList<PasswordResetToken>();
@@ -64,10 +62,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> UpdateToken(PasswordResetToken token)
         {
             bool updated = false;
-            var filter = new BsonDocument("PasswordResetTokenId", token.PasswordResetTokenId);
             try
             {
-                await _resetTokens.ReplaceOneAsync(filter, token);
+                await _resetTokens.ReplaceOneAsync(x => x.PasswordResetTokenId == token.PasswordResetTokenId, token);
                 updated = true;
             } catch
             {
@@ -79,10 +76,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> DeleteToken(string token)
         {
             bool deleted = false;
-            var filter = new BsonDocument("Token", token);
             try
             {
-                await _resetTokens.DeleteOneAsync(filter);
+                await _resetTokens.DeleteOneAsync(x => x.Token == token);
                 deleted = true;
             } catch
             {

@@ -38,10 +38,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> DeleteSession(Session session)
         {
             bool Deleted = false;
-            var filter = new BsonDocument("SessionId", session.SessionId);
             try
             {
-                await _sessions.DeleteOneAsync(filter);
+                await _sessions.DeleteOneAsync(x => x.SessionId == session.SessionId);
                 Deleted = true;
             }
             catch
@@ -53,13 +52,13 @@ namespace DataAccessLayer.Repositories
 
         public async Task<Session> GetSession(string JWTToken)
         {
-            var filter = new BsonDocument("JWTToken", JWTToken);
             try
             {
-                return await _sessions.Find(filter).FirstOrDefaultAsync();
+                return await _sessions.Find(x => x.JWTToken == JWTToken).FirstOrDefaultAsync();
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
                 return null;
             }
         }
@@ -67,10 +66,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> UpdateSession(Session session)
         {
             bool updated = false;
-            var filter = new BsonDocument("SessionId", session.SessionId);
             try
             {
-                await _sessions.ReplaceOneAsync(filter, session);
+                await _sessions.ReplaceOneAsync(x => x.SessionId == session.SessionId, session);
                 updated = true;
             } 
             catch(Exception e)
@@ -83,10 +81,9 @@ namespace DataAccessLayer.Repositories
         public async Task<bool> ExtendSession(string JWTToken)
         {
             bool extended = false;
-            var filter = new BsonDocument("JWTToken", JWTToken);
             try
             {
-                var sessionToExtend = _sessions.Find(filter).FirstOrDefaultAsync().Result;
+                var sessionToExtend = _sessions.Find(x => x.JWTToken == JWTToken).FirstOrDefaultAsync().Result;
                 var idFilter = new BsonDocument("SessionId", sessionToExtend.SessionId);
                 sessionToExtend.DateExpired = DateTime.UtcNow.AddMinutes(30);
                 await _sessions.ReplaceOneAsync(filter, sessionToExtend);

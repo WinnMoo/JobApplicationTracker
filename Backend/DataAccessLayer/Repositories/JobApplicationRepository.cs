@@ -43,8 +43,6 @@ namespace DataAccessLayer.Repositories
         public async Task<JobApplication> GetJobApplicationUsingId(string jobApplicationId)
         {
             JobApplication retrievedJobApplication = null;
-            
-            var filter = new BsonDocument("JobApplicationId", jobApplicationId);
             try
             {
                 retrievedJobApplication = await _jobApplications.Find(x => x.JobApplicationId == jobApplicationId).FirstOrDefaultAsync();
@@ -58,11 +56,9 @@ namespace DataAccessLayer.Repositories
         public async Task<JobApplication> GetJobApplicationUsingUrl(string jobPostingURL)
         {
             JobApplication retrievedJobApplication = null;
-
-            var filter = new BsonDocument("JobPostingURL", jobPostingURL);
             try
             {
-                retrievedJobApplication = await _jobApplications.Find(filter).FirstOrDefaultAsync();
+                retrievedJobApplication = await _jobApplications.Find(x => x.JobPostingURL == jobPostingURL).FirstOrDefaultAsync();
                 return retrievedJobApplication;
             }
             catch

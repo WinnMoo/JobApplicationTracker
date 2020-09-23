@@ -27,7 +27,7 @@ namespace UnitTests.ServiceLayerTests
         public void AddSession()
         {
             var token = CryptoService.GenerateToken();
-            var session = new Session("winn@example.org", token);
+            var session = new Session("winn@example.org", "Winn", token);
 
             var added = ss.AddSession(session);
 
