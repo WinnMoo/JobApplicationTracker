@@ -126,6 +126,7 @@ export default {
             this.description = response.data.description;
             this.jobTitle = response.data.jobTitle;
             this.state = response.data.state;
+            this.city = response.data.city;
           })
           .catch(e => {
             this.parseError = true;

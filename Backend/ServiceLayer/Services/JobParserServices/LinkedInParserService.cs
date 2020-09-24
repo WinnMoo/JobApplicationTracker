@@ -39,10 +39,9 @@ namespace ServiceLayer.Services.JobParserServices
                 string location = htmlDoc.DocumentNode.SelectSingleNode("/html/body/main/section[1]/section[2]/div[1]/div[1]/h3[1]/span[2]").InnerHtml;
 
                 string locationToParse = location;
-                locationToParse = locationToParse.Replace(",", "");
-                string[] parsed = locationToParse.Split(" ");
+                string[] parsed = locationToParse.Split(",");
                 string city = parsed[0];
-                string state = parsed[1];
+                string state = parsed[1].Trim();
                 scrapedInfo = new JobPosting(jobTitle, companyName, city, state, urlToScrapeFrom);
             }
             catch (NullReferenceException e)
