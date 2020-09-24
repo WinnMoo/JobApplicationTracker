@@ -3,8 +3,9 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Feedback from "../views/Feedback.vue";
-import UserSignUp from "../views/UserSignUp.vue";
 import Settings from "../views/Settings.vue";
+import Dashboard from "../views/Dashboard.vue";
+import UserSignUp from "../views/UserSignUp.vue";
 import JobPostings from "../views/JobPostings.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 import ResetPassword from "../views/ResetPassword.vue";
@@ -109,6 +110,14 @@ const routes = [
     component: ResetPassword,
     meta: {
       title: 'Reset Password'
+    }
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+    meta: {
+      title: 'Dashboard'
     }
   },
   {

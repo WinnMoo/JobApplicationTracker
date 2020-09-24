@@ -135,7 +135,7 @@ export default {
   methods: {
     homepage: function() {
       if (this.$store.state.isLoggedIn) {
-        this.$router.push("/jobapplications");
+        this.$router.push("/dashboard");
       } else {
         this.$router.push("/");
       }
