@@ -12,7 +12,8 @@ namespace DataAccessLayer.Models
     public class JobPosting
     {
         [BsonId]
-        public ObjectId JobPostingId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string JobPostingId { get; set; }
         [Required]
         public string JobTitle { get; set; }
         [Required]

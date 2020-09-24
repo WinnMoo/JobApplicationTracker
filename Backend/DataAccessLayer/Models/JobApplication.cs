@@ -33,7 +33,7 @@ namespace DataAccessLayer.Models
             this.JobTitle = jobTitle;
             this.Description = description;
             this.Status = status;
-            this.DateApplied = DateTime.Today;
+            this.DateApplied = DateTime.UtcNow;
             this.City = city;
             this.State = state;
             this.JobPostingURL = link;
