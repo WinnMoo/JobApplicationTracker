@@ -111,5 +111,29 @@ namespace ManagerLayer.Managers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+
+        public ActionResult GetJobApplicationStatistics(int lengthOfTime, string emailAddress)
+        {
+            try
+            {
+                var user = userAccountService.ReadUserFromDBUsingEmail(emailAddress.ToLower());
+                if (user == null)
+                {
+                    return new NotFoundObjectResult("Email address not found");
+                }
+                var jobApplicationStats = jobAppService.GetJobApplicationStatsFunnelGraph(lengthOfTime, user.UserAccountId);
+                if(jobApplicationStats == null)
+                {
+                    return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                }
+                return new OkObjectResult(jobApplicationStats);
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+            
+        }
+
     }
 }

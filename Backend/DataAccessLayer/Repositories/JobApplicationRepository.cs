@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
@@ -119,6 +120,48 @@ namespace DataAccessLayer.Repositories
                 return updated;
             }
             return updated;
+        }
+
+        public async Task<List<long>> GetJobApplicationStatsFunnelGraph(int lengthOfTime, string userAccountId)
+        {
+            try
+            {
+                HijriCalendar cal = new HijriCalendar();
+                List<long> JobApplicationStats = new List<long>();
+                DateTime dateToLookFrom = DateTime.Now;
+                if(lengthOfTime == 0) // Week
+                {
+                    dateToLookFrom = DateTime.Now.AddDays(-7);
+                } else if(lengthOfTime == 1) // Month
+                {
+                    int daysInMonth = cal.GetDaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+                    dateToLookFrom = DateTime.Now.AddDays(daysInMonth * -1);
+                }
+                else if (lengthOfTime == 2) // 6 Months
+                {
+                    int totalDays = 0;
+                    for (int i = DateTime.Now.Month; i > DateTime.Now.Month - 6; i--)
+                    {
+                        totalDays += cal.GetDaysInMonth(DateTime.Now.Year, i);
+                    }
+                    dateToLookFrom = DateTime.Now.AddDays(totalDays * -1);
+                }
+                else if (lengthOfTime == 3) // Year
+                {
+                    dateToLookFrom = DateTime.Now.AddDays(-365);
+                }
+
+                var totalJobApplications = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom)).CountDocumentsAsync();
+                var jobApplicationsInProgress = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom) && (x.Status == 2)).CountDocumentsAsync();
+                var jobApplicationsAccepted = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom) && (x.Status == 1)).CountDocumentsAsync();
+                JobApplicationStats.Add(await totalJobApplications);
+                JobApplicationStats.Add(await jobApplicationsInProgress);
+                JobApplicationStats.Add(await jobApplicationsAccepted);
+                return JobApplicationStats;
+            } catch
+            {
+                return null;
+            }
         }
     }
 }

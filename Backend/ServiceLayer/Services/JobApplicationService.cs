@@ -41,11 +41,14 @@ namespace ServiceLayer.Services
             return _jobApplicationRepo.GetJobApplicationUsingUrl(url).Result;
         }
 
-        //TODO: add logic to get user specified number of job applications from db
         public List<JobApplication> GetJobApplications(string userId, int startIndex, int numberOfItems)
         {
             return _jobApplicationRepo.GetJobApplications(userId, startIndex, numberOfItems).Result;
         }
 
+        public List<long> GetJobApplicationStatsFunnelGraph(int lengthOfTime, string userAccountId)
+        {
+            return _jobApplicationRepo.GetJobApplicationStatsFunnelGraph(lengthOfTime, userAccountId).Result;
+        }
     }
 }

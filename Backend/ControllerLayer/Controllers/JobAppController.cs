@@ -43,5 +43,12 @@ namespace ControllerLayer.Controllers
             return _jobAppManager.UpdateJobApplication(request);
         }
         
+        [HttpGet]
+        [Route("api/jobapp/getfunnelgraphstats")]
+        public ActionResult GetFunnelGraphStats([FromQuery] int lengthOfTime, [FromQuery] string emailAddress)
+        {
+            JobApplicationManager _jobAppManager = new JobApplicationManager(new MongoClient(MONGODB_CONNECTION_STRING));
+            return _jobAppManager.GetJobApplicationStatistics(lengthOfTime, emailAddress);
+        }
     }
 }
