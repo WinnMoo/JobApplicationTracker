@@ -1,5 +1,7 @@
 <template>
-  <v-card class="mx-auto">
+<v-row dense>
+      <v-col cols="12">
+  <v-card>
     <v-container>
       <v-row>
         <v-list-item>
@@ -95,7 +97,7 @@
             <v-col>
               <v-row justify="space-between">
                 <v-col cols="10">
-                  <v-card-text>
+                  <v-card-text style="overflow-y: auto; height:100px">
                     <div class="text--primary">{{ jobApplication.description }}</div>
                   </v-card-text>
                 </v-col>
@@ -120,6 +122,8 @@
       </v-row>
     </v-container>
   </v-card>
+      </v-col>
+</v-row>
 </template>
 
 <script>
