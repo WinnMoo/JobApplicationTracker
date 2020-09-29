@@ -182,8 +182,8 @@ export default {
         },
         {
           status: 1,
-          color: "green",
-          text: "Accepted"
+          color: "primary",
+          text: "Applied"
         },
         {
           status: 2,
@@ -194,6 +194,11 @@ export default {
           status: 3,
           color: "error",
           text: "Rejected"
+        },
+        {
+          status: 4,
+          color: "green",
+          text: "Accepted"
         }
       ],
       states: [

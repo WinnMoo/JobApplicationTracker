@@ -122,7 +122,7 @@ export default {
       city,
       state
     ) {
-      if (companyName != null && jobTitle != null && description != null) {
+      if (companyName != null && jobTitle != null) {
         axios({
           method: "POST",
           url: `${apiURL}/jobapp/` + "add",

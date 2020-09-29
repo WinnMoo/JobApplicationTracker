@@ -95,12 +95,12 @@ namespace ServiceLayer.Services.JobParserServices
                     var splitLocation = location.Split(" ");
                     if (splitLocation.Length == 1)
                     {
-                        state = splitLocation[0];
+                        state = StateConversionService.FromAbbreviation(splitLocation[0]);
                         scrapedInfo = new JobPosting(jobTitle, companyName, city, state, urlToScrapeFrom);
                     }
                     else if (splitLocation.Length == 2)
                     {
-                        state = splitLocation[0];
+                        state = StateConversionService.FromAbbreviation(splitLocation[0]);
                         zipCode = splitLocation[1];
                         scrapedInfo = new JobPosting(jobTitle, companyName, city, state, zipCode, urlToScrapeFrom);
                     }

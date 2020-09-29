@@ -153,7 +153,7 @@ namespace DataAccessLayer.Repositories
 
                 var totalJobApplications = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom)).CountDocumentsAsync();
                 var jobApplicationsInProgress = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom) && (x.Status == 2)).CountDocumentsAsync();
-                var jobApplicationsAccepted = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom) && (x.Status == 1)).CountDocumentsAsync();
+                var jobApplicationsAccepted = _jobApplications.Find(x => (x.UserAccountId == userAccountId) && (x.DateApplied >= dateToLookFrom) && (x.Status == 4)).CountDocumentsAsync();
                 JobApplicationStats.Add(await totalJobApplications);
                 JobApplicationStats.Add(await jobApplicationsInProgress);
                 JobApplicationStats.Add(await jobApplicationsAccepted);

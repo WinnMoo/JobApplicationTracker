@@ -43,10 +43,8 @@
             <v-row>
               <v-col cols="12" sm="12" md="12">
                 <v-textarea
-                  :rules="[rules.required]"
-                  label="Description*"
+                  label="Description"
                   v-model="description"
-                  required
                 ></v-textarea>
               </v-col>
             </v-row>
@@ -127,6 +125,7 @@ export default {
             this.jobTitle = response.data.jobTitle;
             this.state = response.data.state;
             this.city = response.data.city;
+            this.jobPostingUrl = response.data.url;
           })
           .catch(e => {
             this.parseError = true;
@@ -146,8 +145,7 @@ export default {
     addJobApplication: function() {
       if (
         this.companyName != null &&
-        this.jobTitle != null &&
-        this.description != null
+        this.jobTitle != null
       ) {
         this.$emit(
           "addJobApplication",
