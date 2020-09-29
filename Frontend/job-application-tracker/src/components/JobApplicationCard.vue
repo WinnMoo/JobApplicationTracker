@@ -34,8 +34,18 @@
                       v-model="menu"
                     >
                       <template v-slot:activator="{ on }">
-                        <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>
-                        {{ jobApplication.city + ", " + jobApplication.state }}
+                        <div v-show="jobApplication.city != null && jobApplication.state != null">
+                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon> {{ jobApplication.city + ", " + jobApplication.state }}
+                        </div>
+                        <div v-show="jobApplication.city == null && jobApplication.state != null">
+                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>  {{ jobApplication.state }}
+                        </div>
+                        <div v-show="jobApplication.city != null && jobApplication.state == null">
+                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>  {{ jobApplication.city }}
+                        </div>
+                        <div v-show="jobApplication.city == null && jobApplication.state == null">
+                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>  Set location using the map marker
+                        </div>
                       </template>
                       <v-container>
                         <v-card elevation="0">
@@ -295,6 +305,7 @@ export default {
         this.jobApplication.jobApplicationId
       );
       this.menu = false;
+      this.$forceUpdate;
     }
   }
 };
