@@ -1,7 +1,12 @@
 <template>
   <div class="JobApplication">
-    <v-alert v-model="errorPopup" dismissible type="error">{{ errorMessage}}</v-alert>
-    <AddJobApplicationDialog v:on @addJobApplication="addJobApplication"></AddJobApplicationDialog>
+    <v-alert v-model="errorPopup" dismissible type="error">{{
+      errorMessage
+    }}</v-alert>
+    <AddJobApplicationDialog
+      v:on
+      @addJobApplication="addJobApplication"
+    ></AddJobApplicationDialog>
     <v-btn class="mx-2" fab dark color="indigo" fixed right bottom @click="top">
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
@@ -64,12 +69,11 @@ export default {
         status: null,
         city: null,
         state: null,
-        uRLToJobPosting: null,
+        urlToJobPosting: null,
         dateApplied: null,
         userEmail: null
       },
-      jobApplications: [
-      ]
+      jobApplications: []
     };
   },
   methods: {
@@ -176,7 +180,8 @@ export default {
           .catch(e => {
             this.ErrorMessage = e.response.data;
             this.errorPopup = true;
-          }).finally(() => {
+          })
+          .finally(() => {
             this.deleteDialog = false;
           });
       } else {
@@ -251,7 +256,7 @@ export default {
         });
     }
   },
-  created: function () {
+  created: function() {
     this.fetchJobApplications();
   }
 };

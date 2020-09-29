@@ -1,129 +1,154 @@
 <template>
-<v-row dense>
-      <v-col cols="12">
-  <v-card>
-    <v-container>
-      <v-row>
-        <v-list-item>
-          <v-list-item-content>
-            <v-col>
-              <v-list-item-title class="display-1 text--primary">{{ jobApplication.companyName }}</v-list-item-title>
-            </v-col>
-            <v-col class="text-right">
-              <v-list-item-title>
-                <v-menu
-                  offset-x
-                  offset-y
-                  rounded="xl"
-                  transition="slide-x-transition"
-                  allow-overflow
-                  :close-on-content-click="false"
-                  v-model="menu"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>
-                    {{ jobApplication.city + ", " + jobApplication.state }}
-                  </template>
-                  <v-container>
-                    <v-card elevation="0">
-                      <v-row>
-                        <v-col>
-                          <v-autocomplete
-                            v-model="selectedState"
-                            :items="states"
-                            color="green"
-                            background-color="white"
-                            item-text="Description"
-                            label="State"
-                            placeholder="Start typing to Search"
-                            return-object
-                          ></v-autocomplete>
-                        </v-col>
-                        <v-col>
-                          <v-autocomplete
-                            v-model="selectedCity"
-                            :items="cities"
-                            color="green"
-                            background-color="white"
-                            hide-no-data
-                            hide-selected
-                            item-text="Description"
-                            label="City"
-                            placeholder="Start typing to Search"
-                            return-object
-                          ></v-autocomplete>
-                        </v-col>
-                      </v-row>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn @click="saveLocation">Save</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-container>
-                </v-menu>
-              </v-list-item-title>
-            </v-col>
-            <v-col cols="10">
-              <v-list-item-subtitle>{{ jobApplication.jobTitle }}</v-list-item-subtitle>
-            </v-col>
-            <v-col cols="2" class="text-right">
-              <v-menu
-                offset-x
-                close-on-click
-                open-on-hover
-                rounded="xl"
-                transition="slide-x-transition"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-chip
-                    v-on="on"
-                    :color="statuses[jobApplication.status].color"
-                    text-color="white"
-                  >{{statuses[jobApplication.status].text}}</v-chip>
-                </template>
-                <v-card>
-                  <v-list>
-                    <v-list-item v-for="item in statuses.slice(1)" :key="item.color">
-                      <v-chip
-                        :color="item.color"
-                        text-color="white"
-                        @click="selectStatus(item.status)"
-                      >{{item.text}}</v-chip>
-                    </v-list-item>
-                  </v-list>
-                </v-card>
-              </v-menu>
-            </v-col>
-            <v-col>
-              <v-row justify="space-between">
-                <v-col cols="10">
-                  <v-card-text style="overflow-y: auto; height:100px">
-                    <div class="text--primary">{{ jobApplication.description }}</div>
-                  </v-card-text>
+  <v-row dense>
+    <v-col cols="12">
+      <v-card>
+        <v-container>
+          <v-row>
+            <v-list-item>
+              <v-list-item-content>
+                <v-col>
+                  <v-list-item-title class="display-1 text--primary">
+                    <div v-if="this.jobApplication.jobPostingURL == null">
+                      {{ jobApplication.companyName }}
+                    </div>
+                    <div v-if="this.jobApplication.jobPostingURL != null">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        v-bind:href="this.jobApplication.jobPostingURL"
+                      >
+                        {{ jobApplication.companyName }}
+                      </a>
+                    </div>
+                  </v-list-item-title>
                 </v-col>
-                <v-row class="flex-column ma-0 fill-height" justify="center">
-                  <v-col class="text-right">
-                    <v-col class="px-0">
-                      <v-btn icon color="primary" @click="openUpdateDialog">
-                        <v-icon>mdi-pencil</v-icon>
-                      </v-btn>
+                <v-col class="text-right">
+                  <v-list-item-title>
+                    <v-menu
+                      offset-x
+                      offset-y
+                      rounded="xl"
+                      transition="slide-x-transition"
+                      allow-overflow
+                      :close-on-content-click="false"
+                      v-model="menu"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>
+                        {{ jobApplication.city + ", " + jobApplication.state }}
+                      </template>
+                      <v-container>
+                        <v-card elevation="0">
+                          <v-row>
+                            <v-col>
+                              <v-autocomplete
+                                v-model="selectedState"
+                                :items="states"
+                                color="green"
+                                background-color="white"
+                                item-text="Description"
+                                label="State"
+                                placeholder="Start typing to Search"
+                                return-object
+                              ></v-autocomplete>
+                            </v-col>
+                            <v-col>
+                              <v-autocomplete
+                                v-model="selectedCity"
+                                :items="cities"
+                                color="green"
+                                background-color="white"
+                                hide-no-data
+                                hide-selected
+                                item-text="Description"
+                                label="City"
+                                placeholder="Start typing to Search"
+                                return-object
+                              ></v-autocomplete>
+                            </v-col>
+                          </v-row>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="saveLocation">Save</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-container>
+                    </v-menu>
+                  </v-list-item-title>
+                </v-col>
+                <v-col cols="10">
+                  <v-list-item-subtitle>{{
+                    jobApplication.jobTitle
+                  }}</v-list-item-subtitle>
+                </v-col>
+                <v-col cols="2" class="text-right">
+                  <v-menu
+                    offset-x
+                    close-on-click
+                    open-on-hover
+                    rounded="xl"
+                    transition="slide-x-transition"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-chip
+                        v-on="on"
+                        :color="statuses[jobApplication.status].color"
+                        text-color="white"
+                        >{{ statuses[jobApplication.status].text }}</v-chip
+                      >
+                    </template>
+                    <v-card>
+                      <v-list>
+                        <v-list-item
+                          v-for="item in statuses.slice(1)"
+                          :key="item.color"
+                        >
+                          <v-chip
+                            :color="item.color"
+                            text-color="white"
+                            @click="selectStatus(item.status)"
+                            >{{ item.text }}</v-chip
+                          >
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-menu>
+                </v-col>
+                <v-col>
+                  <v-row justify="space-between">
+                    <v-col cols="10">
+                      <v-card-text style="overflow-y: auto; height:100px">
+                        <div class="text--primary">
+                          {{ jobApplication.description }}
+                        </div>
+                      </v-card-text>
                     </v-col>
-                    <v-col class="px-0">
-                      <v-btn icon color="error" @click="openDeleteDialog">
-                        <v-icon>mdi-trash-can</v-icon>
-                      </v-btn>
-                    </v-col>
-                  </v-col>
-                </v-row>
-              </v-row>
-            </v-col>
-          </v-list-item-content>
-        </v-list-item>
-      </v-row>
-    </v-container>
-  </v-card>
-      </v-col>
-</v-row>
+                    <v-row
+                      class="flex-column ma-0 fill-height"
+                      justify="center"
+                    >
+                      <v-col class="text-right">
+                        <v-col class="px-0">
+                          <v-btn icon color="primary" @click="openUpdateDialog">
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
+                        </v-col>
+                        <v-col class="px-0">
+                          <v-btn icon color="error" @click="openDeleteDialog">
+                            <v-icon>mdi-trash-can</v-icon>
+                          </v-btn>
+                        </v-col>
+                      </v-col>
+                    </v-row>
+                  </v-row>
+                </v-col>
+              </v-list-item-content>
+            </v-list-item>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -140,7 +165,8 @@ export default {
       state: "",
       Description: "",
       status: "",
-      dateApplied: ""
+      dateApplied: "",
+      jobPostingURL: ""
     }
   },
   data() {
