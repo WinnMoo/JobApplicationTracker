@@ -1,7 +1,7 @@
 <template>
   <v-row dense>
     <v-col cols="12">
-      <v-card>
+      <v-card @click="resizeCard()" v-bind:style="{ 'max-height': cardHeight }">
         <v-container>
           <v-row>
             <v-list-item>
@@ -127,7 +127,7 @@
                 <v-col>
                   <v-row justify="space-between">
                     <v-col cols="10">
-                      <v-card-text style="overflow-y: auto; height:100px">
+                      <v-card-text v-bind:style="{  height: descriptionHeight, 'overflow': 'hidden', 'word-break': 'break-word'}">
                         <div class="text--primary">
                           {{ jobApplication.description }}
                         </div>
@@ -181,6 +181,9 @@ export default {
   },
   data() {
     return {
+      cardHeight: '315px',
+      descriptionOverflow: 'auto',
+      descriptionHeight: '100px',
       menu: false,
       selectedState: "",
       selectedCity: "",
@@ -306,6 +309,15 @@ export default {
       );
       this.menu = false;
       this.$forceUpdate;
+    },
+    resizeCard: function() {
+      if(this.descriptionHeight == "100px"){
+        this.cardHeight = '100%';
+        this.descriptionHeight = "100%";
+      } else {
+        this.descriptionHeight = "100px";
+        this.cardHeight = '315px'
+      }
     }
   }
 };

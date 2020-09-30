@@ -65,7 +65,6 @@ export default {
           }
         })
           .then(response => {
-            console.log(response.data);
             this.popup = true;
             this.popupText =
               "You are logged in. You will be redirected to you job applications page in 3 seconds.";
