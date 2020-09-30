@@ -214,7 +214,7 @@ export default {
       dialogCondition
     ) {
       if (dialogCondition) {
-        if (companyName != null && jobTitle != null && description != null) {
+        if (companyName != null && jobTitle != null) {
           this.updateDialog = false;
           let jobApplicationIndex = this.jobApplications.findIndex(
             element => element.jobApplicationId == jobApplicationId
@@ -227,6 +227,9 @@ export default {
         }
       }
       this.updateDialog = false;
+      this.companyNameToUpdate = null;
+      this.jobTitleToUpdate = null;
+      this.descriptionToUpdate = null;
     },
     updateStatus: function(status, jobApplicationId) {
       let jobApplicationIndex = this.jobApplications.findIndex(
