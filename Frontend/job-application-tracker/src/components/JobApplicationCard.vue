@@ -31,30 +31,30 @@
                       transition="slide-x-transition"
                       allow-overflow
                       :close-on-content-click="false"
-                      v-model="menu"
+                      v-model="locationMenu"
                     >
                       <template v-slot:activator="{ on }">
                         <div v-show="jobApplication.city != null && jobApplication.state != null">
-                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon> {{ jobApplication.city + ", " + jobApplication.state }}
+                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon> {{ jobApplication.city + ", " + jobApplication.state }}
                         </div>
                         <div v-show="jobApplication.city == null && jobApplication.state != null">
-                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>  {{ jobApplication.state }}
+                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon>  {{ jobApplication.state }}
                         </div>
                         <div v-show="jobApplication.city != null && jobApplication.state == null">
-                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>  {{ jobApplication.city }}
+                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon>  {{ jobApplication.city }}
                         </div>
                         <div v-show="jobApplication.city == null && jobApplication.state == null">
-                          <v-icon v-on="on" @click="!menu">mdi-map-marker</v-icon>  Set location using the map marker
+                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon>  Set location using the map marker
                         </div>
                       </template>
-                      <v-container>
                         <v-card elevation="0">
-                          <v-row>
+                          <v-card-subtitle>
+                            <v-row>
                             <v-col>
                               <v-autocomplete
                                 v-model="selectedState"
                                 :items="states"
-                                color="green"
+                                color="primary"
                                 background-color="white"
                                 item-text="Description"
                                 label="State"
@@ -66,7 +66,7 @@
                               <v-autocomplete
                                 v-model="selectedCity"
                                 :items="cities"
-                                color="green"
+                                color="primary"
                                 background-color="white"
                                 hide-no-data
                                 hide-selected
@@ -77,12 +77,11 @@
                               ></v-autocomplete>
                             </v-col>
                           </v-row>
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn @click="saveLocation">Save</v-btn>
-                          </v-card-actions>
+                          <v-row align="center" justify="center">
+                              <v-btn color="primary" @click="saveLocation">Save</v-btn>
+                          </v-row>
+                          </v-card-subtitle>
                         </v-card>
-                      </v-container>
                     </v-menu>
                   </v-list-item-title>
                 </v-col>
@@ -184,9 +183,9 @@ export default {
       cardHeight: '315px',
       descriptionOverflow: 'auto',
       descriptionHeight: '100px',
-      menu: false,
-      selectedState: "",
-      selectedCity: "",
+      locationMenu: false,
+      selectedState: null,
+      selectedCity: null,
       statuses: [
         {
           status: 0,
@@ -307,7 +306,7 @@ export default {
         this.selectedState,
         this.jobApplication.jobApplicationId
       );
-      this.menu = false;
+      this.locationMenu = false;
       this.$forceUpdate;
     },
     resizeCard: function() {
@@ -322,3 +321,8 @@ export default {
   }
 };
 </script>
+<style>
+#LocationMenu {
+  color:white;
+}
+</style>
