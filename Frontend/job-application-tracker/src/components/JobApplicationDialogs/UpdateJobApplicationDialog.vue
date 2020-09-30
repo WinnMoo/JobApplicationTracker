@@ -8,32 +8,31 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6" md="6">
                 <v-text-field
                   :rules="[rules.required]"
                   label="Company Name*"
-                  v-model="companyName"
+                  v-model="companyNameToUpdate"
                   hint="E.g. Microsoft"
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6" md="6">
                 <v-text-field
                   :rules="[rules.required]"
                   label="Job Title*"
-                  v-model="jobTitle"
+                  v-model="jobTitleToUpdate"
                   hint="E.g. Software Engineer"
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Description*"
-                  v-model="description"
-                  hint="example of persistent helper text"
-                  required
-                ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="12" md="12">
+                <v-textarea
+                  label="Description"
+                  v-model="descriptionToUpdate"
+                ></v-textarea>
               </v-col>
             </v-row>
           </v-container>
@@ -41,8 +40,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="updateJobApplication(false)">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="updateJobApplication(true)">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="updateJobApplication(false)"
+            >Close</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="updateJobApplication(true)"
+            >Save</v-btn
+          >
         </v-card-actions>
       </v-form>
     </v-card>
@@ -53,24 +56,45 @@
 export default {
   name: "UpdateJobApplicationDialog",
   props: {
+    jobTitle: String,
+    companyName: String,
+    description: String,
     updateDialog: Boolean,
     idToUpdate: String
   },
   watch: {
     updateDialog: {
       handler(oldVal, newVal) {
-        console.log(oldVal + newVal);
         this.showDialog = oldVal;
+        return newVal;
+      }
+    },
+    companyName: {
+      handler(oldVal, newVal) {
+        this.companyNameToUpdate = oldVal;
+        return newVal;
+      }
+    },
+    jobTitle: {
+      handler(oldVal, newVal) {
+        this.jobTitleToUpdate = oldVal;
+        return newVal;
+      }
+    },
+    description: {
+      handler(oldVal, newVal) {
+        this.descriptionToUpdate = oldVal;
+        return newVal;
       }
     }
   },
   data() {
     return {
       showDialog: this.updateDialog,
-      companyName: null,
-      jobTitle: null,
-      description: null,
       location: null,
+      jobTitleToUpdate: this.jobTitle,
+      companyNameToUpdate: this.companyName,
+      descriptionToUpdate: this.description,
       rules: {
         required: value => !!value || "Required."
       }
@@ -80,9 +104,9 @@ export default {
     updateJobApplication: function(dialogCondition) {
       this.$emit(
         "updateJobApplication",
-        this.companyName,
-        this.jobTitle,
-        this.description,
+        this.companyNameToUpdate,
+        this.jobTitleToUpdate,
+        this.descriptionToUpdate,
         this.idToUpdate,
         dialogCondition
       );

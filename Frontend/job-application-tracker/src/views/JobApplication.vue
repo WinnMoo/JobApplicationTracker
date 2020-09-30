@@ -30,6 +30,9 @@
       <UpdateJobApplicationDialog
         v-bind:updateDialog="this.updateDialog"
         v-bind:idToUpdate="this.idToModify"
+        v-bind:jobTitle="this.jobTitleToUpdate"
+        v-bind:companyName="this.companyNameToUpdate"
+        v-bind:description="this.descriptionToUpdate"
         v:on
         @updateJobApplication="updateJobApplicationInfo"
       ></UpdateJobApplicationDialog>
@@ -61,6 +64,9 @@ export default {
       deleteDialog: false,
       updateDialog: false,
       idToModify: null,
+      jobTitleToUpdate: null,
+      companyNameToUpdate: null,
+      descriptionToUpdate: null,
       JobApplication: {
         jobApplicationId: null,
         companyName: null,
@@ -113,6 +119,18 @@ export default {
     openUpdateDialog: function(openDialog, jobApplicationId) {
       this.updateDialog = openDialog;
       this.idToModify = jobApplicationId;
+      let jobApplicationIndex = this.jobApplications.findIndex(
+        element => element.jobApplicationId == jobApplicationId
+      );
+      this.jobTitleToUpdate = this.jobApplications[
+        jobApplicationIndex
+      ].jobTitle;
+      this.companyNameToUpdate = this.jobApplications[
+        jobApplicationIndex
+      ].companyName;
+      this.descriptionToUpdate = this.jobApplications[
+        jobApplicationIndex
+      ].description;
     },
     addJobApplication: function(
       companyName,
@@ -253,7 +271,12 @@ export default {
         })
         .catch(e => {
           this.ErrorMessage = e.response.data;
-        });
+        })
+        .finally(
+          (this.companyNameToUpdate = null),
+          (this.jobTitleToUpdate = null),
+          (this.descriptionToUpdate = null)
+        );
     }
   },
   created: function() {

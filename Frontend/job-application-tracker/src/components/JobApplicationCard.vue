@@ -34,22 +34,56 @@
                       v-model="locationMenu"
                     >
                       <template v-slot:activator="{ on }">
-                        <div v-show="jobApplication.city != null && jobApplication.state != null">
-                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon> {{ jobApplication.city + ", " + jobApplication.state }}
+                        <div
+                          v-show="
+                            jobApplication.city != null &&
+                              jobApplication.state != null
+                          "
+                        >
+                          <v-icon v-on="on" @click="!locationMenu"
+                            >mdi-map-marker</v-icon
+                          >
+                          {{
+                            jobApplication.city + ", " + jobApplication.state
+                          }}
                         </div>
-                        <div v-show="jobApplication.city == null && jobApplication.state != null">
-                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon>  {{ jobApplication.state }}
+                        <div
+                          v-show="
+                            jobApplication.city == null &&
+                              jobApplication.state != null
+                          "
+                        >
+                          <v-icon v-on="on" @click="!locationMenu"
+                            >mdi-map-marker</v-icon
+                          >
+                          {{ jobApplication.state }}
                         </div>
-                        <div v-show="jobApplication.city != null && jobApplication.state == null">
-                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon>  {{ jobApplication.city }}
+                        <div
+                          v-show="
+                            jobApplication.city != null &&
+                              jobApplication.state == null
+                          "
+                        >
+                          <v-icon v-on="on" @click="!locationMenu"
+                            >mdi-map-marker</v-icon
+                          >
+                          {{ jobApplication.city }}
                         </div>
-                        <div v-show="jobApplication.city == null && jobApplication.state == null">
-                          <v-icon v-on="on" @click="!locationMenu">mdi-map-marker</v-icon>  Set location using the map marker
+                        <div
+                          v-show="
+                            jobApplication.city == null &&
+                              jobApplication.state == null
+                          "
+                        >
+                          <v-icon v-on="on" @click="!locationMenu"
+                            >mdi-map-marker</v-icon
+                          >
+                          Set location using the map marker
                         </div>
                       </template>
-                        <v-card elevation="0">
-                          <v-card-subtitle>
-                            <v-row>
+                      <v-card elevation="0">
+                        <v-card-subtitle>
+                          <v-row>
                             <v-col>
                               <v-autocomplete
                                 v-model="selectedState"
@@ -78,10 +112,12 @@
                             </v-col>
                           </v-row>
                           <v-row align="center" justify="center">
-                              <v-btn color="primary" @click="saveLocation">Save</v-btn>
+                            <v-btn color="primary" @click="saveLocation"
+                              >Save</v-btn
+                            >
                           </v-row>
-                          </v-card-subtitle>
-                        </v-card>
+                        </v-card-subtitle>
+                      </v-card>
                     </v-menu>
                   </v-list-item-title>
                 </v-col>
@@ -126,7 +162,13 @@
                 <v-col>
                   <v-row justify="space-between">
                     <v-col cols="10">
-                      <v-card-text v-bind:style="{  height: descriptionHeight, 'overflow': 'hidden', 'word-break': 'break-word'}">
+                      <v-card-text
+                        v-bind:style="{
+                          height: descriptionHeight,
+                          overflow: 'hidden',
+                          'word-break': 'break-word'
+                        }"
+                      >
                         <div class="text--primary">
                           {{ jobApplication.description }}
                         </div>
@@ -180,9 +222,9 @@ export default {
   },
   data() {
     return {
-      cardHeight: '315px',
-      descriptionOverflow: 'auto',
-      descriptionHeight: '100px',
+      cardHeight: "315px",
+      descriptionOverflow: "auto",
+      descriptionHeight: "100px",
       locationMenu: false,
       selectedState: null,
       selectedCity: null,
@@ -310,19 +352,14 @@ export default {
       this.$forceUpdate;
     },
     resizeCard: function() {
-      if(this.descriptionHeight == "100px"){
-        this.cardHeight = '100%';
+      if (this.descriptionHeight == "100px") {
+        this.cardHeight = "100%";
         this.descriptionHeight = "100%";
       } else {
         this.descriptionHeight = "100px";
-        this.cardHeight = '315px'
+        this.cardHeight = "315px";
       }
     }
   }
 };
 </script>
-<style>
-#LocationMenu {
-  color:white;
-}
-</style>
