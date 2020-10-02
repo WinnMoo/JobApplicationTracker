@@ -1,4 +1,5 @@
 import Vue from "vue";
+import store from '../store/store.js'
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
@@ -37,7 +38,8 @@ const routes = [
     name: "Feedback",
     component: Feedback,
     meta: {
-      title: 'Leave Feedback'
+      title: 'Leave Feedback',
+      requiresAuth: true
     }
   },
   {
@@ -45,7 +47,8 @@ const routes = [
     name: "JobApplications",
     component: JobApplications,
     meta: {
-      title: 'Your Saved Job Applications'
+      title: 'Your Saved Job Applications',
+      requiresAuth: true
     }
   },
   {
@@ -61,7 +64,8 @@ const routes = [
     name: "JobApplicationStats",
     component: JobApplicationStats,
     meta: {
-      title: 'Your Job Application Statistics'
+      title: 'Your Job Application Statistics',
+      requiresAuth: true
     }
   },
   {
@@ -93,7 +97,8 @@ const routes = [
     name: "Settings",
     component: Settings,
     meta: {
-      title: 'Settings'
+      title: 'Settings',
+      requiresAuth: true
     }
   },
   {
@@ -117,7 +122,8 @@ const routes = [
     name: "Dashboard",
     component: Dashboard,
     meta: {
-      title: 'Dashboard'
+      title: 'Dashboard',
+      requiresAuth: true
     }
   },
   {
@@ -139,6 +145,20 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters.isLoggedIn) {
+      next({ name: 'Login' })
+    } else {
+      next() // go to wherever I'm going
+    }
+  } else {
+    next ()
+  }
+})
 
 router.afterEach((to) => {
   Vue.nextTick( () => {

@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     homepage: function() {
-      if (this.$store.state.isLoggedIn) {
+      if (this.$store.getters.isLoggedIn) {
         this.$router.push("/dashboard");
       } else {
         this.$router.push("/");
@@ -178,5 +178,3 @@ export default {
   }
 };
 </script>
-<style>
-</style>
