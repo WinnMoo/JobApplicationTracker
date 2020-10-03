@@ -11,6 +11,16 @@
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
     <v-container>
+      <v-select
+        v-model="sortType"
+        :items="sortingMethods"
+        item-text="sortMethods"
+        item-value="sortMethods"
+        label="Sort by:"
+        dense
+        outlined
+      >
+      </v-select>
       <JobApplicationCard
         v-for="jobApplication in jobApplications"
         v-bind:key="jobApplication.id"
@@ -79,7 +89,15 @@ export default {
         dateApplied: null,
         userEmail: null
       },
-      jobApplications: []
+      jobApplications: null,
+      sortingMethods: [
+        { sortMethods: "Date Applied" },
+        { sortMethods: "Status (Ascending)" },
+        { sortMethods: "Status (Descending)" },
+        { sortMethods: "Job Title" },
+        { sortMethods: "Company Name" }
+      ],
+      sortType: { sortMethods: "Date Applied" }
     };
   },
   methods: {
@@ -280,6 +298,92 @@ export default {
           (this.jobTitleToUpdate = null),
           (this.descriptionToUpdate = null)
         );
+    },
+    sortByDateApplied() {
+      this.jobApplications = this.jobApplications.sort(this.compareDateApplied);
+    },
+    sortByJobTitle() {
+      this.jobApplications = this.jobApplications.sort(this.compareJobTitle);
+    },
+    sortByCompanyName() {
+      this.jobApplications = this.jobApplications.sort(this.compareCompanyName);
+    },
+    sortByStatusAscending() {
+      this.jobApplications = this.jobApplications.sort(
+        this.compareStatusAscending
+      );
+    },
+    sortByStatusDescending() {
+      this.jobApplications = this.jobApplications.sort(
+        this.compareStatusDescending
+      );
+    },
+    compareJobTitle(a, b) {
+      if (a.jobTitle < b.jobTitle) {
+        return -1;
+      } else if (a.jobtTitle > b.jobTitle) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    compareCompanyName(a, b) {
+      if (a.companyName.toLowerCase() < b.companyName.toLowerCase()) {
+        return -1;
+      } else if (a.companyName.toLowerCase() > b.companyName.toLowerCase()) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    compareDateApplied(a, b) {
+      if (a.dateApplied < b.dateApplied) {
+        return -1;
+      } else if (a.dateApplied > b.dateApplied) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    compareStatusAscending(a, b) {
+      console.log("sorting by status");
+      if (a.status < b.status) {
+        return -1;
+      } else if (a.status > b.status) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    compareStatusDescending(a, b) {
+      if (a.status > b.status) {
+        return -1;
+      } else if (a.status < b.status) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  },
+  watch: {
+    sortType: function() {
+      console.log(this.jobApplications);
+      if (this.sortType == "Date Applied") {
+        this.sortByDateApplied();
+        this.$forceUpdate;
+      } else if (this.sortType == "Status (Ascending)") {
+        this.sortByStatusAscending();
+        this.$forceUpdate;
+      } else if (this.sortType == "Status (Descending)") {
+        this.sortByStatusDescending();
+        this.$forceUpdate;
+      } else if (this.sortType == "Job Title") {
+        this.sortByJobTitle();
+        this.$forceUpdate;
+      } else if (this.sortType == "Company Name") {
+        this.sortByCompanyName();
+        this.$forceUpdate;
+      }
     }
   },
   created: function() {
