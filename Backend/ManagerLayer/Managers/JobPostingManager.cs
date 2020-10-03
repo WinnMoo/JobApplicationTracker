@@ -9,7 +9,8 @@ namespace ManagerLayer.Managers
 {
     public class JobPostingManager
     {
-        private JobPostingService _jobPostingService;
+        private readonly JobPostingService _jobPostingService;
+        private readonly JobApplicationService _jobAppService;
         public JobPostingManager(MongoClient _db)
         {
             _jobPostingService = new JobPostingService(_db);
@@ -21,6 +22,11 @@ namespace ManagerLayer.Managers
         /// <returns></returns>
         public ActionResult AddJobPosting(string url)
         {
+            var retrievedJobApp = _jobAppService.CheckJobApplicationExists(url);
+            if(retrievedJobApp != null)
+            {
+                return new ConflictObjectResult("You've already added this job posting");
+            }
             var JobPostToAdd = ParseJobPosting(url);
             if(JobPostToAdd == null)
             {

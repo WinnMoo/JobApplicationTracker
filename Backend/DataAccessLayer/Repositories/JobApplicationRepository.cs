@@ -163,5 +163,19 @@ namespace DataAccessLayer.Repositories
                 return null;
             }
         }
+
+        public async Task<JobApplication> CheckJobApplicationAlreadyExists(string url)
+        {
+            JobApplication retrievedJobApplication = null;
+            try
+            {
+                retrievedJobApplication = await _jobApplications.Find(x => x.JobPostingURL == url).FirstOrDefaultAsync();
+                return retrievedJobApplication;
+            }
+            catch
+            {
+                return retrievedJobApplication;
+            }
+        }
     }
 }

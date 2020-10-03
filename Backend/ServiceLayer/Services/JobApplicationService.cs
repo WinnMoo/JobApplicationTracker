@@ -50,5 +50,10 @@ namespace ServiceLayer.Services
         {
             return _jobApplicationRepo.GetJobApplicationStatsFunnelGraph(lengthOfTime, userAccountId).Result;
         }
+
+        public JobApplication CheckJobApplicationExists(string url)
+        {
+            return _jobApplicationRepo.CheckJobApplicationAlreadyExists(url).Result;
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace DataAccessLayer.Interfaces
         public Task<bool> DeleteJobApplication(string jobApplicationId);
         public Task<bool> UpdateJobApplication(JobApplication jobApplication);
         public Task<List<long>> GetJobApplicationStatsFunnelGraph(int lengthOfTime, string userAccountId);
+        public Task<JobApplication> CheckJobApplicationAlreadyExists(string url);
     }
 }
