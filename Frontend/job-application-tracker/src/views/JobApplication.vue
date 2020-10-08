@@ -4,6 +4,7 @@
       errorMessage
     }}</v-alert>
     <AddJobApplicationDialog
+      v-bind:viewTypeProp="this.viewType"
       v:on
       @addJobApplication="addJobApplication"
     ></AddJobApplicationDialog>
@@ -11,26 +12,25 @@
       <v-icon dark>mdi-chevron-up</v-icon>
     </v-btn>
     <v-container>
-      <v-select
-        v-model="sortType"
-        :items="sortingMethods"
-        item-text="sortMethods"
-        item-value="sortMethods"
-        label="Sort by:"
-        dense
-        outlined
-      >
-      </v-select>
-      <JobApplicationCard
-        v-for="jobApplication in jobApplications"
-        v-bind:key="jobApplication.id"
-        v-bind:jobApplication="jobApplication"
+      <JobApplicationToolbar
         v:on
-        @openUpdateDialog="openUpdateDialog"
-        @updateStatus="updateStatus"
-        @openDeleteDialog="openDeleteDialog"
-        @updateLocation="updateLocation"
-      ></JobApplicationCard>
+        @sortJobApplications="sortJobApplications"
+        @changeViewType="changeViewType"
+      ></JobApplicationToolbar>
+      <div v-if="viewType == 1">
+        <JobApplicationCard
+          v-for="jobApplication in jobApplications"
+          v-bind:key="jobApplication.id"
+          v-bind:jobApplication="jobApplication"
+          v:on
+          @openUpdateDialog="openUpdateDialog"
+          @updateStatus="updateStatus"
+          @openDeleteDialog="openDeleteDialog"
+          @updateLocation="updateLocation"
+        ></JobApplicationCard>
+      </div>
+      <div v-else-if="viewType == 2"></div>
+
       <DeleteJobApplicationDialog
         v-bind:deleteDialog="this.deleteDialog"
         v-bind:idToDelete="this.idToModify"
@@ -53,21 +53,31 @@
 <script>
 import axios from "axios";
 import { apiURL } from "@/const.js";
+import {
+  compareJobTitle,
+  compareCompanyName,
+  compareDateApplied,
+  compareStatusAscending,
+  compareStatusDescending
+} from "@/services/ComparerService";
 import JobApplicationCard from "@/components/JobApplicationCard.vue";
-import AddJobApplicationDialog from "@/components/JobApplicationDialogs/AddJobApplicationDialog.vue";
-import DeleteJobApplicationDialog from "@/components/JobApplicationDialogs/DeleteJobApplicationDialog.vue";
-import UpdateJobApplicationDialog from "@/components/JobApplicationDialogs/UpdateJobApplicationDialog.vue";
+import JobApplicationToolbar from "@/components/JobApplicationComponents/JobApplicationToolbar.vue";
+import AddJobApplicationDialog from "@/components/JobApplicationComponents/AddJobApplicationDialog.vue";
+import DeleteJobApplicationDialog from "@/components/JobApplicationComponents/DeleteJobApplicationDialog.vue";
+import UpdateJobApplicationDialog from "@/components/JobApplicationComponents/UpdateJobApplicationDialog.vue";
 
 export default {
   components: {
-    AddJobApplicationDialog,
     JobApplicationCard,
+    JobApplicationToolbar,
+    AddJobApplicationDialog,
     DeleteJobApplicationDialog,
     UpdateJobApplicationDialog
   },
   name: "JobApplication",
   data() {
     return {
+      viewType: 1,
       errorPopup: false,
       errorMessage: null,
       addDialog: false,
@@ -89,15 +99,7 @@ export default {
         dateApplied: null,
         userEmail: null
       },
-      jobApplications: null,
-      sortingMethods: [
-        { sortMethods: "Date Applied" },
-        { sortMethods: "Status (Ascending)" },
-        { sortMethods: "Status (Descending)" },
-        { sortMethods: "Job Title" },
-        { sortMethods: "Company Name" }
-      ],
-      sortType: { sortMethods: "Date Applied" }
+      jobApplications: null
     };
   },
   methods: {
@@ -299,91 +301,27 @@ export default {
           (this.descriptionToUpdate = null)
         );
     },
-    sortByDateApplied() {
-      this.jobApplications = this.jobApplications.sort(this.compareDateApplied);
-    },
-    sortByJobTitle() {
-      this.jobApplications = this.jobApplications.sort(this.compareJobTitle);
-    },
-    sortByCompanyName() {
-      this.jobApplications = this.jobApplications.sort(this.compareCompanyName);
-    },
-    sortByStatusAscending() {
-      this.jobApplications = this.jobApplications.sort(
-        this.compareStatusAscending
-      );
-    },
-    sortByStatusDescending() {
-      this.jobApplications = this.jobApplications.sort(
-        this.compareStatusDescending
-      );
-    },
-    compareJobTitle(a, b) {
-      if (a.jobTitle < b.jobTitle) {
-        return -1;
-      } else if (a.jobtTitle > b.jobTitle) {
-        return 1;
-      } else {
-        return 0;
+    sortJobApplications(sortType) {
+      if (sortType == "Date Applied") {
+        this.jobApplications = this.jobApplications.sort(compareDateApplied);
+      } else if (sortType == "Status (Ascending)") {
+        this.jobApplications = this.jobApplications.sort(
+          compareStatusAscending
+        );
+      } else if (sortType == "Status (Descending)") {
+        this.jobApplications = this.jobApplications.sort(
+          compareStatusDescending
+        );
+      } else if (sortType == "Job Title") {
+        this.jobApplications = this.jobApplications.sort(compareJobTitle);
+      } else if (sortType == "Company Name") {
+        this.jobApplications = this.jobApplications.sort(compareCompanyName);
       }
+      this.$forceUpdate;
     },
-    compareCompanyName(a, b) {
-      if (a.companyName.toLowerCase() < b.companyName.toLowerCase()) {
-        return -1;
-      } else if (a.companyName.toLowerCase() > b.companyName.toLowerCase()) {
-        return 1;
-      } else {
-        return 0;
-      }
-    },
-    compareDateApplied(a, b) {
-      if (a.dateApplied < b.dateApplied) {
-        return -1;
-      } else if (a.dateApplied > b.dateApplied) {
-        return 1;
-      } else {
-        return 0;
-      }
-    },
-    compareStatusAscending(a, b) {
-      console.log("sorting by status");
-      if (a.status < b.status) {
-        return -1;
-      } else if (a.status > b.status) {
-        return 1;
-      } else {
-        return 0;
-      }
-    },
-    compareStatusDescending(a, b) {
-      if (a.status > b.status) {
-        return -1;
-      } else if (a.status < b.status) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-  },
-  watch: {
-    sortType: function() {
-      console.log(this.jobApplications);
-      if (this.sortType == "Date Applied") {
-        this.sortByDateApplied();
-        this.$forceUpdate;
-      } else if (this.sortType == "Status (Ascending)") {
-        this.sortByStatusAscending();
-        this.$forceUpdate;
-      } else if (this.sortType == "Status (Descending)") {
-        this.sortByStatusDescending();
-        this.$forceUpdate;
-      } else if (this.sortType == "Job Title") {
-        this.sortByJobTitle();
-        this.$forceUpdate;
-      } else if (this.sortType == "Company Name") {
-        this.sortByCompanyName();
-        this.$forceUpdate;
-      }
+    changeViewType(viewType){
+      this.viewType = viewType;
+      this.$forceUpdate;
     }
   },
   created: function() {
