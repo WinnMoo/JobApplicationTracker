@@ -29,7 +29,22 @@
           @updateLocation="updateLocation"
         ></JobApplicationCard>
       </div>
-      <div v-else-if="viewType == 2"></div>
+      <div v-else-if="viewType == 2">
+        <div class="sticky">
+          <JobApplicationDenseInfo></JobApplicationDenseInfo>
+        </div>
+        
+        <JobApplicationCard
+          v-for="jobApplication in jobApplications"
+          v-bind:key="jobApplication.id"
+          v-bind:jobApplication="jobApplication"
+          v:on
+          @openUpdateDialog="openUpdateDialog"
+          @updateStatus="updateStatus"
+          @openDeleteDialog="openDeleteDialog"
+          @updateLocation="updateLocation"
+        ></JobApplicationCard>
+      </div>
 
       <DeleteJobApplicationDialog
         v-bind:deleteDialog="this.deleteDialog"
@@ -60,6 +75,7 @@ import {
   compareStatusAscending,
   compareStatusDescending
 } from "@/services/ComparerService";
+import JobApplicationDenseInfo from "@/components/JobApplicationComponents/JobApplicationDenseInfo.vue";
 import JobApplicationCard from "@/components/JobApplicationCard.vue";
 import JobApplicationToolbar from "@/components/JobApplicationComponents/JobApplicationToolbar.vue";
 import AddJobApplicationDialog from "@/components/JobApplicationComponents/AddJobApplicationDialog.vue";
@@ -70,6 +86,7 @@ export default {
   components: {
     JobApplicationCard,
     JobApplicationToolbar,
+    JobApplicationDenseInfo,
     AddJobApplicationDialog,
     DeleteJobApplicationDialog,
     UpdateJobApplicationDialog
@@ -319,7 +336,7 @@ export default {
       }
       this.$forceUpdate;
     },
-    changeViewType(viewType){
+    changeViewType(viewType) {
       this.viewType = viewType;
       this.$forceUpdate;
     }
@@ -329,3 +346,16 @@ export default {
   }
 };
 </script>
+<style>
+#JobApplicationCard {
+  height: 50vh;
+}
+.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 60px; 
+  display: block;
+  z-index: 100;
+  padding-top: 50
+}
+</style>

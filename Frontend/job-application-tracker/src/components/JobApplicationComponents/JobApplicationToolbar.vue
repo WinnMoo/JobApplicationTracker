@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dense>
+  <v-toolbar dense rounded>
     <v-select
       prepend-inner-icon="mdi-filter-variant"
       v-model="sortType"
