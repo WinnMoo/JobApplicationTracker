@@ -347,15 +347,11 @@ export default {
 };
 </script>
 <style>
-#JobApplicationCard {
-  height: 50vh;
-}
 .sticky {
   position: sticky;
   position: -webkit-sticky;
   top: 60px; 
   display: block;
   z-index: 100;
-  padding-top: 50
 }
 </style>

@@ -76,12 +76,12 @@ export default {
       width: 800
     };
   },
-  created: function() {
-    let lengthOfTimeFilterIndex = this.lengthOfTimeFilter.findIndex(
+  methods: {
+    fetchFunnelGraphStats: function (){
+      let lengthOfTimeFilterIndex = this.lengthOfTimeFilter.findIndex(
       element => element == this.lengthOfTime
     );
-    console.log(lengthOfTimeFilterIndex);
-    axios({
+      axios({
       method: "GET",
       url: `${apiURL}/jobapp/` + "getfunnelgraphstats",
       params: {
@@ -94,12 +94,20 @@ export default {
       }
     })
       .then(response => {
-        console.log(response.data);
         this.values = response.data;
       })
       .catch(e => {
         console.log(e);
       });
+    }
+  },
+  created: function() {
+    this.fetchFunnelGraphStats();
+  },
+  watch: {
+    lengthOfTime: function () {
+      this.fetchFunnelGraphStats();
+    }
   }
 };
 </script>
