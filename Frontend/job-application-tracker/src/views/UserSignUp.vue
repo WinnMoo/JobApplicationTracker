@@ -1,7 +1,9 @@
 <template>
   <div class="UserSignUp">
     <v-container>
-      <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
+      <v-alert v-model="errorAlert" type="error" dismissible dense>{{
+        formErrorMessage
+      }}</v-alert>
       <v-alert v-model="popup" type="success">{{ popupText }}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="6" md="10">
@@ -134,7 +136,13 @@
             <v-card-actions>
               <a id="LoginLink" @click="goToLogin">Already Have an Account?</a>
               <v-spacer></v-spacer>
-              <v-btn :disabled="!valid" color="primary" class="mr-4" @click="signUp">Sign Up</v-btn>
+              <v-btn
+                :disabled="!valid"
+                color="primary"
+                class="mr-4"
+                @click="signUp"
+                >Sign Up</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>

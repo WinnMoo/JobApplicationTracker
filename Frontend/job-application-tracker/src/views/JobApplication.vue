@@ -33,7 +33,7 @@
         <div class="sticky">
           <JobApplicationDenseInfo></JobApplicationDenseInfo>
         </div>
-        
+
         <JobApplicationCard
           v-for="jobApplication in jobApplications"
           v-bind:key="jobApplication.id"
@@ -350,7 +350,7 @@ export default {
 .sticky {
   position: sticky;
   position: -webkit-sticky;
-  top: 60px; 
+  top: 60px;
   display: block;
   z-index: 100;
 }

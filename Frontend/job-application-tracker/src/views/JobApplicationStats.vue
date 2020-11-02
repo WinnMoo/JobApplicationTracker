@@ -1,13 +1,22 @@
 <template>
   <v-container fluid>
     <v-card class="mx-auto text-center" dark>
-      <v-card-title class="display-1 font-weight-thin justify-center">Your Application Statistics</v-card-title>
+      <v-card-title class="display-1 font-weight-thin justify-center"
+        >Your Application Statistics</v-card-title
+      >
       <v-col align-self="center">
-        <v-select label="Filter by time" :items="lengthOfTimeFilter" dark v-model="lengthOfTime"></v-select>
+        <v-select
+          label="Filter by time"
+          :items="lengthOfTimeFilter"
+          dark
+          v-model="lengthOfTime"
+        ></v-select>
       </v-col>
       <v-card>
         <v-card-title class="justify-center">
-          <div class="display-1 font-weight-thin">Job Applications within the past {{lengthOfTime}}</div>
+          <div class="display-1 font-weight-thin">
+            Job Applications within the past {{ lengthOfTime }}
+          </div>
         </v-card-title>
         <v-tabs v-model="tab" dark grow>
           <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
@@ -77,35 +86,35 @@ export default {
     };
   },
   methods: {
-    fetchFunnelGraphStats: function (){
+    fetchFunnelGraphStats: function() {
       let lengthOfTimeFilterIndex = this.lengthOfTimeFilter.findIndex(
-      element => element == this.lengthOfTime
-    );
+        element => element == this.lengthOfTime
+      );
       axios({
-      method: "GET",
-      url: `${apiURL}/jobapp/` + "getfunnelgraphstats",
-      params: {
-        LengthOfTime: lengthOfTimeFilterIndex,
-        EmailAddress: this.$store.getters.emailAddress
-      },
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true
-      }
-    })
-      .then(response => {
-        this.values = response.data;
+        method: "GET",
+        url: `${apiURL}/jobapp/` + "getfunnelgraphstats",
+        params: {
+          LengthOfTime: lengthOfTimeFilterIndex,
+          EmailAddress: this.$store.getters.emailAddress
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true
+        }
       })
-      .catch(e => {
-        console.log(e);
-      });
+        .then(response => {
+          this.values = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   },
   created: function() {
     this.fetchFunnelGraphStats();
   },
   watch: {
-    lengthOfTime: function () {
+    lengthOfTime: function() {
       this.fetchFunnelGraphStats();
     }
   }

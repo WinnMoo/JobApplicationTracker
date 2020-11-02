@@ -1,5 +1,15 @@
-export default class RegisterRequest{
-  constructor(emailAddress, firstName, password, securityQuestion1, securityQuestion2, securityQuestion3, securityAnswer1, securityAnswer2, securityAnswer3) {
+export default class RegisterRequest {
+  constructor(
+    emailAddress,
+    firstName,
+    password,
+    securityQuestion1,
+    securityQuestion2,
+    securityQuestion3,
+    securityAnswer1,
+    securityAnswer2,
+    securityAnswer3
+  ) {
     this.emailAddress = emailAddress;
     this.firstName = firstName;
     this.password = password;

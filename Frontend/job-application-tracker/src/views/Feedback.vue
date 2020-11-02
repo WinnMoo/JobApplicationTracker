@@ -41,7 +41,10 @@
                     height="250"
                     persistent-hint
                   ></v-textarea>
-                  <v-rating v-model="rating" v-if="this.category == 3"></v-rating>
+                  <v-rating
+                    v-model="rating"
+                    v-if="this.category == 3"
+                  ></v-rating>
                   <v-btn color="primary" @click="submit">Submit</v-btn>
                 </v-col>
               </v-row>
@@ -67,7 +70,7 @@ export default {
         { category: "Bug" },
         { category: "New Feature" },
         { category: "Suggestion" },
-        { category: "Feedback"}
+        { category: "Feedback" }
       ],
       errorMessage: null,
       errorPopup: false,

@@ -1,7 +1,9 @@
 <template>
   <div class="ResetPassword">
     <v-container>
-      <v-alert v-model="errorAlert" type="error" dismissible dense>{{ errorMessage }}</v-alert>
+      <v-alert v-model="errorAlert" type="error" dismissible dense>{{
+        errorMessage
+      }}</v-alert>
       <v-alert v-model="popup" type="success">{{ popupText }}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="6" md="10">
@@ -9,30 +11,53 @@
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>Reset Password</v-toolbar-title>
             </v-toolbar>
-            <v-progress-linear :active="loading" :indeterminate="loading" height="5" striped></v-progress-linear>
+            <v-progress-linear
+              :active="loading"
+              :indeterminate="loading"
+              height="5"
+              striped
+            ></v-progress-linear>
             <v-card-text>
               <v-row>
                 <v-col>
-                  <div id="SecurityQuestion">{{ securityQuestions.securityQuestion1 }}</div>
+                  <div id="SecurityQuestion">
+                    {{ securityQuestions.securityQuestion1 }}
+                  </div>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="securityAnswer1" label="Security Answer 1" clearable></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <div id="SecurityQuestion">{{ securityQuestions.securityQuestion2 }}</div>
-                </v-col>
-                <v-col>
-                  <v-text-field v-model="securityAnswer2" label="Security Answer 2" clearable></v-text-field>
+                  <v-text-field
+                    v-model="securityAnswer1"
+                    label="Security Answer 1"
+                    clearable
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <div id="SecurityQuestion">{{ securityQuestions.securityQuestion3 }}</div>
+                  <div id="SecurityQuestion">
+                    {{ securityQuestions.securityQuestion2 }}
+                  </div>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="securityAnswer3" label="Security Answer 3" clearable></v-text-field>
+                  <v-text-field
+                    v-model="securityAnswer2"
+                    label="Security Answer 2"
+                    clearable
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <div id="SecurityQuestion">
+                    {{ securityQuestions.securityQuestion3 }}
+                  </div>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="securityAnswer3"
+                    label="Security Answer 3"
+                    clearable
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-row v-if="areSecurityAnswersCorrect">
@@ -52,7 +77,8 @@
                 :disabled="!areAnswersFilled"
                 color="primary"
                 @click="buttonClick"
-              >{{ buttonText }}</v-btn>
+                >{{ buttonText }}</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>

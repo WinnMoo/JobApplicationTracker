@@ -1,8 +1,12 @@
 <template>
   <div class="Settings" style="text-align:center;" fill-height fluid>
     <v-container>
-      <v-alert v-model="popup" dismissible type="success">{{ popupText }}</v-alert>
-      <v-alert v-model="errorPopup" dismissible type="error">{{ errorMessage}}</v-alert>
+      <v-alert v-model="popup" dismissible type="success">{{
+        popupText
+      }}</v-alert>
+      <v-alert v-model="errorPopup" dismissible type="error">{{
+        errorMessage
+      }}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12">
           <v-card class="elevation-12">
@@ -12,17 +16,26 @@
             <v-card-text>
               <v-row>
                 <v-col>
-                  <v-switch v-model="showCardView" :label="`Switch 1: ${showCardView.toString()}`"></v-switch>
+                  <v-switch
+                    v-model="showCardView"
+                    :label="`Switch 1: ${showCardView.toString()}`"
+                  ></v-switch>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-switch readonly v-model="darkTheme" :label="'Dark Mode'"></v-switch>
+                  <v-switch
+                    readonly
+                    v-model="darkTheme"
+                    :label="'Dark Mode'"
+                  ></v-switch>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col sm="2" md="2" clss="text-left">
-                  <v-btn dark color="error" @click="ShowDeleteDialog">Delete Account</v-btn>
+                  <v-btn dark color="error" @click="ShowDeleteDialog"
+                    >Delete Account</v-btn
+                  >
                   <DeleteAccountDialog
                     v-bind:deleteDialog="this.showDeleteDialog"
                     v:on

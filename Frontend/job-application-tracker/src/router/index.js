@@ -1,5 +1,5 @@
 import Vue from "vue";
-import store from '../store/store.js'
+import store from "../store/store.js";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
@@ -23,14 +23,14 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-      title: 'Home'
+      title: "Home"
     }
   },
   {
     path: "*",
     component: PageNotFound,
     meta: {
-      title: 'Page Not Found'
+      title: "Page Not Found"
     }
   },
   {
@@ -38,7 +38,7 @@ const routes = [
     name: "Feedback",
     component: Feedback,
     meta: {
-      title: 'Leave Feedback',
+      title: "Leave Feedback",
       requiresAuth: true
     }
   },
@@ -47,7 +47,7 @@ const routes = [
     name: "JobApplications",
     component: JobApplications,
     meta: {
-      title: 'Your Saved Job Applications',
+      title: "Your Saved Job Applications",
       requiresAuth: true
     }
   },
@@ -56,7 +56,7 @@ const routes = [
     name: "JobPostings",
     component: JobPostings,
     meta: {
-      title: 'Job Postings'
+      title: "Job Postings"
     }
   },
   {
@@ -64,7 +64,7 @@ const routes = [
     name: "JobApplicationStats",
     component: JobApplicationStats,
     meta: {
-      title: 'Your Job Application Statistics',
+      title: "Your Job Application Statistics",
       requiresAuth: true
     }
   },
@@ -73,7 +73,7 @@ const routes = [
     name: "DocumentUpload",
     component: DocumentUpload,
     meta: {
-      title: 'Upload Documents'
+      title: "Upload Documents"
     }
   },
   {
@@ -81,7 +81,7 @@ const routes = [
     name: "UserSignUp",
     component: UserSignUp,
     meta: {
-      title: 'Sign Up'
+      title: "Sign Up"
     }
   },
   {
@@ -89,7 +89,7 @@ const routes = [
     name: "Login",
     component: Login,
     meta: {
-      title: 'Login'
+      title: "Login"
     }
   },
   {
@@ -97,7 +97,7 @@ const routes = [
     name: "Settings",
     component: Settings,
     meta: {
-      title: 'Settings',
+      title: "Settings",
       requiresAuth: true
     }
   },
@@ -106,7 +106,7 @@ const routes = [
     name: "ForgotPassword",
     component: ForgotPassword,
     meta: {
-      title: 'Forgot Password'
+      title: "Forgot Password"
     }
   },
   {
@@ -114,7 +114,7 @@ const routes = [
     name: "ResetPassword",
     component: ResetPassword,
     meta: {
-      title: 'Reset Password'
+      title: "Reset Password"
     }
   },
   {
@@ -122,7 +122,7 @@ const routes = [
     name: "Dashboard",
     component: Dashboard,
     meta: {
-      title: 'Dashboard',
+      title: "Dashboard",
       requiresAuth: true
     }
   },
@@ -130,7 +130,7 @@ const routes = [
     path: "/about",
     name: "About",
     meta: {
-      title: 'About JobTaine'
+      title: "About JobTaine"
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -151,19 +151,19 @@ router.beforeEach((to, from, next) => {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!store.getters.isLoggedIn) {
-      next({ name: 'Login' })
+      next({ name: "Login" });
     } else {
-      next() // go to wherever I'm going
+      next(); // go to wherever I'm going
     }
   } else {
-    next ()
+    next();
   }
-})
+});
 
-router.afterEach((to) => {
-  Vue.nextTick( () => {
-    document.title = to.meta.title ? to.meta.title : 'default title';
+router.afterEach(to => {
+  Vue.nextTick(() => {
+    document.title = to.meta.title ? to.meta.title : "default title";
   });
-})
+});
 
 export default router;

@@ -2,11 +2,16 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
-        <v-btn v-if="isLoggedIn" depressed color="primary" @click="drawer = true">
+        <v-btn
+          v-if="isLoggedIn"
+          depressed
+          color="primary"
+          @click="drawer = true"
+        >
           <v-icon>mdi-menu</v-icon>
         </v-btn>
         <v-img
-          :style="{cursor: 'pointer'}"
+          :style="{ cursor: 'pointer' }"
           @click="homepage"
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -17,7 +22,7 @@
         />
 
         <v-img
-          :style="{cursor: 'pointer'}"
+          :style="{ cursor: 'pointer' }"
           @click="homepage"
           alt="Job Application Tracker"
           class="shrink mt-1 hidden-sm-and-down"
@@ -31,7 +36,13 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-show="isLoggedIn" depressed color="primary" v-bind="attrs" v-on="on">
+          <v-btn
+            v-show="isLoggedIn"
+            depressed
+            color="primary"
+            v-bind="attrs"
+            v-on="on"
+          >
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -50,7 +61,7 @@
       <v-list-item>
         <v-list-item-avatar>
           <v-avatar color="indigo" size="36">
-            <span class="white--text headline">{{firstName}}</span>
+            <span class="white--text headline">{{ firstName }}</span>
           </v-avatar>
         </v-list-item-avatar>
 
@@ -62,7 +73,12 @@
       <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item v-for="item in navigationDrawerLinks" :key="item.title" :to="item.link" link>
+        <v-list-item
+          v-for="item in navigationDrawerLinks"
+          :key="item.title"
+          :to="item.link"
+          link
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -85,8 +101,7 @@ import axios from "axios";
 import { apiURL } from "@/const.js";
 export default {
   name: "App",
-  components: {
-  },
+  components: {},
   data() {
     return {
       drawer: false,
@@ -107,25 +122,29 @@ export default {
           icon: "mdi-text-box-plus",
           link: "/documentupload"
         },
-        { title: "Leave Feedback", icon: "mdi-message-alert", link: "/feedback" },
+        {
+          title: "Leave Feedback",
+          icon: "mdi-message-alert",
+          link: "/feedback"
+        },
         { title: "About", icon: "mdi-information", link: "/about" }
       ],
       dropDownMenuLinks: [{ title: "Settings" }, { title: "Log Out" }]
     };
   },
   computed: {
-    isLoggedIn () {
+    isLoggedIn() {
       return this.$store.getters.isLoggedIn;
     },
-    firstName () {
-      if(this.$store.getters.firstName == null){
+    firstName() {
+      if (this.$store.getters.firstName == null) {
         return null;
       } else {
         return this.$store.getters.firstName.substring(0, 1);
       }
     },
-    emailAddress () {
-      if(this.$store.getters.emailAddress == null){
+    emailAddress() {
+      if (this.$store.getters.emailAddress == null) {
         return null;
       } else {
         return this.$store.getters.emailAddress.toLowerCase();
@@ -167,9 +186,9 @@ export default {
           this.formErrorMessage = e.response.data;
         })
         .finally(() => {
-          this.$store.dispatch('logOut');
-          this.$store.dispatch('removeEmailAddress');
-          this.$store.dispatch('removeFirstName');
+          this.$store.dispatch("logOut");
+          this.$store.dispatch("removeEmailAddress");
+          this.$store.dispatch("removeFirstName");
           localStorage.removeItem("jwtToken");
           this.$router.push("/");
           this.$forceUpdate();

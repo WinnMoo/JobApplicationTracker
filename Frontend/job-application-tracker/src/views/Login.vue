@@ -1,7 +1,11 @@
 <template>
   <v-container>
-    <v-alert v-model="popup" dismissible type="success">{{ popupText }}</v-alert>
-    <v-alert v-model="errorPopup" dismissible type="error">{{ errorMessage}}</v-alert>
+    <v-alert v-model="popup" dismissible type="success">{{
+      popupText
+    }}</v-alert>
+    <v-alert v-model="errorPopup" dismissible type="error">{{
+      errorMessage
+    }}</v-alert>
     <v-row align="center" justify="center">
       <v-col cols="12" sm="6" md="8">
         <v-card class="elevation-12">
@@ -9,7 +13,11 @@
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-text-field label="Email" v-model="emailAddress" prepend-icon="mdi-account"></v-text-field>
+            <v-text-field
+              label="Email"
+              v-model="emailAddress"
+              prepend-icon="mdi-account"
+            ></v-text-field>
             <v-text-field
               label="Password"
               v-model="password"
@@ -70,7 +78,7 @@ export default {
               "You are logged in. You will be redirected to you job applications page in 3 seconds.";
             this.$store.dispatch("logIn");
             this.$store.dispatch("setEmailAddress", this.emailAddress);
-            this.$store.dispatch("setFirstName", response.data.firstName)
+            this.$store.dispatch("setFirstName", response.data.firstName);
             localStorage.setItem("jwtToken", response.data.JWTToken);
             setTimeout(() => {
               this.$router.push("/jobapplications");

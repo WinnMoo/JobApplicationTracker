@@ -1,7 +1,9 @@
 <template>
   <div class="ForgotPassword">
     <v-container>
-      <v-alert v-model="errorAlert" type="error" dismissible dense>{{ formErrorMessage }}</v-alert>
+      <v-alert v-model="errorAlert" type="error" dismissible dense>{{
+        formErrorMessage
+      }}</v-alert>
       <v-alert v-model="popup" type="success">{{ popupText }}</v-alert>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="6" md="10">
@@ -10,8 +12,8 @@
               <v-toolbar-title>Forgot Password</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-              Forgot your password? No problem!
-              Enter your email below, and we'll send you a link to reset your password.
+              Forgot your password? No problem! Enter your email below, and
+              we'll send you a link to reset your password.
               <v-row>
                 <v-col>
                   <v-text-field
@@ -25,7 +27,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn :disabled="!isEmailAddressFilled" color="primary">Send Reset Password Link</v-btn>
+              <v-btn :disabled="!isEmailAddressFilled" color="primary"
+                >Send Reset Password Link</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -58,7 +62,7 @@ export default {
     }
   },
   methods: {
-    SendPasswordResetLink : function () {
+    SendPasswordResetLink: function() {
       if (this.emailAddress != null) {
         axios({
           method: "POST",

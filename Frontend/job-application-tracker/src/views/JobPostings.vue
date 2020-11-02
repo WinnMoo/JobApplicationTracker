@@ -9,7 +9,11 @@
             </v-toolbar>
             <v-card-text>
               <v-row>
-                <v-text-field prepend-icon="mdi-magnify" clearable label="Search for jobs"></v-text-field>
+                <v-text-field
+                  prepend-icon="mdi-magnify"
+                  clearable
+                  label="Search for jobs"
+                ></v-text-field>
                 <v-btn color="blue" dark>Search</v-btn>
               </v-row>
             </v-card-text>

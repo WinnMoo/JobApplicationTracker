@@ -34,10 +34,18 @@
             </v-row>
             <v-row>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="City" v-model="city" hint="E.g. Irvine"></v-text-field>
+                <v-text-field
+                  label="City"
+                  v-model="city"
+                  hint="E.g. Irvine"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="State" v-model="state" hint="E.g. California"></v-text-field>
+                <v-text-field
+                  label="State"
+                  v-model="state"
+                  hint="E.g. California"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row>
@@ -50,18 +58,32 @@
             </v-row>
             <v-row>
               <v-col cols="12" sm="12" md="12">
-                <v-text-field label="Link to job posting" v-model="jobPostingUrl" required></v-text-field>
-                <div v-if="this.parseError" id="parseError">Unable to parse job posting</div>
+                <v-text-field
+                  label="Link to job posting"
+                  v-model="jobPostingUrl"
+                  required
+                ></v-text-field>
+                <div v-if="this.parseError" id="parseError">
+                  Unable to parse job posting
+                </div>
               </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
-          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+          <v-progress-circular
+            v-if="loading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeAddDialog()">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="addJobApplication()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="closeAddDialog()"
+            >Close</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="addJobApplication()"
+            >Save</v-btn
+          >
         </v-card-actions>
       </v-form>
     </v-card>
@@ -143,10 +165,7 @@ export default {
       this.addDialog = false;
     },
     addJobApplication: function() {
-      if (
-        this.companyName != null &&
-        this.jobTitle != null
-      ) {
+      if (this.companyName != null && this.jobTitle != null) {
         this.$emit(
           "addJobApplication",
           this.companyName,

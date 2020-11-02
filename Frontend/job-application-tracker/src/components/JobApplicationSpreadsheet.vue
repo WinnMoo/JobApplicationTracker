@@ -1,5 +1,6 @@
 <template>
-  <vuetable ref="vuetable"
+  <vuetable
+    ref="vuetable"
     api-url="https://vuetable.ratiw.net/api/users"
     :fields="['name', 'nickname', 'email', 'gender']"
     data-path=""
@@ -8,11 +9,11 @@
 </template>
 
 <script>
-import Vuetable from 'vuetable-2'
+import Vuetable from "vuetable-2";
 
 export default {
   components: {
     Vuetable
   }
-}
+};
 </script>

@@ -55,10 +55,9 @@ export default {
     sortJobApplications: function() {
       this.$emit("sortJobApplications", this.sortType);
     },
-    changeViewType: function () {
+    changeViewType: function() {
       this.$emit("changeViewType", this.viewType);
     }
-
   }
 };
 </script>

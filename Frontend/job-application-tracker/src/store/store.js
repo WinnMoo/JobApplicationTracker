@@ -26,7 +26,7 @@ export default new Vuex.Store({
       state.emailAddress = emailAddress;
     },
 
-    changeFirstName(state, firstName){
+    changeFirstName(state, firstName) {
       state.firstName = firstName;
     }
   },
@@ -54,10 +54,10 @@ export default new Vuex.Store({
       context.commit("changeEmailAddress", null);
     },
 
-    setFirstName(context, firstName) { 
+    setFirstName(context, firstName) {
       context.commit("changeFirstName", firstName);
     },
-    removeFirstName(context) { 
+    removeFirstName(context) {
       context.commit("changeFirstName", null);
     }
   }
