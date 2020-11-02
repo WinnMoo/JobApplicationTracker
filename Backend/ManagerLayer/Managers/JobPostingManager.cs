@@ -14,6 +14,7 @@ namespace ManagerLayer.Managers
         public JobPostingManager(MongoClient _db)
         {
             _jobPostingService = new JobPostingService(_db);
+            _jobAppService = new JobApplicationService(_db);
         }
 
         /// <summary>
